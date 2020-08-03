@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -35,7 +35,20 @@
 		6AFD0303231375EE004940FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD0302231375EE004940FA /* AppDelegate.swift */; };
 		6AFD030A231375EF004940FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AFD0309231375EF004940FA /* Assets.xcassets */; };
 		6AFD0318231375EF004940FA /* FinalProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD0317231375EF004940FA /* FinalProjectTests.swift */; };
-		8882DA0118142BBAD083DDD9 /* Pods_FinalProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5084BD3D925876C8DE2E9504 /* Pods_FinalProject.framework */; };
+		C4167EF624D815470050DEB0 /* Pods_FinalProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5084BD3D925876C8DE2E9504 /* Pods_FinalProject.framework */; };
+		C4E093D724D83E9100F6667A /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093C724D83E9100F6667A /* CategoryViewController.swift */; };
+		C4E093D824D83E9100F6667A /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E093C824D83E9100F6667A /* CategoryViewController.xib */; };
+		C4E093D924D83E9100F6667A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093CA24D83E9100F6667A /* HomeViewModel.swift */; };
+		C4E093DA24D83E9100F6667A /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E093CB24D83E9100F6667A /* HomeViewController.xib */; };
+		C4E093DB24D83E9100F6667A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093CC24D83E9100F6667A /* HomeViewController.swift */; };
+		C4E093DC24D83E9100F6667A /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093CE24D83E9100F6667A /* HomeCollectionViewCell.swift */; };
+		C4E093DD24D83E9100F6667A /* HomeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E093CF24D83E9100F6667A /* HomeCollectionViewCell.xib */; };
+		C4E093DE24D83E9100F6667A /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093D124D83E9100F6667A /* BaseTabBarController.swift */; };
+		C4E093DF24D83E9100F6667A /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093D224D83E9100F6667A /* BaseViewController.swift */; };
+		C4E093E024D83E9100F6667A /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093D324D83E9100F6667A /* BaseNavigationController.swift */; };
+		C4E093E124D83E9100F6667A /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093D524D83E9100F6667A /* FavoriteViewController.swift */; };
+		C4E093E224D83E9100F6667A /* FavoriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E093D624D83E9100F6667A /* FavoriteViewController.xib */; };
+		C4E093E524D8422100F6667A /* CollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093E424D8422000F6667A /* CollectionViewLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +97,19 @@
 		6AFD0317231375EF004940FA /* FinalProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalProjectTests.swift; sourceTree = "<group>"; };
 		6AFD0319231375EF004940FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EB1AD2584DB4F2ED9CCF8A4 /* Pods-FinalProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProjectTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FinalProjectTests/Pods-FinalProjectTests.release.xcconfig"; sourceTree = "<group>"; };
+		C4E093C724D83E9100F6667A /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		C4E093C824D83E9100F6667A /* CategoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
+		C4E093CA24D83E9100F6667A /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		C4E093CB24D83E9100F6667A /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		C4E093CC24D83E9100F6667A /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		C4E093CE24D83E9100F6667A /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
+		C4E093CF24D83E9100F6667A /* HomeCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeCollectionViewCell.xib; sourceTree = "<group>"; };
+		C4E093D124D83E9100F6667A /* BaseTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
+		C4E093D224D83E9100F6667A /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		C4E093D324D83E9100F6667A /* BaseNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
+		C4E093D524D83E9100F6667A /* FavoriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		C4E093D624D83E9100F6667A /* FavoriteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavoriteViewController.xib; sourceTree = "<group>"; };
+		C4E093E424D8422000F6667A /* CollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewLayout.swift; sourceTree = "<group>"; };
 		D72EC1050944689B4414E5C7 /* Pods-FinalProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FinalProject/Pods-FinalProject.debug.xcconfig"; sourceTree = "<group>"; };
 		DD4A2FBD85737A9282EA2264 /* Pods-FinalProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-FinalProject/Pods-FinalProject.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,7 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8882DA0118142BBAD083DDD9 /* Pods_FinalProject.framework in Frameworks */,
+				C4167EF624D815470050DEB0 /* Pods_FinalProject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,18 +214,12 @@
 		6AF60E242313C13600F5CBA2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C4E093E324D8422000F6667A /* Layout */,
+				C4E093C524D83E9100F6667A /* Controllers */,
 				6AF611522313C13800F5CBA2 /* Base */,
-				6AF60E252313C13600F5CBA2 /* Controller */,
 				6AF611232313C13800F5CBA2 /* Control */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		6AF60E252313C13600F5CBA2 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Controller;
 			sourceTree = "<group>";
 		};
 		6AF611232313C13800F5CBA2 /* Control */ = {
@@ -212,6 +232,9 @@
 		6AF611522313C13800F5CBA2 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				C4E093D124D83E9100F6667A /* BaseTabBarController.swift */,
+				C4E093D224D83E9100F6667A /* BaseViewController.swift */,
+				C4E093D324D83E9100F6667A /* BaseNavigationController.swift */,
 				6AF611532313C13800F5CBA2 /* CollectionCell.swift */,
 				6AF611542313C13800F5CBA2 /* CollectionViewHeaderView.swift */,
 				6AF611552313C13800F5CBA2 /* Label.swift */,
@@ -231,9 +254,9 @@
 			children = (
 				6AFD0301231375EE004940FA /* FinalProject */,
 				6AFD0316231375EF004940FA /* FinalProjectTests */,
-				6AFD0300231375EE004940FA /* Products */,
-				0A5EC1D2229805DB6969ADDD /* Pods */,
 				EDAB884D0E9858125EA92DBE /* Frameworks */,
+				0A5EC1D2229805DB6969ADDD /* Pods */,
+				6AFD0300231375EE004940FA /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -268,6 +291,62 @@
 				6AFD0319231375EF004940FA /* Info.plist */,
 			);
 			path = FinalProjectTests;
+			sourceTree = "<group>";
+		};
+		C4E093C524D83E9100F6667A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C4E093C624D83E9100F6667A /* CategoryVC */,
+				C4E093C924D83E9100F6667A /* HomeVC */,
+				C4E093D424D83E9100F6667A /* FavoriteVC */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		C4E093C624D83E9100F6667A /* CategoryVC */ = {
+			isa = PBXGroup;
+			children = (
+				C4E093C724D83E9100F6667A /* CategoryViewController.swift */,
+				C4E093C824D83E9100F6667A /* CategoryViewController.xib */,
+			);
+			path = CategoryVC;
+			sourceTree = "<group>";
+		};
+		C4E093C924D83E9100F6667A /* HomeVC */ = {
+			isa = PBXGroup;
+			children = (
+				C4E093CA24D83E9100F6667A /* HomeViewModel.swift */,
+				C4E093CB24D83E9100F6667A /* HomeViewController.xib */,
+				C4E093CC24D83E9100F6667A /* HomeViewController.swift */,
+				C4E093CD24D83E9100F6667A /* Cell */,
+			);
+			path = HomeVC;
+			sourceTree = "<group>";
+		};
+		C4E093CD24D83E9100F6667A /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C4E093CE24D83E9100F6667A /* HomeCollectionViewCell.swift */,
+				C4E093CF24D83E9100F6667A /* HomeCollectionViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		C4E093D424D83E9100F6667A /* FavoriteVC */ = {
+			isa = PBXGroup;
+			children = (
+				C4E093D524D83E9100F6667A /* FavoriteViewController.swift */,
+				C4E093D624D83E9100F6667A /* FavoriteViewController.xib */,
+			);
+			path = FavoriteVC;
+			sourceTree = "<group>";
+		};
+		C4E093E324D8422000F6667A /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				C4E093E424D8422000F6667A /* CollectionViewLayout.swift */,
+			);
+			path = Layout;
 			sourceTree = "<group>";
 		};
 		EDAB884D0E9858125EA92DBE /* Frameworks */ = {
@@ -364,8 +443,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4E093DD24D83E9100F6667A /* HomeCollectionViewCell.xib in Resources */,
 				6AFD030A231375EF004940FA /* Assets.xcassets in Resources */,
+				C4E093E224D83E9100F6667A /* FavoriteViewController.xib in Resources */,
 				6AF60D052313B26E00F5CBA2 /* LaunchScreen.storyboard in Resources */,
+				C4E093D824D83E9100F6667A /* CategoryViewController.xib in Resources */,
+				C4E093DA24D83E9100F6667A /* HomeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,36 +468,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-FinalProject/Pods-FinalProject-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/MVVM-Swift/MVVM.framework",
-				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
-				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftUtils/SwiftUtils.framework",
-				"${BUILT_PRODUCTS_DIR}/SwifterSwift/SwifterSwift.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-FinalProject/Pods-FinalProject-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MVVM.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftUtils.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwifterSwift.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-FinalProject/Pods-FinalProject-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FinalProject/Pods-FinalProject-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FinalProject/Pods-FinalProject-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6AFD032323139854004940FA /* Swift Lint */ = {
@@ -490,9 +552,13 @@
 				6AF613B22313C13A00F5CBA2 /* Label.swift in Sources */,
 				6AF60DC42313B56B00F5CBA2 /* Error.swift in Sources */,
 				6AF60E132313B9C000F5CBA2 /* NSErrorExt.swift in Sources */,
+				C4E093DE24D83E9100F6667A /* BaseTabBarController.swift in Sources */,
+				C4E093DF24D83E9100F6667A /* BaseViewController.swift in Sources */,
+				C4E093E524D8422100F6667A /* CollectionViewLayout.swift in Sources */,
 				6AF613B72313C13A00F5CBA2 /* CollectionView.swift in Sources */,
 				6AFD0303231375EE004940FA /* AppDelegate.swift in Sources */,
 				6AF613B02313C13A00F5CBA2 /* CollectionCell.swift in Sources */,
+				C4E093DC24D83E9100F6667A /* HomeCollectionViewCell.swift in Sources */,
 				6AF60DC52313B56B00F5CBA2 /* ApiManager.swift in Sources */,
 				6AF60DC72313B56B00F5CBA2 /* Api.swift in Sources */,
 				6AF613B12313C13A00F5CBA2 /* CollectionViewHeaderView.swift in Sources */,
@@ -500,13 +566,18 @@
 				6AF60D082313B31200F5CBA2 /* App.swift in Sources */,
 				6AF60D802313B56B00F5CBA2 /* Session.swift in Sources */,
 				6AF60DC62313B56B00F5CBA2 /* ResponseSerializer.swift in Sources */,
+				C4E093DB24D83E9100F6667A /* HomeViewController.swift in Sources */,
 				6AF60D192313B35800F5CBA2 /* Errors.swift in Sources */,
 				6AF613BF2313C13A00F5CBA2 /* ScrollView.swift in Sources */,
 				6AF60D222313B35800F5CBA2 /* String.swift in Sources */,
 				6AF60DC22313B56B00F5CBA2 /* RequestSerializer.swift in Sources */,
+				C4E093E124D83E9100F6667A /* FavoriteViewController.swift in Sources */,
 				6AF613CC2313C13A00F5CBA2 /* Button.swift in Sources */,
 				6AF613B32313C13A00F5CBA2 /* ViewController.swift in Sources */,
+				C4E093D724D83E9100F6667A /* CategoryViewController.swift in Sources */,
+				C4E093D924D83E9100F6667A /* HomeViewModel.swift in Sources */,
 				6AF613C12313C13A00F5CBA2 /* TableView.swift in Sources */,
+				C4E093E024D83E9100F6667A /* BaseNavigationController.swift in Sources */,
 				6AF613C42313C13A00F5CBA2 /* TableCell.swift in Sources */,
 				6AF613C92313C13A00F5CBA2 /* ImageView.swift in Sources */,
 				6AF60E212313B9C000F5CBA2 /* CollectionExt.swift in Sources */,
