@@ -9,27 +9,25 @@
 import UIKit
 
 final class HomeViewController: BaseViewController {
-    
+
     // MARK: - IBOutlet
     @IBOutlet weak var homeCollectionView: UICollectionView!
-    
+
     // MARK: - Properties
-    let dummy: [UIImage] = [
-        #imageLiteral(resourceName: "7") ,#imageLiteral(resourceName: "1") ,#imageLiteral(resourceName: "4") ,#imageLiteral(resourceName: "3") ,#imageLiteral(resourceName: "2") ,#imageLiteral(resourceName: "5") ,#imageLiteral(resourceName: "6") , #imageLiteral(resourceName: "7") ,#imageLiteral(resourceName: "1") ,#imageLiteral(resourceName: "4") ,#imageLiteral(resourceName: "3") ,#imageLiteral(resourceName: "2") ,#imageLiteral(resourceName: "5") ,#imageLiteral(resourceName: "6") , #imageLiteral(resourceName: "7") ,#imageLiteral(resourceName: "1") ,#imageLiteral(resourceName: "4") ,#imageLiteral(resourceName: "3") ,#imageLiteral(resourceName: "2") ,#imageLiteral(resourceName: "5") ,#imageLiteral(resourceName: "6") , #imageLiteral(resourceName: "7") ,#imageLiteral(resourceName: "1") ,#imageLiteral(resourceName: "4") ,#imageLiteral(resourceName: "3") ,#imageLiteral(resourceName: "2") ,#imageLiteral(resourceName: "5") ,#imageLiteral(resourceName: "6") , #imageLiteral(resourceName: "7") ,#imageLiteral(resourceName: "1") ,#imageLiteral(resourceName: "4") ,#imageLiteral(resourceName: "3") ,#imageLiteral(resourceName: "2") ,#imageLiteral(resourceName: "5") ,#imageLiteral(resourceName: "6") , #imageLiteral(resourceName: "7") ,#imageLiteral(resourceName: "1") ,#imageLiteral(resourceName: "4") ,#imageLiteral(resourceName: "3") ,#imageLiteral(resourceName: "2") ,#imageLiteral(resourceName: "5") ,#imageLiteral(resourceName: "6") , #imageLiteral(resourceName: "7") ,#imageLiteral(resourceName: "1") ,#imageLiteral(resourceName: "4") ,#imageLiteral(resourceName: "3") ,#imageLiteral(resourceName: "2") ,#imageLiteral(resourceName: "5") ,#imageLiteral(resourceName: "6") , #imageLiteral(resourceName: "7") ,#imageLiteral(resourceName: "1") ,#imageLiteral(resourceName: "4") ,#imageLiteral(resourceName: "3") ,#imageLiteral(resourceName: "2") ,#imageLiteral(resourceName: "5") ,#imageLiteral(resourceName: "6")
-    ]
-    
+    let dummy: [UIImage] = [#imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7")]
+
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         setupCollectionViewLayout()
     }
-    
+
     // MARK: - Function
     override func setupTitle() {
         navigationItem.title = "theCollectors"
     }
-    
+
     private func setupCollectionView() {
         homeCollectionView.delegate = self
         homeCollectionView.dataSource = self
@@ -47,7 +45,7 @@ final class HomeViewController: BaseViewController {
         NSLayoutConstraint.activate(constrains)
         homeCollectionView.backgroundColor = .clear
     }
-    
+
     private func setupCollectionViewLayout() {
         let collectionViewLayout = CollectionViewLayout()
         homeCollectionView.collectionViewLayout = collectionViewLayout
@@ -61,7 +59,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dummy.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
         cell.imageView.image = dummy[indexPath.row]
@@ -79,18 +77,18 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             changeTabBar(hidden: false)
         }
     }
-    
-    private func changeTabBar(hidden: Bool){
+
+    private func changeTabBar(hidden: Bool) {
         guard let tabBar = tabBarController?.tabBar else { return }
         if tabBar.isHidden == hidden { return }
         let frameY = hidden ? tabBar.frame.size.height + tabBar.frame.size.height : -tabBar.frame.size.height - tabBar.frame.size.height
         tabBar.isHidden = false
-        
+
         UIView.animate(withDuration: 0.7, delay: 0, options: .curveEaseOut, animations: {
             tabBar.frame = tabBar.frame.offsetBy(dx: 0, dy: frameY)
-        }) { (completion) in
-        tabBar.isHidden = hidden
-        }
+        }, completion: { _ in
+            tabBar.isHidden = hidden
+        })
     }
 }
 

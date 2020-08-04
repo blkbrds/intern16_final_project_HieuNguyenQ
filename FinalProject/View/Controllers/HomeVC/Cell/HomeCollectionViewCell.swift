@@ -12,17 +12,16 @@ final class HomeCollectionViewCell: UICollectionViewCell {
 
     // MARK: - IBOulet
     @IBOutlet private(set) weak var imageView: UIImageView!
-    
+
     // MARK: - Life Cycle
     override func awakeFromNib() {
         super.awakeFromNib()
         setupCell()
     }
-    
-    // MARK: -Function
+
+    // MARK: - Function
     private func setupCell() {
         clipsToBounds = true
         layer.cornerRadius = 10
     }
-    
 }

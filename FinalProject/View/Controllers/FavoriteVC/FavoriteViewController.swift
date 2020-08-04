@@ -10,11 +10,11 @@ import UIKit
 
 final class FavoriteViewController: BaseViewController {
 
-    // MARK : - Life Cycle
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+
     override func setupTitle() {
         navigationItem.title = "Favorite"
     }

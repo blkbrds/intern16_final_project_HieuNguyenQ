@@ -13,7 +13,7 @@ final class CategoryViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+
     override func setupTitle() {
         navigationItem.title = "Category"
     }

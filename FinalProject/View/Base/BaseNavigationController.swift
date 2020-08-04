@@ -9,7 +9,6 @@
 import UIKit
 
 class BaseNavigationController: UINavigationController {
-    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +22,5 @@ class BaseNavigationController: UINavigationController {
 //        navigationBar.layer.masksToBounds = true
 //        navigationBar.layer.maskedCorners = [.layerMinXMaxYCorner,.layerMaxXMaxYCorner]
 //        navigationBar.layer.cornerRadius = 15
-        
-
     }
 }

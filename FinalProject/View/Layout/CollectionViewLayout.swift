@@ -14,14 +14,14 @@ protocol CollectionViewLayoutDelegate: class {
 
 class CollectionViewLayout: UICollectionViewLayout {
     weak var delegate: CollectionViewLayoutDelegate!
-    
+
     private var numberOfColumn = 3
     private var cellPadding: CGFloat = 8
     private var cache: [UICollectionViewLayoutAttributes] = []
 
     private var contentHeight: CGFloat = 0
     private var contentWidth: CGFloat {
-        guard let collectionView = collectionView else { return 0}
+        guard let collectionView = collectionView else { return 0 }
         return collectionView.bounds.width
     }
 
@@ -71,7 +71,7 @@ class CollectionViewLayout: UICollectionViewLayout {
         }
         return visibleLayoutAttributes
     }
-    
+
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cache[indexPath.item]
     }
