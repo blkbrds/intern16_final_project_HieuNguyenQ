@@ -15,12 +15,14 @@ final class HomeViewController: BaseViewController {
 
     // MARK: - Properties
     let dummy: [UIImage] = [#imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7")]
+    let viewModel = HomeViewModel()
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         setupCollectionViewLayout()
+        getDataForCollectionView()
     }
 
     // MARK: - Function
@@ -51,18 +53,22 @@ final class HomeViewController: BaseViewController {
         homeCollectionView.collectionViewLayout = collectionViewLayout
         collectionViewLayout.delegate = self
     }
+
+    private func getDataForCollectionView() {
+        viewModel.getData()
+    }
 }
 
     // MARK: - Extension
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dummy.count
+        return dummyData.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
-        cell.imageView.image = dummy[indexPath.row]
+        cell.viewModel = viewModel.cellForItem(atIndexPath: indexPath)
         return cell
     }
 }
