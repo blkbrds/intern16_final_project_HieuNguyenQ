@@ -12,10 +12,10 @@ protocol CollectionViewLayoutDelegate: class {
     func collectionView(_ collectionView: UICollectionView, sizeOfImageAtIndexPath indexPath: IndexPath) -> CGSize
 }
 
-class CollectionViewLayout: UICollectionViewLayout {
+final class CollectionViewLayout: UICollectionViewLayout {
     weak var delegate: CollectionViewLayoutDelegate!
 
-    private var numberOfColumn = 3
+    var numberOfColumn = 3
     private var cellPadding: CGFloat = 8
     private var cache: [UICollectionViewLayoutAttributes] = []
 
@@ -74,5 +74,9 @@ class CollectionViewLayout: UICollectionViewLayout {
 
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cache[indexPath.item]
+    }
+
+    func clearCache() {
+        self.cache = [UICollectionViewLayoutAttributes]()
     }
 }

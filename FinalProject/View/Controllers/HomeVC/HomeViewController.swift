@@ -14,15 +14,16 @@ final class HomeViewController: BaseViewController {
     @IBOutlet weak var homeCollectionView: UICollectionView!
 
     // MARK: - Properties
-    let dummy: [UIImage] = [#imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7")]
     let viewModel = HomeViewModel()
+    let limit: Int = 20
+    var currentPage: Int = 0
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         setupCollectionViewLayout()
-        getDataForCollectionView()
+        getDataForCollectionView(atPage: currentPage, withLimit: limit)
     }
 
     // MARK: - Function
@@ -41,6 +42,7 @@ final class HomeViewController: BaseViewController {
     private func setupCollectionViewLayout() {
         let collectionViewLayout = CollectionViewLayout()
         homeCollectionView.collectionViewLayout = collectionViewLayout
+        collectionViewLayout.numberOfColumn = 3
         collectionViewLayout.delegate = self
     }
 
@@ -50,10 +52,11 @@ final class HomeViewController: BaseViewController {
         }
     }
 
-    private func getDataForCollectionView() {
-        self.viewModel.getData { (result) in
+    private func getDataForCollectionView(atPage page: Int, withLimit perPage: Int) {
+        self.viewModel.getData(atPage: page, withLimit: perPage) { (result) in
             if result.error == nil {
                 self.updateUI()
+                self.currentPage += 1
             } else {
                 print(result)
             }
@@ -72,6 +75,15 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItem(atIndexPath: indexPath)
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.collectorImages.count - 10 {
+            if let layout = homeCollectionView.collectionViewLayout as? CollectionViewLayout {
+                layout.clearCache()
+            }
+            getDataForCollectionView(atPage: currentPage, withLimit: limit)
+        }
     }
 }
 

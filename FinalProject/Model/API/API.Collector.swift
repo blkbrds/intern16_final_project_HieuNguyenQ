@@ -12,13 +12,14 @@ import ObjectMapper
 
 extension Api.CollectorImages {
     struct QueryString {
-        func getUrlForAllImages() -> String {
-            return Api.Path.baseURL + Api.Path.allImages
+        func getUrlForAllImages(atPage page: Int, withLimit perPage: Int) -> String {
+            let queryParamns: String = "/?perPage=\(perPage)&page=\(page)"
+            return Api.Path.baseURL + Api.Path.allImages + queryParamns
         }
     }
 
-    static func getAllImages(completion: @escaping Completion<[CollectorImage]>) {
-        let urlString = QueryString().getUrlForAllImages()
+    static func getAllImages(atPage page: Int, withLimit perPage: Int, completion: @escaping Completion<[CollectorImage]>) {
+        let urlString = QueryString().getUrlForAllImages(atPage: page, withLimit: perPage)
         api.request(method: .get, urlString: urlString, parameters: .none, encoding: URLEncoding.default, headers: Api.Path.header) { (result) in
             switch result {
             case .success(let data):
