@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 final class HomeCollectionViewCell: UICollectionViewCell {
 
@@ -24,7 +25,20 @@ final class HomeCollectionViewCell: UICollectionViewCell {
     private func updateView() {
         clipsToBounds = true
         layer.cornerRadius = 10
-//        guard let collectorImage = viewModel.collectorImage else { return }
-        imageView.image = #imageLiteral(resourceName: "1")
+        let itemCollector = viewModel.collectorImage
+        if itemCollector?.image != nil {
+            self.imageView.image = itemCollector?.image
+        } else {
+            if let imageUrl = itemCollector?.imageUrl {
+                Alamofire.request(imageUrl).responseData { (response) in
+                    if let data = response.result.value {
+                        self.imageView.image = UIImage(data: data)
+                        itemCollector?.image = UIImage(data: data)
+                    } else {
+                        itemCollector?.image = nil
+                    }
+                }
+            }
+        }
     }
 }

@@ -14,10 +14,15 @@ final class HomeViewModel {
     private(set) var collectorImages: [CollectorImage] = []
 
     // MARK: - Function
-    func getData() {
-        for item in dummyData {
-            if let collectorImage = CollectorImage(JSON: item) {
-                collectorImages.append(collectorImage)
+    func getData(completion: @escaping Completion<Any>) {
+        Api.CollectorImages.getAllImages { (result) in
+            switch result {
+            case .failure(let error):
+                completion( .failure(error))
+            case .success(let result):
+                self.collectorImages.append(contentsOf: result)
+                self.collectorImages.shuffle()
+                completion( .success(true))
             }
         }
     }
@@ -28,36 +33,3 @@ final class HomeViewModel {
         return HomeCellViewModel(collectorImage: collectorImage)
     }
 }
-
-let dummyData: [[String: Any]] = [
-    ["title": "leather-jacket-1", "imageUrl": "https://i.pinimg.com/564x/2a/d0/62/2ad0623e84a4e0e9360a5bb206e3ec8b.jpg"],
-    ["title": "leather-jacket-2", "imageUrl": "https://i.pinimg.com/564x/22/71/79/22717950c4944141950c5fe8f9dd4d44.jpg"],
-    ["title": "leather-jacket-3", "imageUrl": "https://i.pinimg.com/564x/dd/50/1e/dd501e1c6c199d52fee738f63b3d6de7.jpg"],
-    ["title": "leather-jacket-4", "imageUrl": "https://i.pinimg.com/564x/6e/8d/ea/6e8deabf10249872ab38501470458706.jpg"],
-    ["title": "leather-jacket-1", "imageUrl": "https://i.pinimg.com/564x/2a/d0/62/2ad0623e84a4e0e9360a5bb206e3ec8b.jpg"],
-    ["title": "leather-jacket-1", "imageUrl": "https://i.pinimg.com/564x/2a/d0/62/2ad0623e84a4e0e9360a5bb206e3ec8b.jpg"],
-    ["title": "leather-jacket-2", "imageUrl": "https://i.pinimg.com/564x/22/71/79/22717950c4944141950c5fe8f9dd4d44.jpg"],
-    ["title": "leather-jacket-3", "imageUrl": "https://i.pinimg.com/564x/dd/50/1e/dd501e1c6c199d52fee738f63b3d6de7.jpg"],
-    ["title": "leather-jacket-4", "imageUrl": "https://i.pinimg.com/564x/6e/8d/ea/6e8deabf10249872ab38501470458706.jpg"],
-    ["title": "leather-jacket-1", "imageUrl": "https://i.pinimg.com/564x/2a/d0/62/2ad0623e84a4e0e9360a5bb206e3ec8b.jpg"],
-    ["title": "leather-jacket-1", "imageUrl": "https://i.pinimg.com/564x/2a/d0/62/2ad0623e84a4e0e9360a5bb206e3ec8b.jpg"],
-    ["title": "leather-jacket-2", "imageUrl": "https://i.pinimg.com/564x/22/71/79/22717950c4944141950c5fe8f9dd4d44.jpg"],
-    ["title": "leather-jacket-3", "imageUrl": "https://i.pinimg.com/564x/dd/50/1e/dd501e1c6c199d52fee738f63b3d6de7.jpg"],
-    ["title": "leather-jacket-4", "imageUrl": "https://i.pinimg.com/564x/6e/8d/ea/6e8deabf10249872ab38501470458706.jpg"],
-    ["title": "leather-jacket-1", "imageUrl": "https://i.pinimg.com/564x/2a/d0/62/2ad0623e84a4e0e9360a5bb206e3ec8b.jpg"],
-    ["title": "leather-jacket-1", "imageUrl": "https://i.pinimg.com/564x/2a/d0/62/2ad0623e84a4e0e9360a5bb206e3ec8b.jpg"],
-    ["title": "leather-jacket-2", "imageUrl": "https://i.pinimg.com/564x/22/71/79/22717950c4944141950c5fe8f9dd4d44.jpg"],
-    ["title": "leather-jacket-3", "imageUrl": "https://i.pinimg.com/564x/dd/50/1e/dd501e1c6c199d52fee738f63b3d6de7.jpg"],
-    ["title": "leather-jacket-4", "imageUrl": "https://i.pinimg.com/564x/6e/8d/ea/6e8deabf10249872ab38501470458706.jpg"],
-    ["title": "leather-jacket-1", "imageUrl": "https://i.pinimg.com/564x/2a/d0/62/2ad0623e84a4e0e9360a5bb206e3ec8b.jpg"],
-    ["title": "leather-jacket-1", "imageUrl": "https://i.pinimg.com/564x/2a/d0/62/2ad0623e84a4e0e9360a5bb206e3ec8b.jpg"],
-    ["title": "leather-jacket-2", "imageUrl": "https://i.pinimg.com/564x/22/71/79/22717950c4944141950c5fe8f9dd4d44.jpg"],
-    ["title": "leather-jacket-3", "imageUrl": "https://i.pinimg.com/564x/dd/50/1e/dd501e1c6c199d52fee738f63b3d6de7.jpg"],
-    ["title": "leather-jacket-4", "imageUrl": "https://i.pinimg.com/564x/6e/8d/ea/6e8deabf10249872ab38501470458706.jpg"],
-    ["title": "leather-jacket-1", "imageUrl": "https://i.pinimg.com/564x/2a/d0/62/2ad0623e84a4e0e9360a5bb206e3ec8b.jpg"],
-    ["title": "leather-jacket-1", "imageUrl": "https://i.pinimg.com/564x/2a/d0/62/2ad0623e84a4e0e9360a5bb206e3ec8b.jpg"],
-    ["title": "leather-jacket-2", "imageUrl": "https://i.pinimg.com/564x/22/71/79/22717950c4944141950c5fe8f9dd4d44.jpg"],
-    ["title": "leather-jacket-3", "imageUrl": "https://i.pinimg.com/564x/dd/50/1e/dd501e1c6c199d52fee738f63b3d6de7.jpg"],
-    ["title": "leather-jacket-4", "imageUrl": "https://i.pinimg.com/564x/6e/8d/ea/6e8deabf10249872ab38501470458706.jpg"],
-    ["title": "leather-jacket-1", "imageUrl": "https://i.pinimg.com/564x/2a/d0/62/2ad0623e84a4e0e9360a5bb206e3ec8b.jpg"]
-]

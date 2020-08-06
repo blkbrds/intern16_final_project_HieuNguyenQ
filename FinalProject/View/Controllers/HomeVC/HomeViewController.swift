@@ -35,16 +35,6 @@ final class HomeViewController: BaseViewController {
         homeCollectionView.dataSource = self
         let homeCollectionViewCell = UINib(nibName: "HomeCollectionViewCell", bundle: .main)
         homeCollectionView.register(homeCollectionViewCell, forCellWithReuseIdentifier: "HomeCollectionViewCell")
-        homeCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(homeCollectionView)
-        let constrains = [
-            homeCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant:
-                     8),
-            homeCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            homeCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            homeCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
-        ]
-        NSLayoutConstraint.activate(constrains)
         homeCollectionView.backgroundColor = .clear
     }
 
@@ -54,8 +44,20 @@ final class HomeViewController: BaseViewController {
         collectionViewLayout.delegate = self
     }
 
+    func updateUI() {
+        DispatchQueue.main.async {
+            self.homeCollectionView.reloadData()
+        }
+    }
+
     private func getDataForCollectionView() {
-        viewModel.getData()
+        self.viewModel.getData { (result) in
+            if result.error == nil {
+                self.updateUI()
+            } else {
+                print(result)
+            }
+        }
     }
 }
 
@@ -63,7 +65,7 @@ final class HomeViewController: BaseViewController {
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dummyData.count
+        return viewModel.collectorImages.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -100,6 +102,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 
 extension HomeViewController: CollectionViewLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, sizeOfImageAtIndexPath indexPath: IndexPath) -> CGSize {
-        return dummy[indexPath.row].size
+        let collectorImage = viewModel.collectorImages[indexPath.row]
+        return CGSize(width: collectorImage.widthImage, height: collectorImage.heigthImage)
     }
 }

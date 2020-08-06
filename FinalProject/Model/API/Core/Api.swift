@@ -12,10 +12,17 @@ import Alamofire
 final class Api {
 
     struct Path {
-        static let baseURL = "https://"
+        static let baseURL = "https://api.imgur.com/3"
+
+        static let allImages = "/account/me/images"
+        static let allAlbums = "/account/hieunguyen8794/albums"
+        static let album = "/album"
+        static let uploadImageToAlbum = "upload"
+
+        static let header = ["Authorization": "Bearer a3dec8319d0d2de84b0dc6ef6d3f922608e7dd5f"]
     }
-    
-    struct CollectorImage { }
+
+    struct CollectorImages { }
 }
 
 protocol URLStringConvertible {
