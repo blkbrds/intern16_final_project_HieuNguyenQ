@@ -29,7 +29,8 @@ final class HomeCollectionViewCell: UICollectionViewCell {
             self.imageView.image = itemCollector?.image
         } else {
             self.imageView.image = nil
-            if let imageUrl = itemCollector?.imageUrl {
+            if var imageUrl = itemCollector?.imageUrl, let imageID = itemCollector?.imageID {
+                imageUrl = imageUrl.replacingOccurrences(of: imageID, with: String(imageID + "m"))
                 Alamofire.request(imageUrl).responseData { (response) in
                     if let data = response.result.value {
                         self.imageView.image = UIImage(data: data)
