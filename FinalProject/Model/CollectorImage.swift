@@ -16,7 +16,8 @@ final class CollectorImage: Mappable {
     var image: UIImage?
     var widthImage: CGFloat = 0
     var heigthImage: CGFloat = 0
-
+    var albumID: String = ""
+    
     init?(map: Map) { }
 
     func mapping(map: Map) {
@@ -24,5 +25,6 @@ final class CollectorImage: Mappable {
         imageUrl <- map["link"]
         widthImage <- map["width"]
         heigthImage <- map["height"]
+        albumID <- map["description"]
     }
 }

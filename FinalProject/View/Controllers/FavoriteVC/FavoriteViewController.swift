@@ -15,7 +15,7 @@ final class FavoriteViewController: BaseViewController {
         super.viewDidLoad()
     }
 
-    override func setupTitle() {
+    override func setupNavigationBar() {
         navigationItem.title = "Favorite"
     }
 }

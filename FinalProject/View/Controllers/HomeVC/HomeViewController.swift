@@ -15,8 +15,12 @@ final class HomeViewController: BaseViewController {
 
     // MARK: - Properties
     let viewModel = HomeViewModel()
+    let collectionViewLayout = CollectionViewLayout()
     let limit: Int = 20
+    var numberOfColumn: Int = 3
     var currentPage: Int = 0
+    var imageButtonChange = #imageLiteral(resourceName: "threeColumn")
+    var changeColumnButton = UIBarButtonItem()
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -27,8 +31,26 @@ final class HomeViewController: BaseViewController {
     }
 
     // MARK: - Function
-    override func setupTitle() {
+    override func setupNavigationBar() {
         navigationItem.title = "theCollectors"
+        changeColumnButton = UIBarButtonItem(image: imageButtonChange, style: .plain, target: self, action: #selector(changeNumber))
+        changeColumnButton.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        navigationItem.rightBarButtonItem = changeColumnButton
+    }
+
+    @objc func changeNumber() {
+        if numberOfColumn == 3 {
+            numberOfColumn = 2
+            changeColumnButton.image = #imageLiteral(resourceName: "twoColumn")
+        } else {
+            numberOfColumn = 3
+            changeColumnButton.image = #imageLiteral(resourceName: "threeColumn")
+        }
+        collectionViewLayout.numberOfColumn = numberOfColumn
+        if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
+            layout.clearCache()
+        }
+        updateUI()
     }
 
     private func setupCollectionView() {
@@ -40,9 +62,8 @@ final class HomeViewController: BaseViewController {
     }
 
     private func setupCollectionViewLayout() {
-        let collectionViewLayout = CollectionViewLayout()
         homeCollectionView.collectionViewLayout = collectionViewLayout
-        collectionViewLayout.numberOfColumn = 3
+        collectionViewLayout.numberOfColumn = numberOfColumn
         collectionViewLayout.delegate = self
     }
 
@@ -88,6 +109,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
         }
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(viewModel.collectorImages[indexPath.row].albumID)
+    }
 }
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
@@ -109,7 +134,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 
         UIView.animate(withDuration: 0.7, delay: 0, options: .curveEaseOut, animations: {
             tabBar.frame = tabBar.frame.offsetBy(dx: 0, dy: frameY)
-        }, completion: { _ in
+        }, completion: { (_) in
             tabBar.isHidden = hidden
         })
     }

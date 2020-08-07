@@ -17,6 +17,6 @@ class ImageView: UIImageView, MVVM.View {
 
     private func setupImageView() {
         clipsToBounds = true
-        layer.cornerRadius = 15        
+        layer.cornerRadius = 15
     }
 }

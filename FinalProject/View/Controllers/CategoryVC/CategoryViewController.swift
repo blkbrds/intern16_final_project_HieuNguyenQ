@@ -14,7 +14,7 @@ final class CategoryViewController: BaseViewController {
         super.viewDidLoad()
     }
 
-    override func setupTitle() {
+    override func setupNavigationBar() {
         navigationItem.title = "Category"
     }
 
