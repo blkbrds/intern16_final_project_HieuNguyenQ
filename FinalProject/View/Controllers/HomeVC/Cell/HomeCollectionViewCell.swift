@@ -23,13 +23,12 @@ final class HomeCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Function
     private func updateView() {
-        clipsToBounds = true
-        layer.cornerRadius = 10
         imageView.backgroundColor = #colorLiteral(red: 0.2589701414, green: 0.2645449936, blue: 0.2916174233, alpha: 1).withAlphaComponent(0.3)
         let itemCollector = viewModel.collectorImage
         if itemCollector?.image != nil {
             self.imageView.image = itemCollector?.image
         } else {
+            self.imageView.image = nil
             if let imageUrl = itemCollector?.imageUrl {
                 Alamofire.request(imageUrl).responseData { (response) in
                     if let data = response.result.value {

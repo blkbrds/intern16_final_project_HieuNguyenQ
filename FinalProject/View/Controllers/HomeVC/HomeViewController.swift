@@ -79,10 +79,13 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == viewModel.collectorImages.count - 10 {
-            if let layout = homeCollectionView.collectionViewLayout as? CollectionViewLayout {
-                layout.clearCache()
+            // reducing load continuously
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
+                    layout.clearCache()
+                }
+                self.getDataForCollectionView(atPage: self.currentPage, withLimit: self.limit)
             }
-            getDataForCollectionView(atPage: currentPage, withLimit: limit)
         }
     }
 }
