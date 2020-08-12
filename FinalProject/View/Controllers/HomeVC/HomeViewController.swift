@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Hero
 
 final class HomeViewController: BaseViewController {
 
@@ -28,6 +29,11 @@ final class HomeViewController: BaseViewController {
         setupCollectionView()
         setupCollectionViewLayout()
         getDataForCollectionView(atPage: currentPage, withLimit: limit)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        navigationController?.isNavigationBarHidden = false
     }
 
     // MARK: - Function
@@ -59,6 +65,7 @@ final class HomeViewController: BaseViewController {
         let homeCollectionViewCell = UINib(nibName: "HomeCollectionViewCell", bundle: .main)
         homeCollectionView.register(homeCollectionViewCell, forCellWithReuseIdentifier: "HomeCollectionViewCell")
         homeCollectionView.backgroundColor = .clear
+        homeCollectionView.hero.modifiers = [.cascade]
     }
 
     private func setupCollectionViewLayout() {
@@ -95,6 +102,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItem(atIndexPath: indexPath)
+        cell.hero.id = "\(indexPath.row)"
+        cell.hero.modifiers = [.fade, .scale(0.1)]
         return cell
     }
 
@@ -111,7 +120,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(viewModel.collectorImages[indexPath.row].albumID)
+        let detailViewController = DetailViewController()
+        detailViewController.viewModel.collectorImages = viewModel.collectorImages
+        detailViewController.selectedIndex = indexPath
+        navigationController?.hero.isEnabled = true
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
@@ -120,23 +133,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         if scrollView.panGestureRecognizer.translation(in: scrollView).y == 0 {
             return
         } else if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
-            changeTabBar(hidden: true)
+            tabBarController?.changeTabBar(hidden: true)
         } else {
-            changeTabBar(hidden: false)
+            tabBarController?.changeTabBar(hidden: false)
         }
-    }
-
-    private func changeTabBar(hidden: Bool) {
-        guard let tabBar = tabBarController?.tabBar else { return }
-        if tabBar.isHidden == hidden { return }
-        let frameY = hidden ? tabBar.frame.size.height + tabBar.frame.size.height : -tabBar.frame.size.height - tabBar.frame.size.height
-        tabBar.isHidden = false
-
-        UIView.animate(withDuration: 0.7, delay: 0, options: .curveEaseOut, animations: {
-            tabBar.frame = tabBar.frame.offsetBy(dx: 0, dy: frameY)
-        }, completion: { (_) in
-            tabBar.isHidden = hidden
-        })
     }
 }
 

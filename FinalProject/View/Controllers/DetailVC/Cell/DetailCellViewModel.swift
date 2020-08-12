@@ -1,16 +1,15 @@
 //
-//  HomeCellViewModel.swift
+//  DetailCellViewModel.swift
 //  FinalProject
 //
-//  Created by hieungq on 8/4/20.
+//  Created by hieungq on 8/11/20.
 //  Copyright © 2020 Asiantech. All rights reserved.
 //
 
-final class HomeCellViewModel {
-    // MARK: - Properties
+final class DetailCellViewModel {
+
     private(set) var collectorImage: CollectorImage?
 
-    // MARK: - Function
     init(collectorImage: CollectorImage? = nil) {
         self.collectorImage = collectorImage
     }

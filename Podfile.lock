@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.8.2)
+  - Hero (1.5.0)
   - IQKeyboardManagerSwift (6.0.5)
   - MVVM-Swift (1.1.0)
   - ObjectMapper (3.3.0)
@@ -35,6 +36,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (= 4.8.2)
+  - Hero (= 1.5.0)
   - IQKeyboardManagerSwift (~> 6.0.4)
   - MVVM-Swift (= 1.1.0)
   - ObjectMapper (= 3.3.0)
@@ -47,6 +49,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - Hero
     - IQKeyboardManagerSwift
     - MVVM-Swift
     - ObjectMapper
@@ -59,6 +62,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  Hero: b7385b75e7259da62f4f85462f59a5082d66b058
   IQKeyboardManagerSwift: c14eca30f6001457d6ddf25e313f23fb6578c41c
   MVVM-Swift: 54749cc12bb30af41632f30a2c576a18bf9e4bc8
   ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
@@ -69,6 +73,6 @@ SPEC CHECKSUMS:
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
   SwiftUtils: de77bcd1df216c9be6ec7011777302c60a2018a6
 
-PODFILE CHECKSUM: 969c362b9e8758097c9eab13bc76f6757a0ee7c0
+PODFILE CHECKSUM: 9b9dc80236b0358fb28167c6239e0d82899a5a23
 
 COCOAPODS: 1.9.1

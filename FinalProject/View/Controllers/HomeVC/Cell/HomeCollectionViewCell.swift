@@ -25,15 +25,23 @@ final class HomeCollectionViewCell: UICollectionViewCell {
     private func updateView() {
         imageView.backgroundColor = #colorLiteral(red: 0.2589701414, green: 0.2645449936, blue: 0.2916174233, alpha: 1).withAlphaComponent(0.3)
         let itemCollector = viewModel.collectorImage
-        if itemCollector?.image != nil {
-            self.imageView.image = itemCollector?.image
+        if itemCollector?.imageThumbnail != nil {
+            self.imageView.image = itemCollector?.imageThumbnail
         } else {
             self.imageView.image = nil
-            if var imageUrl = itemCollector?.imageUrl, let imageID = itemCollector?.imageID {
-                imageUrl = imageUrl.replacingOccurrences(of: imageID, with: String(imageID + "m"))
+            if let imageUrl = itemCollector?.imageUrl, let imageID = itemCollector?.imageID {
+                let imageUrlForThumbnail = imageUrl.replacingOccurrences(of: imageID, with: String(imageID + "m"))
+                Alamofire.request(imageUrlForThumbnail).responseData { (response) in
+                    if let data = response.result.value {
+                        let image = UIImage(data: data)
+                        self.imageView.image = image
+                        itemCollector?.imageThumbnail = image
+                    } else {
+                        itemCollector?.imageThumbnail = nil
+                    }
+                }
                 Alamofire.request(imageUrl).responseData { (response) in
                     if let data = response.result.value {
-                        self.imageView.image = UIImage(data: data)
                         itemCollector?.image = UIImage(data: data)
                     } else {
                         itemCollector?.image = nil
