@@ -108,7 +108,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == viewModel.collectorImages.count - 10 {
+        if currentPage == 1 ? indexPath.row == viewModel.collectorImages.count - 2 : indexPath.row == viewModel.collectorImages.count - 10 {
             // reducing load continuously
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
@@ -121,8 +121,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailViewController = DetailViewController()
-        detailViewController.viewModel.collectorImages = viewModel.collectorImages
-        detailViewController.selectedIndex = indexPath
+        detailViewController.viewModel = viewModel.getDetailViewModel(forIndexPath: indexPath)
         navigationController?.hero.isEnabled = true
         navigationController?.pushViewController(detailViewController, animated: true)
     }

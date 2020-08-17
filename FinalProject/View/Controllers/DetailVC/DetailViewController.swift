@@ -16,7 +16,7 @@ final class DetailViewController: BaseViewController {
 
     // MARK: - Properties
     var viewModel = DetailViewModel()
-    var selectedIndex: IndexPath = IndexPath(row: 0, section: 0)
+    var currentPage: Int = 0
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -35,13 +35,29 @@ final class DetailViewController: BaseViewController {
         detailCollectionView.dataSource = self
         let nib = UINib(nibName: "DetailCollectionViewCell", bundle: Bundle.main)
         detailCollectionView.register(nib, forCellWithReuseIdentifier: "DetailCollectionViewCell")
-        // force load cells before scrolling to the index
         detailCollectionView.layoutIfNeeded()
+        guard let selectedIndex = viewModel.selectedIndex else { return }
         detailCollectionView.scrollToItem(at: selectedIndex, at: .centeredHorizontally, animated: false)
-        viewModel.getData(selectedIndex: selectedIndex.row, limit: 20) { (result) in
-            if result.error != nil {
-                DispatchQueue.main.async {
-                    self.detailCollectionView.reloadData()
+        getDataForCollectionView()
+    }
+
+    private func updateUI() {
+        DispatchQueue.main.async {
+            self.detailCollectionView.reloadData()
+        }
+    }
+
+    private func getDataForCollectionView() {
+        if currentPage == 0 {
+            currentPage = viewModel.collectorImages.count / 20 + 1
+            self.updateUI()
+        } else {
+            viewModel.getData(page: currentPage, limit: 20) { (result) in
+                if result.error == nil {
+                    self.updateUI()
+                    self.currentPage += 1
+                } else {
+                    print(result)
                 }
             }
         }
@@ -58,11 +74,17 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let cell = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "DetailCollectionViewCell", for: indexPath) as? DetailCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
         cell.hero.id = "\(indexPath.row)"
+        cell.delegate = self
+        cell.actionBlock = {
+            self.navigationController?.popViewController(animated: true)
+        }
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print(indexPath.row)
+        if indexPath.row == viewModel.collectorImages.count - 10 {
+            getDataForCollectionView()
+        }
     }
 }
 
@@ -72,6 +94,20 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: detailCollectionView.frame.width, height: detailCollectionView.frame.height - (tabBarController?.tabBar.frame.height ?? 0) - UIApplication.shared.statusBarFrame.height)
+        return CGSize(width: detailCollectionView.bounds.width, height: detailCollectionView.bounds.height)
+    }
+}
+
+extension DetailViewController: CollectionViewCellDelegate {
+    func showAleart(_ alertError: Error?) {
+        if let error = alertError {
+            let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Oke", style: .default, handler: nil))
+            present(ac, animated: true)
+        } else {
+            let ac = UIAlertController(title: "Save successfully", message: "This image is saved successfully", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Oke", style: .default, handler: nil))
+            present(ac, animated: true)
+        }
     }
 }

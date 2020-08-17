@@ -31,4 +31,11 @@ final class HomeViewModel {
         let collectorImage = collectorImages[indexPath.row]
         return HomeCellViewModel(collectorImage: collectorImage)
     }
+
+    func getDetailViewModel(forIndexPath indexPath: IndexPath) -> DetailViewModel {
+        let detailVM = DetailViewModel()
+        detailVM.collectorImages = collectorImages
+        detailVM.selectedIndex = indexPath
+        return detailVM
+    }
 }
