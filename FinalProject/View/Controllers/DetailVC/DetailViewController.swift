@@ -17,6 +17,8 @@ final class DetailViewController: BaseViewController {
     // MARK: - Properties
     var viewModel = DetailViewModel()
     var currentPage: Int = 0
+    var collectionViewCellHeight: CGFloat = 0
+    var collectionViewCellWidth: CGFloat = 0
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -31,6 +33,8 @@ final class DetailViewController: BaseViewController {
     }
 
     private func setupCollectionView() {
+        collectionViewCellHeight = UIScreen.main.bounds.height - (tabBarController?.tabBar.frame.height ?? 0) - UIApplication.shared.statusBarFrame.height
+        collectionViewCellWidth = UIScreen.main.bounds.width
         detailCollectionView.delegate = self
         detailCollectionView.dataSource = self
         let nib = UINib(nibName: "DetailCollectionViewCell", bundle: Bundle.main)
@@ -51,6 +55,7 @@ final class DetailViewController: BaseViewController {
         if currentPage == 0 {
             currentPage = viewModel.collectorImages.count / 20 + 1
             self.updateUI()
+            // chưa hiểu
         } else {
             viewModel.getData(page: currentPage, limit: 20) { (result) in
                 if result.error == nil {
@@ -94,8 +99,10 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: detailCollectionView.bounds.width, height: detailCollectionView.bounds.height)
+        return CGSize(width: collectionViewCellWidth, height: collectionViewCellHeight)
     }
+//     - (tabBarController?.tabBar.frame.height ?? 0) - UIApplication.shared.statusBarFrame.height
+
 }
 
 extension DetailViewController: CollectionViewCellDelegate {

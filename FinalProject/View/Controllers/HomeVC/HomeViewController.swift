@@ -18,7 +18,7 @@ final class HomeViewController: BaseViewController {
     let viewModel = HomeViewModel()
     let collectionViewLayout = CollectionViewLayout()
     let limit: Int = 20
-    var numberOfColumn: Int = 3
+    var numberOfColumn: Int = 2
     var currentPage: Int = 0
     var imageButtonChange = #imageLiteral(resourceName: "threeColumn")
     var changeColumnButton = UIBarButtonItem()
@@ -47,10 +47,10 @@ final class HomeViewController: BaseViewController {
     @objc func changeNumber() {
         if numberOfColumn == 3 {
             numberOfColumn = 2
-            changeColumnButton.image = #imageLiteral(resourceName: "twoColumn")
+            changeColumnButton.image = #imageLiteral(resourceName: "threeColumn")
         } else {
             numberOfColumn = 3
-            changeColumnButton.image = #imageLiteral(resourceName: "threeColumn")
+            changeColumnButton.image = #imageLiteral(resourceName: "twoColumn")
         }
         collectionViewLayout.numberOfColumn = numberOfColumn
         if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
@@ -103,7 +103,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItem(atIndexPath: indexPath)
         cell.hero.id = "\(indexPath.row)"
-        cell.hero.modifiers = [.fade, .scale(0.1)]
+        cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }
 
@@ -123,6 +123,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let detailViewController = DetailViewController()
         detailViewController.viewModel = viewModel.getDetailViewModel(forIndexPath: indexPath)
         navigationController?.hero.isEnabled = true
+        navigationController?.heroNavigationAnimationType = .none
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

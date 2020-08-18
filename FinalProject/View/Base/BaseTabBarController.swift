@@ -79,9 +79,7 @@ class BaseTabBarController: UITabBarController {
             // Fallback on earlier versions
         }
         tabBarItemCenter.addTarget(self, action: #selector(menuButtonAction(sender:)), for: .touchUpInside)
-
         tabBar.addSubview(tabBarItemCenter)
-
     }
 
     @objc private func menuButtonAction(sender: UIButton) {
