@@ -18,7 +18,7 @@ final class DetailViewModel {
     func cellForItemAt(indexPath: IndexPath) -> DetailCellViewModel {
         guard indexPath.row < collectorImages.count else { return DetailCellViewModel() }
         let collectorImage = collectorImages[indexPath.row]
-        return DetailCellViewModel(collectorImage: collectorImage)
+        return DetailCellViewModel(collectorImage: collectorImage, selectedIndex: indexPath)
     }
 
     func getData(page: Int, limit: Int, completion: @escaping Completion<Any>) {

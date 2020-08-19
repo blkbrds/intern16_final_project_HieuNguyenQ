@@ -18,9 +18,9 @@ final class HomeViewController: BaseViewController {
     let viewModel = HomeViewModel()
     let collectionViewLayout = CollectionViewLayout()
     let limit: Int = 20
-    var numberOfColumn: Int = 2
+    var numberOfColumn: Int = 3
     var currentPage: Int = 0
-    var imageButtonChange = #imageLiteral(resourceName: "threeColumn")
+    var imageButtonChange = #imageLiteral(resourceName: "twoColumn")
     var changeColumnButton = UIBarButtonItem()
 
     // MARK: - Life Cycle

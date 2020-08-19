@@ -53,7 +53,7 @@ final class DetailViewController: BaseViewController {
 
     private func getDataForCollectionView() {
         if currentPage == 0 {
-            currentPage = viewModel.collectorImages.count / 20 + 1
+            currentPage += viewModel.collectorImages.count / 20
             self.updateUI()
             // chưa hiểu
         } else {
