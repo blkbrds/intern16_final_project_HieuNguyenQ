@@ -50,8 +50,8 @@
 		C4D791E124DD9A4800D318E7 /* Pods_FinalProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5084BD3D925876C8DE2E9504 /* Pods_FinalProject.framework */; };
 		C4DE659724E227F20021B1A5 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DE659624E227F20021B1A5 /* DetailViewModel.swift */; };
 		C4DE659924E2354F0021B1A5 /* UITabBarControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DE659824E2354F0021B1A5 /* UITabBarControllerExt.swift */; };
-		C4E093D724D83E9100F6667A /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093C724D83E9100F6667A /* CategoryViewController.swift */; };
-		C4E093D824D83E9100F6667A /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E093C824D83E9100F6667A /* CategoryViewController.xib */; };
+		C4E093D724D83E9100F6667A /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093C724D83E9100F6667A /* CameraViewController.swift */; };
+		C4E093D824D83E9100F6667A /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E093C824D83E9100F6667A /* CameraViewController.xib */; };
 		C4E093D924D83E9100F6667A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093CA24D83E9100F6667A /* HomeViewModel.swift */; };
 		C4E093DA24D83E9100F6667A /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E093CB24D83E9100F6667A /* HomeViewController.xib */; };
 		C4E093DB24D83E9100F6667A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093CC24D83E9100F6667A /* HomeViewController.swift */; };
@@ -126,8 +126,8 @@
 		C4D791DD24DD9A1F00D318E7 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4DE659624E227F20021B1A5 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		C4DE659824E2354F0021B1A5 /* UITabBarControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarControllerExt.swift; sourceTree = "<group>"; };
-		C4E093C724D83E9100F6667A /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
-		C4E093C824D83E9100F6667A /* CategoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
+		C4E093C724D83E9100F6667A /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		C4E093C824D83E9100F6667A /* CameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
 		C4E093CA24D83E9100F6667A /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		C4E093CB24D83E9100F6667A /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		C4E093CC24D83E9100F6667A /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -363,20 +363,20 @@
 			isa = PBXGroup;
 			children = (
 				C4D791D524DD817900D318E7 /* DetailVC */,
-				C4E093C624D83E9100F6667A /* CategoryVC */,
+				C4E093C624D83E9100F6667A /* CameraVC */,
 				C4E093C924D83E9100F6667A /* HomeVC */,
 				C4E093D424D83E9100F6667A /* FavoriteVC */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		C4E093C624D83E9100F6667A /* CategoryVC */ = {
+		C4E093C624D83E9100F6667A /* CameraVC */ = {
 			isa = PBXGroup;
 			children = (
-				C4E093C724D83E9100F6667A /* CategoryViewController.swift */,
-				C4E093C824D83E9100F6667A /* CategoryViewController.xib */,
+				C4E093C724D83E9100F6667A /* CameraViewController.swift */,
+				C4E093C824D83E9100F6667A /* CameraViewController.xib */,
 			);
-			path = CategoryVC;
+			path = CameraVC;
 			sourceTree = "<group>";
 		};
 		C4E093C924D83E9100F6667A /* HomeVC */ = {
@@ -517,7 +517,7 @@
 				C4B99CF724E0DE3E00F39370 /* DetailViewController.xib in Resources */,
 				C4E093E224D83E9100F6667A /* FavoriteViewController.xib in Resources */,
 				6AF60D052313B26E00F5CBA2 /* LaunchScreen.storyboard in Resources */,
-				C4E093D824D83E9100F6667A /* CategoryViewController.xib in Resources */,
+				C4E093D824D83E9100F6667A /* CameraViewController.xib in Resources */,
 				C4E093DA24D83E9100F6667A /* HomeViewController.xib in Resources */,
 				C46EFAC924E27D80001DEC50 /* DetailCollectionViewCell.xib in Resources */,
 				C49B0AE324ED246800728108 /* SimilarCollectionViewCell.xib in Resources */,
@@ -655,7 +655,7 @@
 				C4E093E124D83E9100F6667A /* FavoriteViewController.swift in Sources */,
 				6AF613CC2313C13A00F5CBA2 /* Button.swift in Sources */,
 				6AF613B32313C13A00F5CBA2 /* ViewController.swift in Sources */,
-				C4E093D724D83E9100F6667A /* CategoryViewController.swift in Sources */,
+				C4E093D724D83E9100F6667A /* CameraViewController.swift in Sources */,
 				C4E093D924D83E9100F6667A /* HomeViewModel.swift in Sources */,
 				6AF613C12313C13A00F5CBA2 /* TableView.swift in Sources */,
 				C49B0AE524ED247700728108 /* SimilarCellViewModel.swift in Sources */,

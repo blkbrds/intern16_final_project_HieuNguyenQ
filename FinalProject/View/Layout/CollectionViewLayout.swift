@@ -16,7 +16,7 @@ final class CollectionViewLayout: UICollectionViewLayout {
     weak var delegate: CollectionViewLayoutDelegate!
 
     var numberOfColumn = 3
-    private var cellPadding: CGFloat = 8
+    private var cellPadding: CGFloat = 4
     private var cache: [UICollectionViewLayoutAttributes] = []
 
     private var contentHeight: CGFloat = 0
