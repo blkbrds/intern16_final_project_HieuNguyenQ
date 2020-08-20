@@ -101,11 +101,15 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionViewCellWidth, height: collectionViewCellHeight)
     }
-//     - (tabBarController?.tabBar.frame.height ?? 0) - UIApplication.shared.statusBarFrame.height
-
 }
 
 extension DetailViewController: CollectionViewCellDelegate {
+    func pushToDetail(_ detailViewController: DetailViewController) {
+        navigationController?.hero.isEnabled = true
+        navigationController?.heroNavigationAnimationType = .none
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
     func showAleart(_ alertError: Error?) {
         if let error = alertError {
             let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)

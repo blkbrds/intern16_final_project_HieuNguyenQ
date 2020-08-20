@@ -19,13 +19,16 @@ final class DetailCellViewModel {
     }
 
     func getDataSimilar(completion: @escaping Completion<Any>) {
-        Api.CollectorImages.getAllImages(atPage: 0, withLimit: 20) { (result) in
+        Api.CollectorImages.getAllImagesSimilar(albumID: collectorImage?.albumID ?? "") { (result) in
             switch result {
             case .failure(let error):
                 completion( .failure(error))
-            case .success(let result):
+            case .success(var result):
+                for i in 0..<result.count where self.collectorImage?.imageID == result[i].imageID {
+                    result.remove(at: i)
+                    break
+                }
                 self.collectorImageSimilars.append(contentsOf: result)
-                self.collectorImageSimilars.shuffle()
                 completion( .success(true))
             }
         }
@@ -35,5 +38,12 @@ final class DetailCellViewModel {
         guard indexPath.row < collectorImageSimilars.count else { return SimilarCellViewModel() }
         let collectorImage = collectorImageSimilars[indexPath.row]
         return SimilarCellViewModel(collectorImage: collectorImage)
+    }
+
+    func getDetailViewModel(forIndexPath indexPath: IndexPath) -> DetailViewModel {
+        let detailVM = DetailViewModel()
+        detailVM.collectorImages = collectorImageSimilars
+        detailVM.selectedIndex = indexPath
+        return detailVM
     }
 }

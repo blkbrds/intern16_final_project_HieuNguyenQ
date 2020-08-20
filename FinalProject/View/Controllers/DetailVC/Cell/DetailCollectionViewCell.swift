@@ -12,6 +12,8 @@ import Alamofire
 
 protocol CollectionViewCellDelegate: class {
     func showAleart(_ alertError: Error?)
+    
+    func pushToDetail(_ detailViewController: DetailViewController)
 }
 
 class DetailCollectionViewCell: UICollectionViewCell {
@@ -31,13 +33,11 @@ class DetailCollectionViewCell: UICollectionViewCell {
         didSet {
             setupDetailImageView()
             setupCollectionView()
-            //setupCollectionViewLayout()
             getData()
         }
     }
     var actionBlock = { }
     weak var delegate: CollectionViewCellDelegate?
-    let collectionViewLayout = CollectionViewLayout()
 
     // MARK: - Function
     private func setupDetailImageView() {
@@ -90,12 +90,6 @@ class DetailCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    private func setupCollectionViewLayout() {
-        similarCollectionView.collectionViewLayout = collectionViewLayout
-        collectionViewLayout.numberOfColumn = 2
-        collectionViewLayout.delegate = self
-    }
-
     @IBAction func backButtonTouchUpInside(_ sender: Any) {
         actionBlock()
     }
@@ -123,6 +117,8 @@ extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = similarCollectionView.dequeueReusableCell(withReuseIdentifier: "SimilarCollectionViewCell", for: indexPath) as? SimilarCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
+        cell.hero.id = "\(indexPath.row)"
+        cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }
 
@@ -133,9 +129,15 @@ extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailViewController = DetailViewController()
+        detailViewController.viewModel = viewModel.getDetailViewModel(forIndexPath: indexPath)
+        delegate?.pushToDetail(detailViewController)
+    }
 }
 
-extension DetailCollectionViewCell: UICollectionViewDelegateFlowLayout {    
+extension DetailCollectionViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
@@ -150,12 +152,5 @@ extension DetailCollectionViewCell: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: imageWidthConstraint.constant, height: imageHeightConstraint.constant + 76)
-    }
-}
-
-extension DetailCollectionViewCell: CollectionViewLayoutDelegate {
-    func collectionView(_ collectionView: UICollectionView, sizeOfImageAtIndexPath indexPath: IndexPath) -> CGSize {
-        let collectorImage = viewModel.collectorImageSimilars[indexPath.row]
-        return CGSize(width: collectorImage.widthImage, height: collectorImage.heigthImage)
     }
 }
