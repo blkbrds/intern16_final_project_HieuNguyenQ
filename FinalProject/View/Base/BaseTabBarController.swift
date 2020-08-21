@@ -80,6 +80,7 @@ class BaseTabBarController: UITabBarController {
         }
         tabBarItemCenter.addTarget(self, action: #selector(menuButtonAction(sender:)), for: .touchUpInside)
         tabBar.addSubview(tabBarItemCenter)
+        tabBar.bringSubviewToFront(tabBarItemCenter)
     }
 
     @objc private func menuButtonAction(sender: UIButton) {

@@ -63,6 +63,7 @@
 		C4E093E124D83E9100F6667A /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093D524D83E9100F6667A /* FavoriteViewController.swift */; };
 		C4E093E224D83E9100F6667A /* FavoriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E093D624D83E9100F6667A /* FavoriteViewController.xib */; };
 		C4E093E524D8422100F6667A /* CollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093E424D8422000F6667A /* CollectionViewLayout.swift */; };
+		C4F6BC2024EFAFEB00AFC9D2 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F6BC1F24EFAFEB00AFC9D2 /* CameraController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +140,7 @@
 		C4E093D524D83E9100F6667A /* FavoriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		C4E093D624D83E9100F6667A /* FavoriteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavoriteViewController.xib; sourceTree = "<group>"; };
 		C4E093E424D8422000F6667A /* CollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewLayout.swift; sourceTree = "<group>"; };
+		C4F6BC1F24EFAFEB00AFC9D2 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		D72EC1050944689B4414E5C7 /* Pods-FinalProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FinalProject/Pods-FinalProject.debug.xcconfig"; sourceTree = "<group>"; };
 		DD4A2FBD85737A9282EA2264 /* Pods-FinalProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-FinalProject/Pods-FinalProject.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -375,6 +377,7 @@
 			children = (
 				C4E093C724D83E9100F6667A /* CameraViewController.swift */,
 				C4E093C824D83E9100F6667A /* CameraViewController.xib */,
+				C4F6BC1F24EFAFEB00AFC9D2 /* CameraController.swift */,
 			);
 			path = CameraVC;
 			sourceTree = "<group>";
@@ -626,6 +629,7 @@
 				C46EFAC824E27D80001DEC50 /* DetailCollectionViewCell.swift in Sources */,
 				6AF60E132313B9C000F5CBA2 /* NSErrorExt.swift in Sources */,
 				C4E093DE24D83E9100F6667A /* BaseTabBarController.swift in Sources */,
+				C4F6BC2024EFAFEB00AFC9D2 /* CameraController.swift in Sources */,
 				C4937B0524DAA56300FED514 /* API.Collector.swift in Sources */,
 				C4E093DF24D83E9100F6667A /* BaseViewController.swift in Sources */,
 				C4DE659724E227F20021B1A5 /* DetailViewModel.swift in Sources */,
