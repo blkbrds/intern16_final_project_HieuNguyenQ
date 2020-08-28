@@ -167,7 +167,7 @@ class CameraController: NSObject {
         }
     }
 
-    func captureImage(completion: @escaping (UIImage?,Error?) -> Void) {
+    func captureImage(completion: @escaping (UIImage?, Error?) -> Void) {
         guard let captureSession = captureSession, captureSession.isRunning else { completion(nil, CameraControllerError.captureSessionIsMissing); return }
 
         let settings = AVCapturePhotoSettings()

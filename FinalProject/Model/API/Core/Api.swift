@@ -17,7 +17,7 @@ final class Api {
         static let allImages = "/account/me/images"
         static let allAlbums = "/account/hieunguyen8794/albums"
         static let album = "/album"
-        static let uploadImageToAlbum = "upload"
+        static let uploadImage = "/image"
 
         static let header = ["Authorization": "Bearer a3dec8319d0d2de84b0dc6ef6d3f922608e7dd5f"]
     }

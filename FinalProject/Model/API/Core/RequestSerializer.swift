@@ -49,4 +49,66 @@ extension ApiManager {
         }
         return request
     }
+
+    func request(with urlString: String, headers: [String: String], dataImage: Data, completion: @escaping (Completion<Any>)) {
+        guard let url = URL(string: urlString) else {
+            let error = Api.Error.invalidURL
+            completion(.failure(error))
+            return
+        }
+        let base64Image = dataImage.base64EncodedString(options: .lineLength64Characters)
+
+        let parameters = [
+        [
+            "key": "image",
+            "value": "\(base64Image)",
+            "type": "text"
+        ],
+        [
+            "key": "album",
+            "value": "T7DWwmQ",
+            "type": "text"
+        ],
+        [
+            "key": "description",
+            "value": "T7DWwmQ",
+            "type": "text"
+            ]] as [[String : Any ]]
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = headers
+
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = ""
+        for param in parameters {
+            let paramKey = param["key"]
+            let paramValue = param["value"]
+            body += "--\(boundary)\r\n"
+            body += "Content-Disposition:form-data; name=\"\(paramKey ?? "")\""
+            body += "\r\n\r\n\(paramValue ?? "")\r\n"
+        }
+        body += "--\(boundary)--\r\n"
+
+        let postData = body.data(using: .utf8)
+        request.httpBody = postData
+
+        let config = URLSessionConfiguration.ephemeral
+        config.waitsForConnectivity = true
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        let session = URLSession(configuration: config)
+        let tast = session.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(.failure(Api.Error.network))
+                    return
+                }
+                completion(.success(data.toJSON()))
+                print(data.toJSON())
+            }
+        }
+
+        tast.resume()
+    }
 }

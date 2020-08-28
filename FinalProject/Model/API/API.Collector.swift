@@ -16,10 +16,14 @@ extension Api.CollectorImages {
             let queryParamns: String = "/?perPage=\(perPage)&page=\(page)"
             return Api.Path.baseURL + Api.Path.allImages + queryParamns
         }
-        
+
         func getUrlForAlbum(forAlbumID albumID: String) -> String {
             let queryParams: String = "/\(albumID)"
             return Api.Path.baseURL + Api.Path.album + queryParams
+        }
+
+        func uploadImage() -> String {
+            return Api.Path.baseURL + Api.Path.uploadImage
         }
     }
 
@@ -68,6 +72,27 @@ extension Api.CollectorImages {
                                 images.shuffle()
                             }
                             completion(.success(images))
+                        }
+                    }
+                } else {
+                    completion( .failure(Api.Error.emptyData))
+                }
+            case .failure(let error):
+                completion( .failure(error))
+            }
+        }
+    }
+
+    static func uploadImage(dataImage: Data, completion: @escaping Completion<CollectorImage>) {
+        let urlString = QueryString().uploadImage()
+        api.request(with: urlString, headers: Api.Path.header, dataImage: dataImage) { (result) in
+            switch result {
+            case .success(let data):
+                if let data = data as? [String: Any] {
+                    if let data = data["data"] as? [String: Any] {
+                        if let image = CollectorImage(JSON: data) {
+                            image.image = UIImage(data: dataImage)
+                            completion(.success(image))                            
                         }
                     }
                 } else {

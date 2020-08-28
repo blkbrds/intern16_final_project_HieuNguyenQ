@@ -36,6 +36,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
             getData()
         }
     }
+    let refreshControl = UIRefreshControl()
     var actionBlock = { }
     weak var delegate: CollectionViewCellDelegate?
 
@@ -65,6 +66,9 @@ class DetailCollectionViewCell: UICollectionViewCell {
     }
 
     private func setupCollectionView() {
+        similarCollectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshWeatherData(_:)), for: .valueChanged)
+        refreshControl.tintColor = .clear
         similarCollectionView.delegate = self
         similarCollectionView.dataSource = self
         let nib = UINib(nibName: "SimilarCollectionViewCell", bundle: .main)
@@ -72,6 +76,10 @@ class DetailCollectionViewCell: UICollectionViewCell {
         similarCollectionView.register(CollectionViewHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerView")
         similarCollectionView.backgroundColor = .clear
         similarCollectionView.reloadData()
+    }
+
+    @objc private func refreshWeatherData(_ sender: Any) {
+        actionBlock()
     }
 
     private func getData() {
@@ -117,7 +125,7 @@ extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = similarCollectionView.dequeueReusableCell(withReuseIdentifier: "SimilarCollectionViewCell", for: indexPath) as? SimilarCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
-        cell.hero.id = "\(indexPath.row)"
+        cell.hero.id = "\(viewModel.collectorImage?.imageID)"
         cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }

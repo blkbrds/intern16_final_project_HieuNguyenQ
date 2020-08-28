@@ -6,6 +6,7 @@
 //  Copyright © 2020 Asiantech. All rights reserved.
 //
 import UIKit
+import Hero
 
 final class DetailCellViewModel {
 

@@ -10,13 +10,14 @@ import UIKit
 
 extension UITabBarController {
     func changeTabBar(hidden: Bool) {
-  //      guard let tabBar = tabBarController?.tabBar else { return }
         if tabBar.isHidden == hidden { return }
         let frameY = hidden ? tabBar.frame.size.height + tabBar.frame.size.height : -tabBar.frame.size.height - tabBar.frame.size.height
+        let alpha: CGFloat = hidden ? 0 : 1
         tabBar.isHidden = false
 
-        UIView.animate(withDuration: 0.7, delay: 0, options: .curveEaseOut, animations: {
-            self.tabBar.frame = self.tabBar.frame.offsetBy(dx: 0, dy: frameY)
+        UIView.animate(withDuration: 0.5, delay: 0.3, options: .curveEaseOut, animations: {
+//            self.tabBar.frame = self.tabBar.frame.offsetBy(dx: 0, dy: frameY)
+            self.tabBar.alpha = alpha
         }, completion: { (_) in
             self.tabBar.isHidden = hidden
         })
