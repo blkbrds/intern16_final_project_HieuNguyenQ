@@ -9,10 +9,11 @@
 import UIKit
 import Hero
 import Alamofire
+import SDWebImage
 
 protocol CollectionViewCellDelegate: class {
     func showAleart(_ alertError: Error?)
-    
+
     func pushToDetail(_ detailViewController: DetailViewController)
 }
 
@@ -46,22 +47,20 @@ class DetailCollectionViewCell: UICollectionViewCell {
         detailImageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         if let imageHeight = viewModel.collectorImage?.heigthImage, let imageWidth = viewModel.collectorImage?.widthImage {
-            imageHeightConstraint.constant = imageHeight * UIScreen.main.bounds.width / imageWidth
+            if imageHeight * UIScreen.main.bounds.width / imageWidth <= self.frame.height {
+                imageHeightConstraint.constant = imageHeight * UIScreen.main.bounds.width / imageWidth
+            } else {
+                imageHeightConstraint.constant = self.frame.height
+                imageView.contentMode = .scaleAspectFit
+                imageView.backgroundColor = .black
+            }
             imageWidthConstraint.constant = UIScreen.main.bounds.width
         }
-        if viewModel.collectorImage?.image != nil {
-            imageView.image = viewModel.collectorImage?.image
-        } else {
-            if let imageUrl = viewModel.collectorImage?.imageUrl {
-              Alamofire.request(imageUrl).responseData { (response) in
-                    if let data = response.result.value {
-                        self.viewModel.collectorImage?.image = UIImage(data: data)
-                        self.imageView.image = UIImage(data: data)
-                    } else {
-                        self.viewModel.collectorImage?.image = nil
-                    }
-                }
-            }
+
+        if let imageUrl = viewModel.collectorImage?.imageUrl {
+            imageView.sd_imageTransition = .fade
+            let imageUrl = URL(string: imageUrl)
+            imageView.sd_setImage(with: imageUrl, placeholderImage: nil)
         }
     }
 

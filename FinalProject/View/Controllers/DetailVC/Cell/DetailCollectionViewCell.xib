@@ -148,7 +148,7 @@
                 <outlet property="imageWidthConstraint" destination="K7k-o0-bw8" id="EWb-Is-guS"/>
                 <outlet property="similarCollectionView" destination="ltc-LH-3ZE" id="oMQ-Dv-tvS"/>
             </connections>
-            <point key="canvasLocation" x="-98" y="7"/>
+            <point key="canvasLocation" x="-99.275362318840592" y="6.6964285714285712"/>
         </collectionViewCell>
     </objects>
     <resources>

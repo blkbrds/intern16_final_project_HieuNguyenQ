@@ -58,6 +58,20 @@ final class CollectionViewLayout: UICollectionViewLayout {
             contentHeight = max(contentHeight, frame.maxY)
             yOffset[column] = yOffset[column] + columnHeight
 
+            if numberOfColumn > 1 {
+                var isColumnChange = false
+                for i in (1..<numberOfColumn).reversed() {
+                    if yOffset[i] >= yOffset[i - 1] {
+                        column = i - 1
+                        isColumnChange = true
+                    } else {
+                        break
+                    }
+                }
+                if isColumnChange {
+                    continue
+                }
+            }
             column = column < (numberOfColumn - 1) ? column + 1 : 0
         }
     }

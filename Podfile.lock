@@ -9,6 +9,9 @@ PODS:
   - Realm/Headers (5.3.3)
   - RealmSwift (5.3.3):
     - Realm (= 5.3.3)
+  - SDWebImage (5.9.0):
+    - SDWebImage/Core (= 5.9.0)
+  - SDWebImage/Core (5.9.0)
   - SVProgressHUD (2.2.5)
   - SwifterSwift (5.1.0):
     - SwifterSwift/AppKit (= 5.1.0)
@@ -41,6 +44,7 @@ DEPENDENCIES:
   - MVVM-Swift (= 1.1.0)
   - ObjectMapper (= 3.3.0)
   - RealmSwift
+  - SDWebImage (~> 5.0)
   - SVProgressHUD (= 2.2.5)
   - SwifterSwift (~> 5.0)
   - SwiftLint (= 0.27.0)
@@ -55,6 +59,7 @@ SPEC REPOS:
     - ObjectMapper
     - Realm
     - RealmSwift
+    - SDWebImage
     - SVProgressHUD
     - SwifterSwift
     - SwiftLint
@@ -68,11 +73,12 @@ SPEC CHECKSUMS:
   ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   Realm: 2d57ea355bf8ca2a0964d6bfb38d28d7ff2addf6
   RealmSwift: 0a709536ecea30eea1d3c514f6ade2ed078dee3c
+  SDWebImage: 62ae4a18473520c67b79e9724c31a63599cc9423
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwifterSwift: a9e8e144832638c2850b43da5feaf9598c6ad65b
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
   SwiftUtils: de77bcd1df216c9be6ec7011777302c60a2018a6
 
-PODFILE CHECKSUM: 9b9dc80236b0358fb28167c6239e0d82899a5a23
+PODFILE CHECKSUM: 2cb92c719c420d4d8e4ceca17d64f48e14c1f25e
 
 COCOAPODS: 1.9.3

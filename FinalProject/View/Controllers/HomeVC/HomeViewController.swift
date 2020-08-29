@@ -8,6 +8,7 @@
 
 import UIKit
 import Hero
+import SDWebImage
 
 final class HomeViewController: BaseViewController {
 
