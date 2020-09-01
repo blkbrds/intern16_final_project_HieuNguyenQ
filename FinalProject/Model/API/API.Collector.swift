@@ -32,8 +32,8 @@ extension Api.CollectorImages {
         api.request(method: .get, urlString: urlString, parameters: .none, encoding: URLEncoding.default, headers: Api.Path.header) { (result) in
             switch result {
             case .success(let data):
-                if let data = data as? [String: Any] {
-                    if let imageData = data["data"] as? [[String: Any]] {
+                if let data = data as? JSObject {
+                    if let imageData = data["data"] as? [JSObject] {
                         var images: [CollectorImage] = []
                         for item in imageData {
                             if let image = CollectorImage(JSON: item) {
@@ -59,9 +59,9 @@ extension Api.CollectorImages {
         api.request(method: .get, urlString: urlString, parameters: .none, encoding: URLEncoding.default, headers: Api.Path.header) { (result) in
             switch result {
             case .success(let data):
-                if let data = data as? [String: Any] {
-                    if let data = data["data"] as? [String: Any] {
-                        if let imageData = data["images"] as? [[String: Any]] {
+                if let data = data as? JSObject {
+                    if let data = data["data"] as? JSObject {
+                        if let imageData = data["images"] as? [JSObject] {
                             var images: [CollectorImage] = []
                             for item in imageData {
                                 if let image = CollectorImage(JSON: item) {
@@ -88,8 +88,8 @@ extension Api.CollectorImages {
         api.request(with: urlString, headers: Api.Path.header, dataImage: dataImage) { (result) in
             switch result {
             case .success(let data):
-                if let data = data as? [String: Any] {
-                    if let data = data["data"] as? [String: Any] {
+                if let data = data as? JSObject {
+                    if let data = data["data"] as? JSObject {
                         if let image = CollectorImage(JSON: data) {
                             image.image = UIImage(data: dataImage)
                             completion(.success(image))                            

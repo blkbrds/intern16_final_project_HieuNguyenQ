@@ -16,7 +16,8 @@ final class CameraViewController: BaseViewController {
     @IBOutlet weak var switchCameraButton: UIButton!
     @IBOutlet weak var previewCamera: UIView!
     @IBOutlet weak var imageView: UIImageView!
-
+    @IBOutlet weak var backButton: UIButton!
+    
     // MARK: - Properties
     let cameraController = CameraController()
     var dataImage: Data?
@@ -59,11 +60,11 @@ final class CameraViewController: BaseViewController {
         if imageView.isHidden == false {
             imageView.isHidden = true
             uploadButton.isHidden = true
-
+            backButton.isEnabled = true
+            
             flashButton.isHidden = false
             shotButton.isHidden = false
             switchCameraButton.isHidden = false
-
             cameraController.captureSession?.startRunning()
         } else {
             cameraController.captureSession?.stopRunning()
@@ -124,13 +125,13 @@ final class CameraViewController: BaseViewController {
 
     @IBAction func uploadButtonTouchUpInside(_ sender: Any) {
         uploadButton.isEnabled = false
+        backButton.isEnabled = true
         guard let dataImage = dataImage else { return }
         Api.CollectorImages.uploadImage(dataImage: dataImage) { (result) in
             switch result {
             case .failure(let error):
                 print(error.errorsString)
             case .success(let result):
-                print(result)
                 self.viewModel.collectorImages.append(result)
                 let detailViewController = DetailViewController()
                 detailViewController.viewModel = self.viewModel.getDetailViewModel()

@@ -73,7 +73,7 @@ extension ApiManager {
             "key": "description",
             "value": "T7DWwmQ",
             "type": "text"
-            ]] as [[String : Any ]]
+            ]] as [JSObject]
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -98,17 +98,38 @@ extension ApiManager {
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         let session = URLSession(configuration: config)
-        let tast = session.dataTask(with: request) { (data, response, error) in
+        let tast = session.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
                 guard let data = data else {
                     completion(.failure(Api.Error.network))
                     return
                 }
-                completion(.success(data.toJSON()))
-                print(data.toJSON())
+                let resultData = data.toJSON()
+                completion(.success(resultData as Any))
             }
         }
 
         tast.resume()
+    }
+
+    func request(urlString: String, completion: @escaping (Completion<Any>)) {
+        guard let url = URL(string: urlString) else {
+            return
+        }
+
+        let config = URLSessionConfiguration.ephemeral
+        config.waitsForConnectivity = true
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: url) { (data, _, _) in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(.failure(Api.Error.network))
+                    return
+                }
+                let resultData = data.toJSON()
+                completion(.success(resultData as Any))
+            }
+        }
+        dataTask.resume()
     }
 }

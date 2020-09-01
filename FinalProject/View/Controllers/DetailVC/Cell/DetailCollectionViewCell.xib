@@ -65,12 +65,13 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="tlb-iL-Ssq">
                                 <rect key="frame" x="107.5" y="246" width="140" height="40"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0UX-vH-D7D">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0UX-vH-D7D">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="40"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <state key="normal" title="Like">
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <state key="normal" image="heart" catalog="system">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="large" weight="medium"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -84,7 +85,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5SI-U3-qis">
                                         <rect key="frame" x="80" y="0.0" width="60" height="40"/>
                                         <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
                                         <state key="normal" title="Save">
                                             <color key="titleColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -146,6 +147,7 @@
                 <outlet property="imageHeightConstraint" destination="PA2-f5-6yt" id="9LX-fq-c3A"/>
                 <outlet property="imageView" destination="WI7-U8-XrF" id="m6v-G7-8hF"/>
                 <outlet property="imageWidthConstraint" destination="K7k-o0-bw8" id="EWb-Is-guS"/>
+                <outlet property="likeButton" destination="0UX-vH-D7D" id="uGM-Oh-tBp"/>
                 <outlet property="similarCollectionView" destination="ltc-LH-3ZE" id="oMQ-Dv-tvS"/>
             </connections>
             <point key="canvasLocation" x="-99.275362318840592" y="6.6964285714285712"/>
@@ -153,5 +155,6 @@
     </objects>
     <resources>
         <image name="arrowshape.turn.up.left.fill" catalog="system" width="128" height="106"/>
+        <image name="heart" catalog="system" width="128" height="109"/>
     </resources>
 </document>

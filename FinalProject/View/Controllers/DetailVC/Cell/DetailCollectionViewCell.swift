@@ -10,6 +10,7 @@ import UIKit
 import Hero
 import Alamofire
 import SDWebImage
+import RealmSwift
 
 protocol CollectionViewCellDelegate: class {
     func showAleart(_ alertError: Error?)
@@ -27,6 +28,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var detailImageView: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var similarCollectionView: UICollectionView!
 
     // MARK: - Properties
@@ -62,11 +64,20 @@ class DetailCollectionViewCell: UICollectionViewCell {
             let imageUrl = URL(string: imageUrl)
             imageView.sd_setImage(with: imageUrl, placeholderImage: nil)
         }
+
+        viewModel.delegate = self
+        viewModel.setupObserve()
+
+        if viewModel.isLike() {
+            self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
     }
 
     private func setupCollectionView() {
         similarCollectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(refreshWeatherData(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(dismissView(_:)), for: .valueChanged)
         refreshControl.tintColor = .clear
         similarCollectionView.delegate = self
         similarCollectionView.dataSource = self
@@ -77,7 +88,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
         similarCollectionView.reloadData()
     }
 
-    @objc private func refreshWeatherData(_ sender: Any) {
+    @objc private func dismissView(_ sender: Any) {
         actionBlock()
     }
 
@@ -102,7 +113,11 @@ class DetailCollectionViewCell: UICollectionViewCell {
     }
 
     @IBAction func likeButtonTouchUpInside(_ sender: Any) {
-
+        if viewModel.reaction() {
+            self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
     }
 
     @IBAction func saveButtonTouchUpInside(_ sender: Any) {
@@ -124,7 +139,7 @@ extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = similarCollectionView.dequeueReusableCell(withReuseIdentifier: "SimilarCollectionViewCell", for: indexPath) as? SimilarCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
-        cell.hero.id = "\(viewModel.collectorImage?.imageID)"
+        cell.hero.id = "\(viewModel.collectorImage?.imageID ?? "")"
         cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }
@@ -159,5 +174,15 @@ extension DetailCollectionViewCell: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: imageWidthConstraint.constant, height: imageHeightConstraint.constant + 76)
+    }
+}
+
+extension DetailCollectionViewCell: DetailCellViewModelDelegate {
+    func viewModel(_ viewModel: DetailCellViewModel) {
+        if viewModel.isLike() {
+            self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            } else {
+            self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
     }
 }

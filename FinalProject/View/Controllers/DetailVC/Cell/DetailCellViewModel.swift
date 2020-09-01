@@ -7,13 +7,20 @@
 //
 import UIKit
 import Hero
+import RealmSwift
+
+protocol DetailCellViewModelDelegate: class {
+    func viewModel(_ viewModel: DetailCellViewModel)
+}
 
 final class DetailCellViewModel {
 
     private(set) var collectorImage: CollectorImage?
     private(set) var selectedIndex: IndexPath?
     private(set) var collectorImageSimilars: [CollectorImage] = []
-
+    private var notificationToken: NotificationToken?
+    weak var delegate: DetailCellViewModelDelegate?
+    var listImageLiked: [CollectorImage] = []
     init(collectorImage: CollectorImage? = nil, selectedIndex: IndexPath? = nil) {
         self.collectorImage = collectorImage
         self.selectedIndex = selectedIndex
@@ -46,5 +53,67 @@ final class DetailCellViewModel {
         detailVM.collectorImages = collectorImageSimilars
         detailVM.selectedIndex = indexPath
         return detailVM
+    }
+
+    func setupObserve() {
+        do {
+            let realm = try Realm()
+            notificationToken = realm.objects(CollectorImage.self).observe({ (_) in
+                self.delegate?.viewModel(self)
+            })
+        } catch {
+            print("Something was wrong")
+        }
+    }
+
+    func isLike() -> Bool {
+        guard let imageID = collectorImage?.imageID else { return false }
+        do {
+            let realm = try Realm()
+            let image = realm.objects(CollectorImage.self).filter("imageID = '\(imageID)'")
+            if image.count != 0 {
+                return true
+            } else {
+                return false
+            }
+        } catch {
+            print("Something was wrong")
+            return false
+        }
+    }
+
+    func reaction() -> Bool {
+        guard let imageID = collectorImage?.imageID else { return false }
+        do {
+            if !isLike() {
+                let realm = try Realm()
+                let image = CollectorImage()
+                image.imageID = "\(collectorImage?.imageID ?? "")"
+                image.imageUrl = "\(collectorImage?.imageUrl ?? "")"
+                image.heigthImageForRealm = Double(collectorImage?.heigthImage ?? 0)
+                image.widthImageForRealm = Double(collectorImage?.widthImage ?? 0)
+                image.dateAppend = Date()
+                image.albumID = "\(collectorImage?.albumID ?? "")"
+                try realm.write {
+                    realm.add(image)
+                }
+                return true
+            } else {
+                let realm = try Realm()
+                let image = realm.objects(CollectorImage.self).filter("imageID = '\(imageID)'")
+                try realm.write {
+                    realm.delete(image)
+                }
+                return false
+            }
+        } catch {
+            print("Something was wrong")
+            return false
+        }
+    }
+
+    enum Action {
+        case isLike
+        case reaction
     }
 }

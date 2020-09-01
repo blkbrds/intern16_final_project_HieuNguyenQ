@@ -1,21 +1,21 @@
 //
-//  HomeCollectionViewCell.swift
-//  theCollectors
+//  FavouriteCollectionViewCell.swift
+//  FinalProject
 //
-//  Created by hieungq on 8/1/20.
-//  Copyright © 2020 hieungq. All rights reserved.
+//  Created by hieungq on 8/30/20.
+//  Copyright © 2020 Asiantech. All rights reserved.
 //
 
 import UIKit
 import SDWebImage
 
-final class HomeCollectionViewCell: UICollectionViewCell {
+final class FavouriteCollectionViewCell: UICollectionViewCell {
 
     // MARK: - IBOulet
     @IBOutlet private(set) weak var imageView: UIImageView!
 
     // MARK: - Properties
-    var viewModel: HomeCellViewModel = HomeCellViewModel() {
+    var viewModel: FavouriteCellViewModel = FavouriteCellViewModel() {
         didSet {
             updateView()
         }

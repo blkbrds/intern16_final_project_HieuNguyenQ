@@ -8,6 +8,7 @@
 
 import UIKit
 import Hero
+import RealmSwift
 
 final class DetailViewController: BaseViewController {
 
@@ -44,7 +45,9 @@ final class DetailViewController: BaseViewController {
         detailCollectionView.dataSource = self
         let nib = UINib(nibName: "DetailCollectionViewCell", bundle: Bundle.main)
         detailCollectionView.register(nib, forCellWithReuseIdentifier: "DetailCollectionViewCell")
+
         getDataForCollectionView()
+
         detailCollectionView.layoutIfNeeded()
         guard let selectedIndex = viewModel.selectedIndex else { return }
         detailCollectionView.scrollToItem(at: selectedIndex, at: .left, animated: false)
