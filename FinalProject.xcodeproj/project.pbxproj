@@ -202,7 +202,6 @@
 		6AF60D232313B56B00F5CBA2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C4AF5D9224D90FD000E1AF4E /* CollectorImage.swift */,
 				6AF60D242313B56B00F5CBA2 /* Session.swift */,
 				6AF60D252313B56B00F5CBA2 /* Schema */,
 				6AF60D672313B56B00F5CBA2 /* API */,
@@ -213,6 +212,7 @@
 		6AF60D252313B56B00F5CBA2 /* Schema */ = {
 			isa = PBXGroup;
 			children = (
+				C4AF5D9224D90FD000E1AF4E /* CollectorImage.swift */,
 			);
 			path = Schema;
 			sourceTree = "<group>";

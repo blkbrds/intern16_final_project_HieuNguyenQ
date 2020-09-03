@@ -9,11 +9,12 @@
 import UIKit
 import Hero
 import SDWebImage
+import SwiftUtils
 
 final class HomeViewController: BaseViewController {
 
     // MARK: - IBOutlet
-    @IBOutlet weak var homeCollectionView: UICollectionView!
+    @IBOutlet private weak var homeCollectionView: UICollectionView!
 
     // MARK: - Properties
     let viewModel = HomeViewModel()
@@ -62,10 +63,10 @@ final class HomeViewController: BaseViewController {
     }
 
     private func setupCollectionView() {
-        homeCollectionView.delegate = self
-        homeCollectionView.dataSource = self
         let homeCollectionViewCell = UINib(nibName: "HomeCollectionViewCell", bundle: .main)
         homeCollectionView.register(homeCollectionViewCell, forCellWithReuseIdentifier: "HomeCollectionViewCell")
+        homeCollectionView.delegate = self
+        homeCollectionView.dataSource = self
         homeCollectionView.backgroundColor = .clear
         homeCollectionView.hero.modifiers = [.cascade]
     }
@@ -83,12 +84,16 @@ final class HomeViewController: BaseViewController {
     }
 
     private func getDataForCollectionView(atPage page: Int, withLimit perPage: Int) {
-        self.viewModel.getData(atPage: page, withLimit: perPage) { (result) in
-            if result.error == nil {
-                self.updateUI()
-                self.currentPage += 1
-            } else {
-                print(result)
+        HUD.show()
+        viewModel.getData(atPage: page, withLimit: perPage) { [weak self] result in
+            HUD.dismiss()
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                this.currentPage += 1
+                this.updateUI()
+            case .failure(let error):
+                this.alert(msg: error.localizedDescription, handler: nil)
             }
         }
     }
@@ -144,7 +149,6 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 
 extension HomeViewController: CollectionViewLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, sizeOfImageAtIndexPath indexPath: IndexPath) -> CGSize {
-        let collectorImage = viewModel.collectorImages[indexPath.row]
-        return CGSize(width: collectorImage.widthImage, height: collectorImage.heigthImage)
+        return viewModel.sizeOfImageAtIndexPath(atIndexPath: indexPath)
     }
 }

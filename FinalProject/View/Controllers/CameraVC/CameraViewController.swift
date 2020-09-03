@@ -127,7 +127,7 @@ final class CameraViewController: BaseViewController {
         uploadButton.isEnabled = false
         backButton.isEnabled = true
         guard let dataImage = dataImage else { return }
-        Api.CollectorImages.uploadImage(dataImage: dataImage) { (result) in
+        Api.Camera.uploadImage(dataImage: dataImage) { (result) in
             switch result {
             case .failure(let error):
                 print(error.errorsString)

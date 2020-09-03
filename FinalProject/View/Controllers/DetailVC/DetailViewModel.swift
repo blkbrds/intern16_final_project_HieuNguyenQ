@@ -22,7 +22,7 @@ final class DetailViewModel {
     }
 
     func getData(page: Int, limit: Int, completion: @escaping Completion<Any>) {
-        Api.CollectorImages.getAllImages(atPage: page, withLimit: 20) { (result) in
+        Api.Home.getAllImages(atPage: page, withLimit: 20) { (result) in
             switch result {
             case .failure(let error):
                 completion( .failure(error))

@@ -41,11 +41,10 @@ final class DetailViewController: BaseViewController {
     private func setupCollectionView() {
         collectionViewCellHeight = UIScreen.main.bounds.height - (tabBarController?.tabBar.frame.height ?? 0) - UIApplication.shared.statusBarFrame.height
         collectionViewCellWidth = UIScreen.main.bounds.width
-        detailCollectionView.delegate = self
-        detailCollectionView.dataSource = self
         let nib = UINib(nibName: "DetailCollectionViewCell", bundle: Bundle.main)
         detailCollectionView.register(nib, forCellWithReuseIdentifier: "DetailCollectionViewCell")
-
+        detailCollectionView.delegate = self
+        detailCollectionView.dataSource = self
         getDataForCollectionView()
 
         detailCollectionView.layoutIfNeeded()
