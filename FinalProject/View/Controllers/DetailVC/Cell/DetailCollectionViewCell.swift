@@ -11,6 +11,7 @@ import Hero
 import Alamofire
 import SDWebImage
 import RealmSwift
+import SwiftUtils
 
 protocol CollectionViewCellDelegate: class {
     func showAleart(_ alertError: Error?)
@@ -57,9 +58,9 @@ class DetailCollectionViewCell: UICollectionViewCell {
         }
 
         if let imageUrl = viewModel.collectorImage?.imageUrl {
-            imageView.sd_imageTransition = .fade
             let imageUrl = URL(string: imageUrl)
             imageView.sd_setImage(with: imageUrl, placeholderImage: nil)
+            imageView.sd_imageTransition = .fade
         }
 
         viewModel.delegate = self
@@ -83,11 +84,13 @@ class DetailCollectionViewCell: UICollectionViewCell {
     }
 
     private func getData() {
-        viewModel.getDataSimilar { (result) in
-            if result.error == nil {
-                self.updateUI()
-            } else {
-                print(result)
+        viewModel.getDataSimilar { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success:
+                this.updateUI()
             }
         }
     }

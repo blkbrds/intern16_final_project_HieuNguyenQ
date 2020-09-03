@@ -85,13 +85,14 @@ final class HomeViewController: BaseViewController {
 
     private func getDataForCollectionView(atPage page: Int, withLimit perPage: Int) {
         HUD.show()
+        HUD.setDefaultStyle(.dark)
         viewModel.getData(atPage: page, withLimit: perPage) { [weak self] result in
-            HUD.dismiss()
             guard let this = self else { return }
             switch result {
             case .success:
                 this.currentPage += 1
                 this.updateUI()
+                HUD.dismiss()
             case .failure(let error):
                 this.alert(msg: error.localizedDescription, handler: nil)
             }
@@ -109,7 +110,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItem(atIndexPath: indexPath)
-        cell.hero.id = "\(viewModel.collectorImages[indexPath.row].imageID)"
+        cell.hero.isEnabled = true
+        cell.hero.id = "\(indexPath.row)"
         cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }

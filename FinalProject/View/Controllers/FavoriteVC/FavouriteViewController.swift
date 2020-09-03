@@ -62,7 +62,7 @@ final class FavouriteViewController: BaseViewController {
     }
 
     private func getDataForCollectionView() {
-        self.viewModel.getData() { (result) in
+        self.viewModel.getData() { result in
             if result.error == nil {
                 self.updateUI()
             } else {
@@ -81,7 +81,7 @@ extension FavouriteViewController: UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavouriteCollectionViewCell", for: indexPath) as? FavouriteCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItem(atIndexPath: indexPath)
-        cell.hero.id = "\(viewModel.collectorImages[indexPath.row].imageID)"
+        cell.hero.id = "\(indexPath.row)"
         cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }

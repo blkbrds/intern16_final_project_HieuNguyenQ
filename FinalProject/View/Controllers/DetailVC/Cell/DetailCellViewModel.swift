@@ -15,18 +15,26 @@ protocol DetailCellViewModelDelegate: class {
 
 final class DetailCellViewModel {
 
+    // MARK: - Properties
     private(set) var collectorImage: CollectorImage?
     private(set) var selectedIndex: IndexPath?
     private(set) var collectorImageSimilars: [CollectorImage] = []
     private var notificationToken: NotificationToken?
     weak var delegate: DetailCellViewModelDelegate?
     var listImageLiked: [CollectorImage] = []
+    enum Action {
+        case isLike
+        case reaction
+    }
+
+    // MARK: - Function
+
     init(collectorImage: CollectorImage? = nil, selectedIndex: IndexPath? = nil) {
         self.collectorImage = collectorImage
         self.selectedIndex = selectedIndex
     }
 
-    func getDataSimilar(completion: @escaping Completion<Any>) {
+    func getDataSimilar(completion: @escaping APICompletion) {
         Api.Detail.getAllImagesSimilar(albumID: collectorImage?.albumID ?? "") { (result) in
             switch result {
             case .failure(let error):
@@ -37,7 +45,7 @@ final class DetailCellViewModel {
                     break
                 }
                 self.collectorImageSimilars.append(contentsOf: result)
-                completion( .success(true))
+                completion( .success)
             }
         }
     }
@@ -110,10 +118,5 @@ final class DetailCellViewModel {
             print("Something was wrong")
             return false
         }
-    }
-
-    enum Action {
-        case isLike
-        case reaction
     }
 }

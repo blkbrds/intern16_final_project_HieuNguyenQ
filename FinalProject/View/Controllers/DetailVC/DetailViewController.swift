@@ -9,6 +9,7 @@
 import UIKit
 import Hero
 import RealmSwift
+import SwiftUtils
 
 final class DetailViewController: BaseViewController {
 
@@ -62,14 +63,15 @@ final class DetailViewController: BaseViewController {
         if currentPage == 0 {
             currentPage += viewModel.collectorImages.count / 20
             self.updateUI()
-            // chưa hiểu
         } else {
-            viewModel.getData(page: currentPage, limit: 20) { (result) in
-                if result.error == nil {
-                    self.updateUI()
-                    self.currentPage += 1
-                } else {
-                    print(result)
+            viewModel.getData(page: currentPage, limit: 20) { [weak self] result in
+                guard let this = self else { return }
+                switch result {
+                case .success:
+                    this.currentPage += 1
+                    this.updateUI()
+                case .failure(let error):
+                    this.alert(msg: error.localizedDescription, handler: nil)
                 }
             }
         }
@@ -89,7 +91,8 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "DetailCollectionViewCell", for: indexPath) as? DetailCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
-        cell.hero.id = "\(viewModel.collectorImages[indexPath.row].imageID)"
+        cell.hero.isEnabled = true
+        cell.hero.id = "\(indexPath.row)"
         cell.hero.modifiers = [.fade, .scale(0.5)]
         cell.delegate = self
         return cell
