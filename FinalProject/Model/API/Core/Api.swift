@@ -13,16 +13,30 @@ final class Api {
 
     struct Path {
         static let baseURL = "https://api.imgur.com/3"
-
-        static let allImages = "/account/me/images"
-        static let allAlbums = "/account/hieunguyen8794/albums"
-        static let album = "/album"
-        static let uploadImage = "/image"
-
         static let header = ["Authorization": "Bearer a3dec8319d0d2de84b0dc6ef6d3f922608e7dd5f"]
     }
 
-    struct CollectorImages { }
+    struct Home { }
+    struct Detail { }
+    struct Camera { }
+}
+
+extension Api.Path {
+
+    struct Home {
+        let page: Int
+        let limit: Int
+        var allImages: String { return baseURL / "account" / "me" / "images" / "?perPage=\(limit)&page=\(page)" }
+    }
+
+    struct Detail {
+        let albumID: String
+        var album: String { return baseURL / "album" / "\(albumID)" }
+    }
+
+    struct Camera {
+        var upload: String { return baseURL / "upload" }
+    }
 }
 
 protocol URLStringConvertible {

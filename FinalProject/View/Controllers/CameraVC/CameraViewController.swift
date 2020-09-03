@@ -125,7 +125,7 @@ final class CameraViewController: BaseViewController {
     @IBAction func uploadButtonTouchUpInside(_ sender: Any) {
         uploadButton.isEnabled = false
         guard let dataImage = dataImage else { return }
-        Api.CollectorImages.uploadImage(dataImage: dataImage) { (result) in
+        Api.Camera.uploadImage(dataImage: dataImage) { (result) in
             switch result {
             case .failure(let error):
                 print(error.errorsString)

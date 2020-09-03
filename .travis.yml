@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode10.2
+osx_image: xcode11.6
 cache:
   - bundler
   - cocoapods
@@ -12,7 +12,6 @@ before_install:
 install:
   - sudo systemsetup -settimezone Asia/Ho_Chi_Minh
 before_script:
-  - chmod a+x ./scripts/add-key.sh
-  - ./scripts/add-key.sh
+  - chmod a+x ./linter
 script:
-  - ./scripts/linter
+  - ./linter

@@ -20,7 +20,7 @@ final class DetailCellViewModel {
     }
 
     func getDataSimilar(completion: @escaping Completion<Any>) {
-        Api.CollectorImages.getAllImagesSimilar(albumID: collectorImage?.albumID ?? "") { (result) in
+        Api.Detail.getAllImagesSimilar(albumID: collectorImage?.albumID ?? "") { (result) in
             switch result {
             case .failure(let error):
                 completion( .failure(error))
