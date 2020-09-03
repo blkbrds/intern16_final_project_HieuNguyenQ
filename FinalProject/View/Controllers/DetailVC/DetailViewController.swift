@@ -35,10 +35,10 @@ final class DetailViewController: BaseViewController {
     private func setupCollectionView() {
         collectionViewCellHeight = UIScreen.main.bounds.height - (tabBarController?.tabBar.frame.height ?? 0) - UIApplication.shared.statusBarFrame.height
         collectionViewCellWidth = UIScreen.main.bounds.width
-        detailCollectionView.delegate = self
-        detailCollectionView.dataSource = self
         let nib = UINib(nibName: "DetailCollectionViewCell", bundle: Bundle.main)
         detailCollectionView.register(nib, forCellWithReuseIdentifier: "DetailCollectionViewCell")
+        detailCollectionView.delegate = self
+        detailCollectionView.dataSource = self
         detailCollectionView.layoutIfNeeded()
         guard let selectedIndex = viewModel.selectedIndex else { return }
         detailCollectionView.scrollToItem(at: selectedIndex, at: .centeredHorizontally, animated: false)
@@ -109,7 +109,7 @@ extension DetailViewController: CollectionViewCellDelegate {
         navigationController?.heroNavigationAnimationType = .none
         navigationController?.pushViewController(detailViewController, animated: true)
     }
-    
+
     func showAleart(_ alertError: Error?) {
         if let error = alertError {
             let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
