@@ -16,10 +16,7 @@ final class Api {
         static let header = ["Authorization": "Bearer a3dec8319d0d2de84b0dc6ef6d3f922608e7dd5f"]
     }
 
-    struct Home {
-        var page: Int
-        var limit: Int
-    }
+    struct Home { }
 }
 
 extension Api.Path {
