@@ -17,7 +17,7 @@ final class CameraViewController: BaseViewController {
     @IBOutlet weak var previewCamera: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var backButton: UIButton!
-    
+
     // MARK: - Properties
     let cameraController = CameraController()
     var dataImage: Data?
@@ -31,7 +31,7 @@ final class CameraViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        tabBarController?.changeTabBar(hidden: true)
+        tabBarController?.tabBar.isHidden = true
         if let captureSession = cameraController.captureSession {
             captureSession.startRunning()
         }
@@ -61,7 +61,7 @@ final class CameraViewController: BaseViewController {
             imageView.isHidden = true
             uploadButton.isHidden = true
             backButton.isEnabled = true
-            
+
             flashButton.isHidden = false
             shotButton.isHidden = false
             switchCameraButton.isHidden = false

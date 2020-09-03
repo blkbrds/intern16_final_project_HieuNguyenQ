@@ -82,7 +82,6 @@ extension FavouriteViewController: UICollectionViewDelegate, UICollectionViewDat
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavouriteCollectionViewCell", for: indexPath) as? FavouriteCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItem(atIndexPath: indexPath)
         cell.hero.id = "\(viewModel.collectorImages[indexPath.row].imageID)"
-        print(viewModel.collectorImages[indexPath.row].imageID)
         cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }

@@ -28,7 +28,8 @@ class BaseViewController: UIViewController {
 
     // MARK: - Function
     func setupUI() {
-        view.insertSubview(backgroundImage, at: 0)
+        //view.insertSubview(backgroundImage, at: 0)
+        view.backgroundColor = .black
     }
 
     func setupNavigationBar() { }

@@ -75,6 +75,10 @@ final class DetailViewController: BaseViewController {
             }
         }
     }
+
+    @IBAction func backButtonTouchUpInside(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
 }
 
     // MARK: - Extension
@@ -89,9 +93,6 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
         cell.hero.id = "\(viewModel.collectorImages[indexPath.row].imageID)"
         cell.hero.modifiers = [.fade, .scale(0.5)]
         cell.delegate = self
-        cell.actionBlock = {
-            self.navigationController?.popViewController(animated: true)
-        }
         return cell
     }
 

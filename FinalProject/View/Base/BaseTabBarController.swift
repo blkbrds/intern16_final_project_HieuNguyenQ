@@ -38,10 +38,9 @@ class BaseTabBarController: UITabBarController {
 
         tabBar.tintColor = #colorLiteral(red: 0.4125089049, green: 0.8123833537, blue: 0.9942517877, alpha: 1)
         tabBar.unselectedItemTintColor =  #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        tabBar.backgroundColor = #colorLiteral(red: 0.1577239037, green: 0.1681370437, blue: 0.1926085055, alpha: 1)
+        tabBar.backgroundColor = #colorLiteral(red: 0.07139258832, green: 0.07140976936, blue: 0.07138884813, alpha: 1)
         tabBar.backgroundImage = UIImage()
         tabBar.layer.cornerRadius = 15
-        tabBar.alpha = 0.95
 
         tabBar.layer.shadowColor = #colorLiteral(red: 0.6052098165, green: 0.6112019929, blue: 0.6112019929, alpha: 1)
         tabBar.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
@@ -59,7 +58,7 @@ class BaseTabBarController: UITabBarController {
         tabBarItemCenter.frame.size = CGSize(width: tabBarItemCenterWidth, height: tabBarItemCenterHeight)
 
         tabBarItemCenter.isUserInteractionEnabled = true
-        tabBarItemCenter.backgroundColor = #colorLiteral(red: 0.1577239037, green: 0.1681370437, blue: 0.1926085055, alpha: 1)
+        tabBarItemCenter.backgroundColor = #colorLiteral(red: 0.07139258832, green: 0.07140976936, blue: 0.07138884813, alpha: 1)
         tabBarItemCenter.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         tabBarItemCenter.layer.shadowColor = #colorLiteral(red: 0.6052098165, green: 0.6112019929, blue: 0.6112019929, alpha: 1)
         tabBarItemCenter.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
@@ -68,6 +67,7 @@ class BaseTabBarController: UITabBarController {
         tabBarItemCenter.layer.cornerRadius = tabBarItemCenterHeight / 2
         tabBarItemCenter.setImage(UIImage(systemName: "camera"), for: .normal)
         tabBarItemCenter.addTarget(self, action: #selector(menuButtonAction(sender:)), for: .touchUpInside)
+        centerButton = tabBarItemCenter
         tabBar.addSubview(tabBarItemCenter)
     }
 

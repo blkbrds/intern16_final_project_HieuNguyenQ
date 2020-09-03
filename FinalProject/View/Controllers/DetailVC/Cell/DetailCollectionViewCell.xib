@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -42,33 +41,13 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QRH-h0-v0I">
-                                <rect key="frame" x="16" y="16" width="40" height="40"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="Pgw-e8-HbG"/>
-                                    <constraint firstAttribute="height" constant="40" id="gZ6-9j-hBT"/>
-                                </constraints>
-                                <color key="tintColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="0.64311322770000001" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" image="arrowshape.turn.up.left.fill" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="large" weight="regular"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="20"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="backButtonTouchUpInside:" destination="gTV-IL-0wX" eventType="touchUpInside" id="aU3-Ni-d8w"/>
-                                </connections>
-                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="tlb-iL-Ssq">
                                 <rect key="frame" x="107.5" y="246" width="140" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0UX-vH-D7D">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="40"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="backgroundColor" red="0.50345425130172095" green="0.50345425130172095" blue="0.50345425130172095" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <state key="normal" image="heart" catalog="system">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="large" weight="medium"/>
@@ -85,7 +64,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5SI-U3-qis">
                                         <rect key="frame" x="80" y="0.0" width="60" height="40"/>
                                         <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="18"/>
                                         <state key="normal" title="Save">
                                             <color key="titleColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -112,8 +91,6 @@
                             <constraint firstItem="tlb-iL-Ssq" firstAttribute="centerX" secondItem="ZdW-ll-ZXP" secondAttribute="centerX" id="LtZ-OY-N5n"/>
                             <constraint firstItem="WI7-U8-XrF" firstAttribute="top" secondItem="ZdW-ll-ZXP" secondAttribute="top" id="THb-le-42A"/>
                             <constraint firstAttribute="trailing" secondItem="WI7-U8-XrF" secondAttribute="trailing" id="d6S-HL-Kc4"/>
-                            <constraint firstItem="QRH-h0-v0I" firstAttribute="top" secondItem="ZdW-ll-ZXP" secondAttribute="top" constant="16" id="m7F-PF-ubC"/>
-                            <constraint firstItem="QRH-h0-v0I" firstAttribute="leading" secondItem="ZdW-ll-ZXP" secondAttribute="leading" constant="16" id="rY6-jc-Qzt"/>
                             <constraint firstItem="tlb-iL-Ssq" firstAttribute="top" secondItem="WI7-U8-XrF" secondAttribute="bottom" constant="16" id="vyP-xM-4Rf"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -142,7 +119,6 @@
                 </userDefinedRuntimeAttribute>
             </userDefinedRuntimeAttributes>
             <connections>
-                <outlet property="backButton" destination="QRH-h0-v0I" id="yTh-7s-Sdk"/>
                 <outlet property="detailImageView" destination="ZdW-ll-ZXP" id="emR-H1-vjb"/>
                 <outlet property="imageHeightConstraint" destination="PA2-f5-6yt" id="9LX-fq-c3A"/>
                 <outlet property="imageView" destination="WI7-U8-XrF" id="m6v-G7-8hF"/>
@@ -154,7 +130,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="arrowshape.turn.up.left.fill" catalog="system" width="128" height="106"/>
         <image name="heart" catalog="system" width="128" height="109"/>
     </resources>
 </document>

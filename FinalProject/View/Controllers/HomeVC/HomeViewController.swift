@@ -19,9 +19,9 @@ final class HomeViewController: BaseViewController {
     let viewModel = HomeViewModel()
     let collectionViewLayout = CollectionViewLayout()
     let limit: Int = 20
-    var numberOfColumn: Int = 3
+    var numberOfColumn: Int = 2
     var currentPage: Int = 0
-    var imageButtonChange = #imageLiteral(resourceName: "twoColumn")
+    var imageButtonChange = #imageLiteral(resourceName: "threeColumn")
     var changeColumnButton = UIBarButtonItem()
 
     // MARK: - Life Cycle
@@ -43,7 +43,7 @@ final class HomeViewController: BaseViewController {
         navigationItem.title = "theCollectors"
         changeColumnButton = UIBarButtonItem(image: imageButtonChange, style: .plain, target: self, action: #selector(changeNumber))
         changeColumnButton.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        navigationItem.rightBarButtonItem = changeColumnButton
+        //navigationItem.rightBarButtonItem = changeColumnButton
     }
 
     @objc func changeNumber() {

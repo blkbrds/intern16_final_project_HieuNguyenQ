@@ -27,7 +27,6 @@ class DetailCollectionViewCell: UICollectionViewCell {
     // MARK: - IBOutlet
     @IBOutlet weak var detailImageView: UIView!
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var similarCollectionView: UICollectionView!
 
@@ -39,8 +38,6 @@ class DetailCollectionViewCell: UICollectionViewCell {
             getData()
         }
     }
-    let refreshControl = UIRefreshControl()
-    var actionBlock = { }
     weak var delegate: CollectionViewCellDelegate?
 
     // MARK: - Function
@@ -76,9 +73,6 @@ class DetailCollectionViewCell: UICollectionViewCell {
     }
 
     private func setupCollectionView() {
-        similarCollectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(dismissView(_:)), for: .valueChanged)
-        refreshControl.tintColor = .clear
         similarCollectionView.delegate = self
         similarCollectionView.dataSource = self
         let nib = UINib(nibName: "SimilarCollectionViewCell", bundle: .main)
@@ -86,10 +80,6 @@ class DetailCollectionViewCell: UICollectionViewCell {
         similarCollectionView.register(CollectionViewHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerView")
         similarCollectionView.backgroundColor = .clear
         similarCollectionView.reloadData()
-    }
-
-    @objc private func dismissView(_ sender: Any) {
-        actionBlock()
     }
 
     private func getData() {
@@ -106,10 +96,6 @@ class DetailCollectionViewCell: UICollectionViewCell {
         DispatchQueue.main.async {
             self.similarCollectionView.reloadData()
         }
-    }
-
-    @IBAction func backButtonTouchUpInside(_ sender: Any) {
-        actionBlock()
     }
 
     @IBAction func likeButtonTouchUpInside(_ sender: Any) {
