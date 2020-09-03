@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftUtils
 
 final class HomeViewController: BaseViewController {
 
@@ -62,12 +63,16 @@ final class HomeViewController: BaseViewController {
     }
 
     private func getDataForCollectionView(atPage page: Int, withLimit perPage: Int) {
-        self.viewModel.getData(atPage: page, withLimit: perPage) { (result) in
-            if result.error == nil {
-                self.updateUI()
-                self.currentPage += 1
-            } else {
-                print(result)
+        HUD.show()
+        viewModel.getData(atPage: page, withLimit: perPage) { [weak self] result in
+            HUD.dismiss()
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                this.currentPage += 1
+                this.updateUI()
+            case .failure(let error):
+                this.alert(msg: error.localizedDescription, handler: nil)
             }
         }
     }

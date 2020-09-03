@@ -14,14 +14,14 @@ final class HomeViewModel {
     private(set) var collectorImages: [CollectorImage] = []
 
     // MARK: - Function
-    func getData(atPage page: Int, withLimit perPage: Int, completion: @escaping Completion<Any>) {
-        Api.CollectorImages.getAllImages(atPage: page, withLimit: perPage) { (result) in
+    func getData(atPage page: Int, withLimit perPage: Int, completion: @escaping APICompletion) {
+        Api.Home.getAllImages(atPage: page, withLimit: perPage) { (result) in
             switch result {
             case .failure(let error):
                 completion( .failure(error))
             case .success(let result):
                 self.collectorImages.append(contentsOf: result)
-                completion( .success(true))
+                completion( .success)
             }
         }
     }
