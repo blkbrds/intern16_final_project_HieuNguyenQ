@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import SwiftUtils
 
 final class HomeViewController: BaseViewController {
 
     // MARK: - IBOutlet
-    @IBOutlet weak var homeCollectionView: UICollectionView!
+    @IBOutlet private weak var homeCollectionView: UICollectionView!
 
     // MARK: - Properties
     let viewModel = HomeViewModel()
@@ -54,10 +55,19 @@ final class HomeViewController: BaseViewController {
     }
 
     private func setupCollectionView() {
-        homeCollectionView.delegate = self
-        homeCollectionView.dataSource = self
         let homeCollectionViewCell = UINib(nibName: "HomeCollectionViewCell", bundle: .main)
         homeCollectionView.register(homeCollectionViewCell, forCellWithReuseIdentifier: "HomeCollectionViewCell")
+        homeCollectionView.delegate = self
+        homeCollectionView.dataSource = self
+        homeCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        let constrains = [
+            homeCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant:
+                     8),
+            homeCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            homeCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            homeCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+        ]
+        NSLayoutConstraint.activate(constrains)
         homeCollectionView.backgroundColor = .clear
     }
 
@@ -74,12 +84,16 @@ final class HomeViewController: BaseViewController {
     }
 
     private func getDataForCollectionView(atPage page: Int, withLimit perPage: Int) {
-        self.viewModel.getData(atPage: page, withLimit: perPage) { (result) in
-            if result.error == nil {
-                self.updateUI()
-                self.currentPage += 1
-            } else {
-                print(result)
+        HUD.show()
+        viewModel.getData(atPage: page, withLimit: perPage) { [weak self] result in
+            HUD.dismiss()
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                this.currentPage += 1
+                this.updateUI()
+            case .failure(let error):
+                this.alert(msg: error.localizedDescription, handler: nil)
             }
         }
     }
