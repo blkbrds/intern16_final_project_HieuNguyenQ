@@ -6,7 +6,7 @@
 //  Copyright © 2020 hieungq. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 final class HomeViewModel {
 
@@ -14,14 +14,14 @@ final class HomeViewModel {
     private(set) var collectorImages: [CollectorImage] = []
 
     // MARK: - Function
-    func getData(atPage page: Int, withLimit perPage: Int, completion: @escaping Completion<Any>) {
-        Api.CollectorImages.getAllImages(atPage: page, withLimit: perPage) { (result) in
+    func getData(atPage page: Int, withLimit perPage: Int, completion: @escaping APICompletion) {
+        Api.Home.getAllImages(atPage: page, withLimit: perPage) { (result) in
             switch result {
             case .failure(let error):
                 completion( .failure(error))
             case .success(let result):
                 self.collectorImages.append(contentsOf: result)
-                completion( .success(true))
+                completion( .success)
             }
         }
     }
@@ -37,5 +37,11 @@ final class HomeViewModel {
         detailVM.collectorImages = collectorImages
         detailVM.selectedIndex = indexPath
         return detailVM
+    }
+
+    func sizeOfImageAtIndexPath(atIndexPath indexPath: IndexPath) -> CGSize {
+        guard indexPath.row < collectorImages.count else { return CGSize() }
+        let collectorImage = collectorImages[indexPath.row]
+        return CGSize(width: collectorImage.widthImage, height: collectorImage.heigthImage)
     }
 }

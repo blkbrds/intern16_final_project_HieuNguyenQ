@@ -12,7 +12,7 @@ import Alamofire
 
 protocol CollectionViewCellDelegate: class {
     func showAleart(_ alertError: Error?)
-    
+
     func pushToDetail(_ detailViewController: DetailViewController)
 }
 
