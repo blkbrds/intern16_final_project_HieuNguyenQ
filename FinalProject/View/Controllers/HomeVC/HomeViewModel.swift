@@ -32,10 +32,16 @@ final class HomeViewModel {
         return HomeCellViewModel(collectorImage: collectorImage)
     }
 
+    func getDetailViewModel(forIndexPath indexPath: IndexPath) -> DetailViewModel {
+        let detailVM = DetailViewModel()
+        detailVM.collectorImages = collectorImages
+        detailVM.selectedIndex = indexPath
+        return detailVM
+    }
+
     func sizeOfImageAtIndexPath(atIndexPath indexPath: IndexPath) -> CGSize {
         guard indexPath.row < collectorImages.count else { return CGSize() }
         let collectorImage = collectorImages[indexPath.row]
         return CGSize(width: collectorImage.widthImage, height: collectorImage.heigthImage)
-        
     }
 }

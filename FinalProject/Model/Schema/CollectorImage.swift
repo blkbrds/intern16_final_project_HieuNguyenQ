@@ -18,7 +18,7 @@ final class CollectorImage: Mappable {
     var widthImage: CGFloat = 0
     var heigthImage: CGFloat = 0
     var albumID: String = ""
-    
+
     init?(map: Map) { }
 
     func mapping(map: Map) {

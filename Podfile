@@ -20,6 +20,7 @@ target 'FinalProject' do
 
   # UI
   pod 'SVProgressHUD', '2.2.5'
+  pod 'Hero', '1.5.0' # View controller transitions
 
   # Tool to enforce Swift style and conventions
   pod 'SwiftLint', '0.27.0'

@@ -17,6 +17,7 @@ final class Api {
     }
 
     struct Home { }
+    struct Detail { }
 }
 
 extension Api.Path {
@@ -25,9 +26,12 @@ extension Api.Path {
         let page: Int
         let limit: Int
         var allImages: String { return baseURL / "account" / "me" / "images" / "?perPage=\(limit)&page=\(page)" }
-        static var allAlbums: String { return baseURL / "account" / "hieunguyen8794" / "albums" }
-        static var album: String { return baseURL / "album" }
         static var uploadImageToAlbum: String { return baseURL / "upload" }
+    }
+
+    struct Detail {
+        let albumID: String
+        var album: String { return baseURL / "album" / "\(albumID)"}
     }
 }
 

@@ -7,7 +7,9 @@
 //
 
 import UIKit
+import Hero
 import SwiftUtils
+
 
 final class HomeViewController: BaseViewController {
 
@@ -20,7 +22,7 @@ final class HomeViewController: BaseViewController {
     let limit: Int = 20
     var numberOfColumn: Int = 3
     var currentPage: Int = 0
-    var imageButtonChange = #imageLiteral(resourceName: "threeColumn")
+    var imageButtonChange = #imageLiteral(resourceName: "twoColumn")
     var changeColumnButton = UIBarButtonItem()
 
     // MARK: - Life Cycle
@@ -29,6 +31,11 @@ final class HomeViewController: BaseViewController {
         setupCollectionView()
         setupCollectionViewLayout()
         getDataForCollectionView(atPage: currentPage, withLimit: limit)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        navigationController?.isNavigationBarHidden = false
     }
 
     // MARK: - Function
@@ -42,10 +49,10 @@ final class HomeViewController: BaseViewController {
     @objc func changeNumber() {
         if numberOfColumn == 3 {
             numberOfColumn = 2
-            changeColumnButton.image = #imageLiteral(resourceName: "twoColumn")
+            changeColumnButton.image = #imageLiteral(resourceName: "threeColumn")
         } else {
             numberOfColumn = 3
-            changeColumnButton.image = #imageLiteral(resourceName: "threeColumn")
+            changeColumnButton.image = #imageLiteral(resourceName: "twoColumn")
         }
         collectionViewLayout.numberOfColumn = numberOfColumn
         if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
@@ -69,6 +76,7 @@ final class HomeViewController: BaseViewController {
         ]
         NSLayoutConstraint.activate(constrains)
         homeCollectionView.backgroundColor = .clear
+        homeCollectionView.hero.modifiers = [.cascade]
     }
 
     private func setupCollectionViewLayout() {
@@ -109,11 +117,13 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItem(atIndexPath: indexPath)
+        cell.hero.id = "\(indexPath.row)"
+        cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == viewModel.collectorImages.count - 10 {
+        if currentPage == 1 ? indexPath.row == viewModel.collectorImages.count - 2 : indexPath.row == viewModel.collectorImages.count - 10 {
             // reducing load continuously
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
@@ -125,7 +135,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(viewModel.collectorImages[indexPath.row].albumID)
+        let detailViewController = DetailViewController()
+        detailViewController.viewModel = viewModel.getDetailViewModel(forIndexPath: indexPath)
+        navigationController?.hero.isEnabled = true
+        navigationController?.heroNavigationAnimationType = .none
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
@@ -134,23 +148,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         if scrollView.panGestureRecognizer.translation(in: scrollView).y == 0 {
             return
         } else if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
-            changeTabBar(hidden: true)
+            tabBarController?.changeTabBar(hidden: true)
         } else {
-            changeTabBar(hidden: false)
+            tabBarController?.changeTabBar(hidden: false)
         }
-    }
-
-    private func changeTabBar(hidden: Bool) {
-        guard let tabBar = tabBarController?.tabBar else { return }
-        if tabBar.isHidden == hidden { return }
-        let frameY = hidden ? tabBar.frame.size.height + tabBar.frame.size.height : -tabBar.frame.size.height - tabBar.frame.size.height
-        tabBar.isHidden = false
-
-        UIView.animate(withDuration: 0.7, delay: 0, options: .curveEaseOut, animations: {
-            tabBar.frame = tabBar.frame.offsetBy(dx: 0, dy: frameY)
-        }, completion: { (_) in
-            tabBar.isHidden = hidden
-        })
     }
 }
 

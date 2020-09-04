@@ -1,16 +1,17 @@
 //
-//  HomeCellViewModel.swift
+//  SimilarCellViewModel.swift
 //  FinalProject
 //
-//  Created by hieungq on 8/4/20.
+//  Created by hieungq on 8/19/20.
 //  Copyright © 2020 Asiantech. All rights reserved.
 //
 
-final class HomeCellViewModel {
-    // MARK: - Properties
+import UIKit
+
+final class SimilarCellViewModel {
+
     private(set) var collectorImage: CollectorImage?
 
-    // MARK: - Function
     init(collectorImage: CollectorImage? = nil) {
         self.collectorImage = collectorImage
     }
