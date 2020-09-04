@@ -29,9 +29,9 @@ class BaseTabBarController: UITabBarController {
             // Fallback on earlier versions
         }
 
-        let categoryViewController = CategoryViewController()
-        let categoryNavigationController = BaseNavigationController(rootViewController: categoryViewController)
-        categoryNavigationController.tabBarItem = UITabBarItem(title: "", image: nil, tag: 1)
+        let cameraViewController = CameraViewController()
+        let cameraNavigationController = BaseNavigationController(rootViewController: cameraViewController)
+        cameraNavigationController.tabBarItem = UITabBarItem(title: "", image: nil, tag: 1)
         let favoriteViewController = FavoriteViewController()
         let favoriteNavigationController = BaseNavigationController(rootViewController: favoriteViewController)
         if #available(iOS 13.0, *) {
@@ -40,7 +40,7 @@ class BaseTabBarController: UITabBarController {
             // Fallback on earlier versions
         }
 
-        let viewControllers = [homeNavigationController, categoryNavigationController, favoriteNavigationController]
+        let viewControllers = [homeNavigationController, cameraNavigationController, favoriteNavigationController]
         self.viewControllers = viewControllers
         self.delegate = self
 
@@ -74,12 +74,13 @@ class BaseTabBarController: UITabBarController {
         tabBarItemCenter.layer.shadowOpacity = 1
         tabBarItemCenter.layer.cornerRadius = tabBarItemCenterHeight / 2
         if #available(iOS 13.0, *) {
-            tabBarItemCenter.setImage(UIImage(systemName: "square.on.square"), for: .normal)
+            tabBarItemCenter.setImage(UIImage(systemName: "camera"), for: .normal)
         } else {
             // Fallback on earlier versions
         }
         tabBarItemCenter.addTarget(self, action: #selector(menuButtonAction(sender:)), for: .touchUpInside)
         tabBar.addSubview(tabBarItemCenter)
+        tabBar.bringSubviewToFront(tabBarItemCenter)
     }
 
     @objc private func menuButtonAction(sender: UIButton) {

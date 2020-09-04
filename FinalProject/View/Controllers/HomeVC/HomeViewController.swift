@@ -36,6 +36,7 @@ final class HomeViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         navigationController?.isNavigationBarHidden = false
+        tabBarController?.changeTabBar(hidden: false)
     }
 
     // MARK: - Function
