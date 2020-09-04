@@ -14,6 +14,8 @@ final class Api {
     struct Path {
         static let baseURL = "https://"
     }
+    
+    struct CollectorImage { }
 }
 
 protocol URLStringConvertible {

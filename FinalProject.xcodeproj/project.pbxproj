@@ -36,6 +36,9 @@
 		6AFD030A231375EF004940FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AFD0309231375EF004940FA /* Assets.xcassets */; };
 		6AFD0318231375EF004940FA /* FinalProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD0317231375EF004940FA /* FinalProjectTests.swift */; };
 		C4167EF624D815470050DEB0 /* Pods_FinalProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5084BD3D925876C8DE2E9504 /* Pods_FinalProject.framework */; };
+		C4937B0524DAA56300FED514 /* API.Collector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4937B0424DAA56300FED514 /* API.Collector.swift */; };
+		C4AF5D9124D90E8500E1AF4E /* HomeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AF5D9024D90E8500E1AF4E /* HomeCellViewModel.swift */; };
+		C4AF5D9324D90FD000E1AF4E /* CollectorImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AF5D9224D90FD000E1AF4E /* CollectorImage.swift */; };
 		C4E093D724D83E9100F6667A /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093C724D83E9100F6667A /* CategoryViewController.swift */; };
 		C4E093D824D83E9100F6667A /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4E093C824D83E9100F6667A /* CategoryViewController.xib */; };
 		C4E093D924D83E9100F6667A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E093CA24D83E9100F6667A /* HomeViewModel.swift */; };
@@ -97,6 +100,9 @@
 		6AFD0317231375EF004940FA /* FinalProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalProjectTests.swift; sourceTree = "<group>"; };
 		6AFD0319231375EF004940FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EB1AD2584DB4F2ED9CCF8A4 /* Pods-FinalProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProjectTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FinalProjectTests/Pods-FinalProjectTests.release.xcconfig"; sourceTree = "<group>"; };
+		C4937B0424DAA56300FED514 /* API.Collector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.Collector.swift; sourceTree = "<group>"; };
+		C4AF5D9024D90E8500E1AF4E /* HomeCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellViewModel.swift; sourceTree = "<group>"; };
+		C4AF5D9224D90FD000E1AF4E /* CollectorImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectorImage.swift; sourceTree = "<group>"; };
 		C4E093C724D83E9100F6667A /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		C4E093C824D83E9100F6667A /* CategoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
 		C4E093CA24D83E9100F6667A /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -158,6 +164,7 @@
 		6AF60D232313B56B00F5CBA2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C4AF5D9224D90FD000E1AF4E /* CollectorImage.swift */,
 				6AF60D242313B56B00F5CBA2 /* Session.swift */,
 				6AF60D252313B56B00F5CBA2 /* Schema */,
 				6AF60D672313B56B00F5CBA2 /* API */,
@@ -176,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				6AF60D692313B56B00F5CBA2 /* Core */,
+				C4937B0424DAA56300FED514 /* API.Collector.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -274,9 +282,9 @@
 			children = (
 				6AFD0302231375EE004940FA /* AppDelegate.swift */,
 				6AFD0309231375EF004940FA /* Assets.xcassets */,
+				6AF60D062313B2EF00F5CBA2 /* Define */,
 				6AFD030E231375EF004940FA /* Info.plist */,
 				6AF60D042313B26E00F5CBA2 /* LaunchScreen.storyboard */,
-				6AF60D062313B2EF00F5CBA2 /* Define */,
 				6AF60DD82313B98800F5CBA2 /* Library */,
 				6AF60D232313B56B00F5CBA2 /* Model */,
 				6AF60E242313C13600F5CBA2 /* View */,
@@ -326,6 +334,7 @@
 		C4E093CD24D83E9100F6667A /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				C4AF5D9024D90E8500E1AF4E /* HomeCellViewModel.swift */,
 				C4E093CE24D83E9100F6667A /* HomeCollectionViewCell.swift */,
 				C4E093CF24D83E9100F6667A /* HomeCollectionViewCell.xib */,
 			);
@@ -553,12 +562,15 @@
 				6AF60DC42313B56B00F5CBA2 /* Error.swift in Sources */,
 				6AF60E132313B9C000F5CBA2 /* NSErrorExt.swift in Sources */,
 				C4E093DE24D83E9100F6667A /* BaseTabBarController.swift in Sources */,
+				C4937B0524DAA56300FED514 /* API.Collector.swift in Sources */,
 				C4E093DF24D83E9100F6667A /* BaseViewController.swift in Sources */,
 				C4E093E524D8422100F6667A /* CollectionViewLayout.swift in Sources */,
 				6AF613B72313C13A00F5CBA2 /* CollectionView.swift in Sources */,
 				6AFD0303231375EE004940FA /* AppDelegate.swift in Sources */,
 				6AF613B02313C13A00F5CBA2 /* CollectionCell.swift in Sources */,
 				C4E093DC24D83E9100F6667A /* HomeCollectionViewCell.swift in Sources */,
+				C4AF5D9324D90FD000E1AF4E /* CollectorImage.swift in Sources */,
+				C4AF5D9124D90E8500E1AF4E /* HomeCellViewModel.swift in Sources */,
 				6AF60DC52313B56B00F5CBA2 /* ApiManager.swift in Sources */,
 				6AF60DC72313B56B00F5CBA2 /* Api.swift in Sources */,
 				6AF613B12313C13A00F5CBA2 /* CollectionViewHeaderView.swift in Sources */,
