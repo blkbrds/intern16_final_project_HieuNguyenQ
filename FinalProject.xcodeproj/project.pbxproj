@@ -100,6 +100,7 @@
 		6AFD0317231375EF004940FA /* FinalProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalProjectTests.swift; sourceTree = "<group>"; };
 		6AFD0319231375EF004940FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EB1AD2584DB4F2ED9CCF8A4 /* Pods-FinalProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProjectTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FinalProjectTests/Pods-FinalProjectTests.release.xcconfig"; sourceTree = "<group>"; };
+		C47FE76024DC3C85006C4993 /* to_do_list.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = to_do_list.md; sourceTree = "<group>"; };
 		C4937B0424DAA56300FED514 /* API.Collector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.Collector.swift; sourceTree = "<group>"; };
 		C4AF5D9024D90E8500E1AF4E /* HomeCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellViewModel.swift; sourceTree = "<group>"; };
 		C4AF5D9224D90FD000E1AF4E /* CollectorImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectorImage.swift; sourceTree = "<group>"; };
@@ -164,7 +165,6 @@
 		6AF60D232313B56B00F5CBA2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C4AF5D9224D90FD000E1AF4E /* CollectorImage.swift */,
 				6AF60D242313B56B00F5CBA2 /* Session.swift */,
 				6AF60D252313B56B00F5CBA2 /* Schema */,
 				6AF60D672313B56B00F5CBA2 /* API */,
@@ -175,6 +175,7 @@
 		6AF60D252313B56B00F5CBA2 /* Schema */ = {
 			isa = PBXGroup;
 			children = (
+				C4AF5D9224D90FD000E1AF4E /* CollectorImage.swift */,
 			);
 			path = Schema;
 			sourceTree = "<group>";
@@ -260,6 +261,7 @@
 		6AFD02F6231375EE004940FA = {
 			isa = PBXGroup;
 			children = (
+				C47FE76024DC3C85006C4993 /* to_do_list.md */,
 				6AFD0301231375EE004940FA /* FinalProject */,
 				6AFD0316231375EF004940FA /* FinalProjectTests */,
 				EDAB884D0E9858125EA92DBE /* Frameworks */,

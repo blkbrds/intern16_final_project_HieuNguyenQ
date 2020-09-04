@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftUtils
 
 final class HomeViewController: BaseViewController {
 
@@ -14,15 +15,16 @@ final class HomeViewController: BaseViewController {
     @IBOutlet private weak var homeCollectionView: UICollectionView!
 
     // MARK: - Properties
-    let dummys: [UIImage] = [#imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "7"), #imageLiteral(resourceName: "1"), #imageLiteral(resourceName: "4"), #imageLiteral(resourceName: "3"), #imageLiteral(resourceName: "2"), #imageLiteral(resourceName: "5"), #imageLiteral(resourceName: "7")]
     let viewModel = HomeViewModel()
+    let limit: Int = 20
+    var currentPage: Int = 0
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         setupCollectionViewLayout()
-        getDataForCollectionView()
+        getDataForCollectionView(atPage: currentPage, withLimit: limit)
     }
 
     // MARK: - Function
@@ -50,11 +52,29 @@ final class HomeViewController: BaseViewController {
     private func setupCollectionViewLayout() {
         let collectionViewLayout = CollectionViewLayout()
         homeCollectionView.collectionViewLayout = collectionViewLayout
+        collectionViewLayout.numberOfColumn = 3
         collectionViewLayout.delegate = self
     }
 
-    private func getDataForCollectionView() {
-        viewModel.getData()
+    func updateUI() {
+        DispatchQueue.main.async {
+            self.homeCollectionView.reloadData()
+        }
+    }
+
+    private func getDataForCollectionView(atPage page: Int, withLimit perPage: Int) {
+        HUD.show()
+        viewModel.getData(atPage: page, withLimit: perPage) { [weak self] result in
+            HUD.dismiss()
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                this.currentPage += 1
+                this.updateUI()
+            case .failure(let error):
+                this.alert(msg: error.localizedDescription, handler: nil)
+            }
+        }
     }
 }
 
@@ -62,13 +82,25 @@ final class HomeViewController: BaseViewController {
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dummys.count
+        return viewModel.collectorImages.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItem(atIndexPath: indexPath)
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.collectorImages.count - 10 {
+            // reducing load continuously
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
+                    layout.clearCache()
+                }
+                self.getDataForCollectionView(atPage: self.currentPage, withLimit: self.limit)
+            }
+        }
     }
 }
 
@@ -99,6 +131,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 
 extension HomeViewController: CollectionViewLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, sizeOfImageAtIndexPath indexPath: IndexPath) -> CGSize {
-        return dummys[indexPath.row].size
+        let collectorImage = viewModel.collectorImages[indexPath.row]
+        return CGSize(width: collectorImage.widthImage, height: collectorImage.heigthImage)
     }
 }

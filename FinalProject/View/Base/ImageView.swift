@@ -9,4 +9,14 @@
 import UIKit
 import MVVM
 
-class ImageView: UIImageView, MVVM.View { }
+class ImageView: UIImageView, MVVM.View {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupImageView()
+    }
+
+    private func setupImageView() {
+        clipsToBounds = true
+        layer.cornerRadius = 15        
+    }
+}
