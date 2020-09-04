@@ -10,13 +10,13 @@ import UIKit
 
 final class CameraViewController: BaseViewController {
     // MARK: - IBOutlet
-    @IBOutlet weak var uploadButton: UIButton!
-    @IBOutlet weak var shotButton: UIButton!
-    @IBOutlet weak var flashButton: UIButton!
-    @IBOutlet weak var switchCameraButton: UIButton!
-    @IBOutlet weak var previewCamera: UIView!
-    @IBOutlet weak var imageView: UIImageView!
-    
+    @IBOutlet private weak var uploadButton: UIButton!
+    @IBOutlet private weak var shotButton: UIButton!
+    @IBOutlet private weak var flashButton: UIButton!
+    @IBOutlet private weak var switchCameraButton: UIButton!
+    @IBOutlet private weak var previewCamera: UIView!
+    @IBOutlet private weak var imageView: UIImageView!
+
     // MARK: - Properties
     let cameraController = CameraController()
 
@@ -43,7 +43,7 @@ final class CameraViewController: BaseViewController {
         view.backgroundColor = .black
     }
 
-    func configureCameraController() {
+    private func configureCameraController() {
         cameraController.prepare { (error) in
             if let error = error {
                 print(error)
@@ -53,7 +53,7 @@ final class CameraViewController: BaseViewController {
         }
     }
 
-    @IBAction func backButtonTouchUpInside(_ sender: Any) {
+    @IBAction private func backButtonTouchUpInside(_ sender: Any) {
         if imageView.isHidden == false {
             imageView.isHidden = true
             uploadButton.isHidden = true
@@ -74,7 +74,7 @@ final class CameraViewController: BaseViewController {
         }
     }
 
-    @IBAction func shotButtonTouchUpInside(_ sender: Any) {
+    @IBAction private func shotButtonTouchUpInside(_ sender: Any) {
         cameraController.captureImage { (image, error) in
             if let image = image {
                 self.imageView.image = image
@@ -90,7 +90,8 @@ final class CameraViewController: BaseViewController {
         switchCameraButton.isHidden = true
         uploadButton.isHidden = false
     }
-    @IBAction func flashButtonTouchUpInside(_ sender: Any) {
+
+    @IBAction private func flashButtonTouchUpInside(_ sender: Any) {
         if cameraController.flashMode == .off {
             cameraController.flashMode = .on
             flashButton.setImage(#imageLiteral(resourceName: "Flash Off Icon"), for: .normal)
@@ -100,7 +101,7 @@ final class CameraViewController: BaseViewController {
         }
     }
 
-    @IBAction func switchCameraButtonTouchUpInside(_ sender: Any) {
+    @IBAction private func switchCameraButtonTouchUpInside(_ sender: Any) {
         do {
             try cameraController.switchCameras()
         } catch {
