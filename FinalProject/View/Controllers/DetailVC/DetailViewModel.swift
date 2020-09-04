@@ -21,14 +21,15 @@ final class DetailViewModel {
         return DetailCellViewModel(collectorImage: collectorImage, selectedIndex: indexPath)
     }
 
-    func getData(page: Int, limit: Int, completion: @escaping Completion<Any>) {
-        Api.Home.getAllImages(atPage: page, withLimit: 20) { (result) in
+    func getData(page: Int, limit: Int, completion: @escaping APICompletion) {
+        Api.Home.getAllImages(atPage: page, withLimit: 20) { [weak self] result in
+            guard let this = self else { return }
             switch result {
             case .failure(let error):
                 completion( .failure(error))
             case .success(let result):
-                self.collectorImages.append(contentsOf: result)
-                completion( .success(true))
+                this.collectorImages.append(contentsOf: result)
+                completion( .success)
             }
         }
     }
