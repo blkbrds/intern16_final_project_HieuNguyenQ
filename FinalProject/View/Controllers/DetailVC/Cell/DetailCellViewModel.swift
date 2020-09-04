@@ -19,18 +19,19 @@ final class DetailCellViewModel {
         self.selectedIndex = selectedIndex
     }
 
-    func getDataSimilar(completion: @escaping Completion<Any>) {
-        Api.Detail.getAllImagesSimilar(albumID: collectorImage?.albumID ?? "") { (result) in
+    func getDataSimilar(completion: @escaping APICompletion) {
+        Api.Detail.getAllImagesSimilar(albumID: (collectorImage?.albumID).content) { [weak self] result in
+            guard let this = self else { return }
             switch result {
             case .failure(let error):
                 completion( .failure(error))
             case .success(var result):
-                for i in 0..<result.count where self.collectorImage?.imageID == result[i].imageID {
+                for i in 0..<result.count where this.collectorImage?.imageID == result[i].imageID {
                     result.remove(at: i)
                     break
                 }
-                self.collectorImageSimilars.append(contentsOf: result)
-                completion( .success(true))
+                this.collectorImageSimilars.append(contentsOf: result)
+                completion( .success)
             }
         }
     }

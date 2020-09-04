@@ -32,16 +32,18 @@ extension Api.Home {
 extension Api.Detail {
     static func getAllImagesSimilar(albumID: String, completion: @escaping Completion<[CollectorImage]>) {
         let urlString = Api.Path.Detail(albumID: albumID).album
-        api.request(method: .get, urlString: urlString, headers: Api.Path.header) { (result) in
+        api.request(method: .get, urlString: urlString, headers: Api.Path.header) { result in
             switch result {
             case .success(let data):
                 if let data = data as? JSObject, let data2 = data["data"] as? JSObject, let imageDatas = data2["images"] as? JSArray {
                     var array: [CollectorImage] = Mapper<CollectorImage>().mapArray(JSONArray: imageDatas)
-                    if array.count > 0 { array.shuffle() }
+                    if array.count > 0 {
+                        array.shuffle()
+                    }
                     completion(.success(array))
                 } else {
-                        completion( .failure(Api.Error.emptyData))
-                    }
+                    completion( .failure(Api.Error.emptyData))
+                }
             case .failure(let error):
                 completion( .failure(error))
             }

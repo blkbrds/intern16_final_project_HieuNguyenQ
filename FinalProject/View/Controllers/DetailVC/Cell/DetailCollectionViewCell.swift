@@ -12,22 +12,20 @@ import Alamofire
 import SDWebImage
 
 protocol CollectionViewCellDelegate: class {
-    func showAleart(_ alertError: Error?)
-
-    func pushToDetail(_ detailViewController: DetailViewController)
+    func cell(_ cell: DetailCollectionViewCell, needPerformAction action: DetailCollectionViewCell.Action)
 }
 
-class DetailCollectionViewCell: UICollectionViewCell {
+final class DetailCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Constriant
-    @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageWidthConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageWidthConstraint: NSLayoutConstraint!
 
     // MARK: - IBOutlet
-    @IBOutlet weak var detailImageView: UIView!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var similarCollectionView: UICollectionView!
+    @IBOutlet private weak var detailImageView: UIView!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var backButton: UIButton!
+    @IBOutlet private weak var similarCollectionView: UICollectionView!
 
     // MARK: - Properties
     var viewModel: DetailCellViewModel = DetailCellViewModel() {
@@ -37,7 +35,10 @@ class DetailCollectionViewCell: UICollectionViewCell {
             getData()
         }
     }
-    let refreshControl = UIRefreshControl()
+
+    enum Action {
+        case pushToDetail(detailVC: DetailViewController)
+    }
     var actionBlock = { }
     weak var delegate: CollectionViewCellDelegate?
 
@@ -65,9 +66,6 @@ class DetailCollectionViewCell: UICollectionViewCell {
     }
 
     private func setupCollectionView() {
-        similarCollectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(refreshWeatherData(_:)), for: .valueChanged)
-        refreshControl.tintColor = .clear
         similarCollectionView.delegate = self
         similarCollectionView.dataSource = self
         let nib = UINib(nibName: "SimilarCollectionViewCell", bundle: .main)
@@ -82,11 +80,14 @@ class DetailCollectionViewCell: UICollectionViewCell {
     }
 
     private func getData() {
-        viewModel.getDataSimilar { (result) in
-            if result.error == nil {
-                self.updateUI()
-            } else {
-                print(result)
+        viewModel.getDataSimilar { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .failure(let error):
+                HUD.showError(withStatus: error.localizedDescription)
+                HUD.setMaximumDismissTimeInterval(2)
+            case .success:
+                this.updateUI()
             }
         }
     }
@@ -97,32 +98,34 @@ class DetailCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    @IBAction func backButtonTouchUpInside(_ sender: Any) {
+    @IBAction private func backButtonTouchUpInside(_ sender: Any) {
         actionBlock()
     }
 
-    @IBAction func likeButtonTouchUpInside(_ sender: Any) {
+    @IBAction private func likeButtonTouchUpInside(_ sender: Any) {
 
     }
 
-    @IBAction func saveButtonTouchUpInside(_ sender: Any) {
+    @IBAction private func saveButtonTouchUpInside(_ sender: Any) {
         guard let image = imageView.image else { return }
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
 
     @objc private func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-        delegate?.showAleart(error)
+        //delegate?.showAleart(error)
     }
 }
 
-    // MARK: - Extension
+// MARK: - Extension
 extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.collectorImageSimilars.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = similarCollectionView.dequeueReusableCell(withReuseIdentifier: "SimilarCollectionViewCell", for: indexPath) as? SimilarCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = similarCollectionView.dequeueReusableCell(withReuseIdentifier: "SimilarCollectionViewCell", for: indexPath) as? SimilarCollectionViewCell else {
+            return UICollectionViewCell()
+        }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
         cell.hero.id = "\(viewModel.collectorImage?.imageID)"
         cell.hero.modifiers = [.fade, .scale(0.5)]
@@ -130,17 +133,17 @@ extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width / 2 - 16, height: 200)
+        return Config.sizeForItem
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        return Config.insets
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailViewController = DetailViewController()
         detailViewController.viewModel = viewModel.getDetailViewModel(forIndexPath: indexPath)
-        delegate?.pushToDetail(detailViewController)
+        delegate?.cell(self, needPerformAction: .pushToDetail(detailVC: detailViewController))
     }
 }
 
@@ -159,5 +162,12 @@ extension DetailCollectionViewCell: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: imageWidthConstraint.constant, height: imageHeightConstraint.constant + 76)
+    }
+}
+
+extension DetailCollectionViewCell {
+    struct Config {
+        static let sizeForItem = CGSize(width: 414 / 2 - 16, height: 200)
+        static let insets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
 }

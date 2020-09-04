@@ -9,6 +9,7 @@
 import UIKit
 
 final class SimilarCellViewModel {
+
     private(set) var collectorImage: CollectorImage?
 
     init(collectorImage: CollectorImage? = nil) {
