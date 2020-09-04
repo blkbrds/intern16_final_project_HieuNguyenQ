@@ -6,7 +6,7 @@
 //  Copyright © 2020 hieungq. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 final class HomeViewModel {
 
@@ -30,5 +30,12 @@ final class HomeViewModel {
         guard indexPath.row < collectorImages.count else { return HomeCellViewModel() }
         let collectorImage = collectorImages[indexPath.row]
         return HomeCellViewModel(collectorImage: collectorImage)
+    }
+
+    func sizeOfImageAtIndexPath(atIndexPath indexPath: IndexPath) -> CGSize {
+        guard indexPath.row < collectorImages.count else { return CGSize() }
+        let collectorImage = collectorImages[indexPath.row]
+        return CGSize(width: collectorImage.widthImage, height: collectorImage.heigthImage)
+        
     }
 }

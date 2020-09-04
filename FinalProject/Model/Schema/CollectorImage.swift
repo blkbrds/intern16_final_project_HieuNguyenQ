@@ -11,18 +11,21 @@ import UIKit
 import ObjectMapper
 
 final class CollectorImage: Mappable {
-    var title: String = ""
+    var imageID: String = ""
     var imageUrl: String = ""
     var image: UIImage?
+    var imageThumbnail: UIImage?
     var widthImage: CGFloat = 0
     var heigthImage: CGFloat = 0
-
+    var albumID: String = ""
+    
     init?(map: Map) { }
 
     func mapping(map: Map) {
-        title <- map["id"]
+        imageID <- map["id"]
         imageUrl <- map["link"]
         widthImage <- map["width"]
         heigthImage <- map["height"]
+        albumID <- map["description"]
     }
 }

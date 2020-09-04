@@ -22,7 +22,7 @@ class BaseViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTitle()
+        setupNavigationBar()
         setupUI()
     }
 
@@ -31,5 +31,5 @@ class BaseViewController: UIViewController {
         view.insertSubview(backgroundImage, at: 0)
     }
 
-    func setupTitle() { }
+    func setupNavigationBar() { }
 }
