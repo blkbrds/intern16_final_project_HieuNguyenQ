@@ -24,6 +24,7 @@ final class HomeViewController: BaseViewController {
     var currentPage: Int = 0
     var imageButtonChange = #imageLiteral(resourceName: "threeColumn")
     var changeColumnButton = UIBarButtonItem()
+    var stopLoading = false
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -94,7 +95,13 @@ final class HomeViewController: BaseViewController {
                 this.updateUI()
                 HUD.dismiss()
             case .failure(let error):
-                this.alert(msg: error.localizedDescription, handler: nil)
+                this.updateUI()
+                HUD.dismiss()
+                HUD.showError(withStatus: error.localizedDescription)
+                HUD.setMinimumDismissTimeInterval(1)
+                if error as NSObject == Api.Error.emptyData {
+                    self?.stopLoading = true
+                }
             }
         }
     }
@@ -111,24 +118,22 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItem(atIndexPath: indexPath)
         cell.hero.isEnabled = true
-        cell.hero.id = "\(indexPath.row)"
         cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if currentPage == 1 ? indexPath.row == viewModel.collectorImages.count - 2 : indexPath.row == viewModel.collectorImages.count - 10 {
-            // reducing load continuously
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
-                    layout.clearCache()
-                }
-                self.getDataForCollectionView(atPage: self.currentPage, withLimit: self.limit)
+        if indexPath.row == viewModel.collectorImages.count - 2 && !stopLoading {
+            if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
+                layout.clearCache()
             }
+            self.getDataForCollectionView(atPage: self.currentPage, withLimit: self.limit)
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = homeCollectionView.cellForItem(at: indexPath)
+        cell?.hero.id = "\(viewModel.collectorImages[indexPath.row].imageID)"
         let detailViewController = DetailViewController()
         detailViewController.viewModel = viewModel.getDetailViewModel(forIndexPath: indexPath)
         navigationController?.hero.isEnabled = true

@@ -18,8 +18,12 @@ extension Api.Home {
             case .success(let data):
                 if let data = data as? JSObject, let imageDatas = data["data"] as? JSArray {
                     var array: [CollectorImage] = Mapper<CollectorImage>().mapArray(JSONArray: imageDatas)
-                    if array.count > 0 { array = array.shuffled() }
-                    completion(.success(array))
+                    if array.count > 0 {
+                        array = array.shuffled()
+                        completion(.success(array))
+                    } else {
+                        completion( .failure(Api.Error.emptyData))
+                    }
                 } else {
                     completion( .failure(Api.Error.emptyData))
                 }

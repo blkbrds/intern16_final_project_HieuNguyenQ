@@ -47,15 +47,14 @@ final class DetailViewController: BaseViewController {
         detailCollectionView.delegate = self
         detailCollectionView.dataSource = self
         getDataForCollectionView()
-
-        detailCollectionView.layoutIfNeeded()
-        guard let selectedIndex = viewModel.selectedIndex else { return }
-        detailCollectionView.scrollToItem(at: selectedIndex, at: .left, animated: false)
+        self.detailCollectionView.layoutIfNeeded()
+        guard let selectedIndex = self.viewModel.selectedIndex else { return }
+        self.detailCollectionView.scrollToItem(at: selectedIndex, at: .left, animated: false)
     }
 
     private func updateUI() {
         DispatchQueue.main.async {
-            self.detailCollectionView.reloadData()
+            self.detailCollectionView.reloadData()            
         }
     }
 
@@ -92,7 +91,9 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let cell = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "DetailCollectionViewCell", for: indexPath) as? DetailCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
         cell.hero.isEnabled = true
-        cell.hero.id = "\(indexPath.row)"
+        if indexPath == viewModel.selectedIndex {
+            cell.hero.id = "\(viewModel.collectorImages[indexPath.row].imageID)"
+        }
         cell.hero.modifiers = [.fade, .scale(0.5)]
         cell.delegate = self
         return cell

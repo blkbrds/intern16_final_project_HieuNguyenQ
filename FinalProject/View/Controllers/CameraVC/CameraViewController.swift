@@ -32,6 +32,7 @@ final class CameraViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        backButton.isEnabled = true
         tabBarController?.tabBar.isHidden = true
         if let captureSession = cameraController.captureSession {
             captureSession.startRunning()
@@ -128,7 +129,7 @@ final class CameraViewController: BaseViewController {
         HUD.show(withStatus: "Uploading...")
         HUD.setDefaultStyle(.dark)
         uploadButton.isEnabled = false
-        backButton.isEnabled = true
+        backButton.isEnabled = false
         guard let dataImage = dataImage else { return }
 
         viewModel.uploadImage(dataImage: dataImage) { [weak self] result in
@@ -138,6 +139,7 @@ final class CameraViewController: BaseViewController {
                 HUD.showError(withStatus: error.localizedDescription)
             case .success:
                 HUD.showSuccess(withStatus: "Upload is Successfully!!!")
+                HUD.setMinimumDismissTimeInterval(2)
                 let detailViewController = DetailViewController()
                 detailViewController.viewModel = this.viewModel.getDetailViewModel()
                 this.navigationController?.hero.isEnabled = true

@@ -59,6 +59,8 @@ class DetailCollectionViewCell: UICollectionViewCell {
 
         if let imageUrl = viewModel.collectorImage?.imageUrl {
             let imageUrl = URL(string: imageUrl)
+            imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            imageView.sd_imageIndicator = SDWebImageProgressIndicator.`default`
             imageView.sd_setImage(with: imageUrl, placeholderImage: nil)
             imageView.sd_imageTransition = .fade
         }
@@ -110,12 +112,22 @@ class DetailCollectionViewCell: UICollectionViewCell {
     }
 
     @IBAction func saveButtonTouchUpInside(_ sender: Any) {
+        HUD.show(withStatus: "Saving picture ... ")
         guard let image = imageView.image else { return }
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
 
     @objc private func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-        delegate?.showAleart(error)
+        if let error = error {
+            HUD.dismiss()
+            HUD.setMinimumDismissTimeInterval(2)
+            HUD.showError(withStatus: error.localizedDescription)
+        } else {
+            HUD.dismiss()
+            HUD.setMinimumDismissTimeInterval(2)
+            HUD.showSuccess(withStatus: "Save successfully")
+        }
+//        delegate?.showAleart(error)
     }
 }
 
@@ -128,7 +140,7 @@ extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = similarCollectionView.dequeueReusableCell(withReuseIdentifier: "SimilarCollectionViewCell", for: indexPath) as? SimilarCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
-        cell.hero.id = "\(viewModel.collectorImage?.imageID ?? "")"
+        cell.hero.isEnabled = true
         cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }
@@ -142,6 +154,10 @@ extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = similarCollectionView.cellForItem(at: indexPath)
+        if let imageID = viewModel.collectorImage?.imageID {
+            cell?.hero.id = imageID
+        }
         let detailViewController = DetailViewController()
         detailViewController.viewModel = viewModel.getDetailViewModel(forIndexPath: indexPath)
         delegate?.pushToDetail(detailViewController)
