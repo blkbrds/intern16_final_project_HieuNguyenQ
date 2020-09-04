@@ -14,22 +14,21 @@ import RealmSwift
 import SwiftUtils
 
 protocol CollectionViewCellDelegate: class {
-    func showAleart(_ alertError: Error?)
-
-    func pushToDetail(_ detailViewController: DetailViewController)
+    func cell(_ cell: DetailCollectionViewCell, needPerformAction action: DetailCollectionViewCell.Action)
 }
 
-class DetailCollectionViewCell: UICollectionViewCell {
+final class DetailCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Constriant
-    @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageWidthConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageWidthConstraint: NSLayoutConstraint!
 
     // MARK: - IBOutlet
-    @IBOutlet weak var detailImageView: UIView!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var similarCollectionView: UICollectionView!
+    @IBOutlet private weak var likeButton: UIButton!
+    @IBOutlet private weak var detailImageView: UIView!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var backButton: UIButton!
+    @IBOutlet private weak var similarCollectionView: UICollectionView!
 
     // MARK: - Properties
     var viewModel: DetailCellViewModel = DetailCellViewModel() {
@@ -39,6 +38,12 @@ class DetailCollectionViewCell: UICollectionViewCell {
             getData()
         }
     }
+
+    enum Action {
+        case pushToDetail(detailVC: DetailViewController)
+    }
+
+    var actionBlock = { }
     weak var delegate: CollectionViewCellDelegate?
 
     // MARK: - Function
@@ -90,7 +95,8 @@ class DetailCollectionViewCell: UICollectionViewCell {
             guard let this = self else { return }
             switch result {
             case .failure(let error):
-                print(error.localizedDescription)
+                HUD.showError(withStatus: error.localizedDescription)
+                HUD.setMaximumDismissTimeInterval(2)
             case .success:
                 this.updateUI()
             }
@@ -111,7 +117,11 @@ class DetailCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    @IBAction func saveButtonTouchUpInside(_ sender: Any) {
+    @IBAction private func backButtonTouchUpInside(_ sender: Any) {
+        actionBlock()
+    }
+
+    @IBAction private func saveButtonTouchUpInside(_ sender: Any) {
         HUD.show(withStatus: "Saving picture ... ")
         guard let image = imageView.image else { return }
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
@@ -127,18 +137,19 @@ class DetailCollectionViewCell: UICollectionViewCell {
             HUD.setMinimumDismissTimeInterval(2)
             HUD.showSuccess(withStatus: "Save successfully")
         }
-//        delegate?.showAleart(error)
     }
 }
 
-    // MARK: - Extension
+// MARK: - Extension
 extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.collectorImageSimilars.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = similarCollectionView.dequeueReusableCell(withReuseIdentifier: "SimilarCollectionViewCell", for: indexPath) as? SimilarCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = similarCollectionView.dequeueReusableCell(withReuseIdentifier: "SimilarCollectionViewCell", for: indexPath) as? SimilarCollectionViewCell else {
+            return UICollectionViewCell()
+        }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
         cell.hero.isEnabled = true
         cell.hero.modifiers = [.fade, .scale(0.5)]
@@ -146,11 +157,11 @@ extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width / 2 - 16, height: 200)
+        return Config.sizeForItem
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        return Config.insets
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -160,7 +171,7 @@ extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
         }
         let detailViewController = DetailViewController()
         detailViewController.viewModel = viewModel.getDetailViewModel(forIndexPath: indexPath)
-        delegate?.pushToDetail(detailViewController)
+        delegate?.cell(self, needPerformAction: .pushToDetail(detailVC: detailViewController))
     }
 }
 
@@ -189,5 +200,12 @@ extension DetailCollectionViewCell: DetailCellViewModelDelegate {
             } else {
             self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
+    }
+}
+
+extension DetailCollectionViewCell {
+    struct Config {
+        static let sizeForItem = CGSize(width: 414 / 2 - 16, height: 200)
+        static let insets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
 }

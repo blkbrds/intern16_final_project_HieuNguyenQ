@@ -14,7 +14,7 @@ import SwiftUtils
 final class DetailViewController: BaseViewController {
 
     // MARK: - IBOutlet
-    @IBOutlet weak var detailCollectionView: UICollectionView!
+    @IBOutlet private weak var detailCollectionView: UICollectionView!
 
     // MARK: - Properties
     var viewModel = DetailViewModel()
@@ -40,7 +40,7 @@ final class DetailViewController: BaseViewController {
     }
 
     private func setupCollectionView() {
-        collectionViewCellHeight = UIScreen.main.bounds.height - (tabBarController?.tabBar.frame.height ?? 0) - UIApplication.shared.statusBarFrame.height
+        collectionViewCellHeight = UIScreen.main.bounds.height - ((tabBarController?.tabBar.frame.height).unwrapped) - UIApplication.shared.statusBarFrame.height
         collectionViewCellWidth = UIScreen.main.bounds.width
         let nib = UINib(nibName: "DetailCollectionViewCell", bundle: Bundle.main)
         detailCollectionView.register(nib, forCellWithReuseIdentifier: "DetailCollectionViewCell")
@@ -61,16 +61,17 @@ final class DetailViewController: BaseViewController {
     private func getDataForCollectionView() {
         if currentPage == 0 {
             currentPage += viewModel.collectorImages.count / 20
-            self.updateUI()
+            updateUI()
         } else {
             viewModel.getData(page: currentPage, limit: 20) { [weak self] result in
                 guard let this = self else { return }
                 switch result {
+                case .failure(let error):
+                    HUD.showError(withStatus: error.localizedDescription)
+                    HUD.setMaximumDismissTimeInterval(2)
                 case .success:
                     this.currentPage += 1
                     this.updateUI()
-                case .failure(let error):
-                    this.alert(msg: error.localizedDescription, handler: nil)
                 }
             }
         }
@@ -108,7 +109,7 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
 extension DetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        return Config.inset
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -117,21 +118,18 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension DetailViewController: CollectionViewCellDelegate {
-    func pushToDetail(_ detailViewController: DetailViewController) {
-        navigationController?.hero.isEnabled = true
-        navigationController?.heroNavigationAnimationType = .none
-        navigationController?.pushViewController(detailViewController, animated: true)
-    }
-
-    func showAleart(_ alertError: Error?) {
-        if let error = alertError {
-            let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "Oke", style: .default, handler: nil))
-            present(ac, animated: true)
-        } else {
-            let ac = UIAlertController(title: "Save successfully", message: "This image is saved successfully", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "Oke", style: .default, handler: nil))
-            present(ac, animated: true)
+    func cell(_ cell: DetailCollectionViewCell, needPerformAction action: DetailCollectionViewCell.Action) {
+        switch action {
+        case .pushToDetail(let detailVC):
+            navigationController?.hero.isEnabled = true
+            navigationController?.heroNavigationAnimationType = .none
+            navigationController?.pushViewController(detailVC, animated: true)
         }
+    }
+}
+
+extension DetailViewController {
+    struct Config {
+        static let inset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 }

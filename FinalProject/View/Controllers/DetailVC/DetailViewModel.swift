@@ -22,12 +22,13 @@ final class DetailViewModel {
     }
 
     func getData(page: Int, limit: Int, completion: @escaping APICompletion) {
-        Api.Home.getAllImages(atPage: page, withLimit: 20) { (result) in
+        Api.Home.getAllImages(atPage: page, withLimit: 20) { [weak self] result in
+            guard let this = self else { return }
             switch result {
             case .failure(let error):
                 completion( .failure(error))
             case .success(let result):
-                self.collectorImages.append(contentsOf: result)
+                this.collectorImages.append(contentsOf: result)
                 completion( .success)
             }
         }

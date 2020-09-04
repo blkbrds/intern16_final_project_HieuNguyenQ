@@ -13,10 +13,10 @@ extension UITabBarController {
         if tabBar.isHidden == hidden { return }
         let alpha: CGFloat = hidden ? 0 : 1
         tabBar.isHidden = false
-
+        
         UIView.animate(withDuration: 0.5, delay: 0.3, options: .curveEaseOut, animations: {
             self.tabBar.alpha = alpha
-        }, completion: { (_) in
+        }, completion: { _ in
             self.tabBar.isHidden = hidden
         })
     }

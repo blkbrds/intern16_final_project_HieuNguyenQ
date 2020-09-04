@@ -10,16 +10,19 @@ import UIKit
 import Alamofire
 import SDWebImage
 
-class SimilarCollectionViewCell: UICollectionViewCell {
+final class SimilarCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet weak var imageView: UIImageView!
+    // MARK: - IBOulet
+    @IBOutlet private weak var imageView: UIImageView!
 
+    // MARK: - Properties
     var viewModel: SimilarCellViewModel = SimilarCellViewModel() {
         didSet {
             updateUI()
         }
     }
 
+    // MARK: - Function
     private func updateUI() {
         imageView.backgroundColor = #colorLiteral(red: 0.2589701414, green: 0.2645449936, blue: 0.2916174233, alpha: 1).withAlphaComponent(0.3)
         let itemCollector = viewModel.collectorImage
