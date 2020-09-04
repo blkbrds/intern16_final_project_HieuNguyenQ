@@ -35,6 +35,7 @@
 		6AFD0303231375EE004940FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD0302231375EE004940FA /* AppDelegate.swift */; };
 		6AFD030A231375EF004940FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AFD0309231375EF004940FA /* Assets.xcassets */; };
 		6AFD0318231375EF004940FA /* FinalProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD0317231375EF004940FA /* FinalProjectTests.swift */; };
+		C46E7CB025021EA30039D6A5 /* OptionalExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46E7CAF25021EA30039D6A5 /* OptionalExt.swift */; };
 		C46EFAC824E27D80001DEC50 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46EFAC624E27D80001DEC50 /* DetailCollectionViewCell.swift */; };
 		C46EFAC924E27D80001DEC50 /* DetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C46EFAC724E27D80001DEC50 /* DetailCollectionViewCell.xib */; };
 		C46EFACB24E27D90001DEC50 /* DetailCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46EFACA24E27D90001DEC50 /* DetailCellViewModel.swift */; };
@@ -112,6 +113,7 @@
 		6AFD0317231375EF004940FA /* FinalProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalProjectTests.swift; sourceTree = "<group>"; };
 		6AFD0319231375EF004940FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EB1AD2584DB4F2ED9CCF8A4 /* Pods-FinalProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProjectTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FinalProjectTests/Pods-FinalProjectTests.release.xcconfig"; sourceTree = "<group>"; };
+		C46E7CAF25021EA30039D6A5 /* OptionalExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalExt.swift; sourceTree = "<group>"; };
 		C46EFAC624E27D80001DEC50 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		C46EFAC724E27D80001DEC50 /* DetailCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailCollectionViewCell.xib; sourceTree = "<group>"; };
 		C46EFACA24E27D90001DEC50 /* DetailCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCellViewModel.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				6AF60DF92313B9BF00F5CBA2 /* UIViewControllerExt.swift */,
 				C4DE659824E2354F0021B1A5 /* UITabBarControllerExt.swift */,
 				6AF60DE52313B9BD00F5CBA2 /* UIViewExt.swift */,
+				C46E7CAF25021EA30039D6A5 /* OptionalExt.swift */,
 			);
 			path = Ext;
 			sourceTree = "<group>";
@@ -647,6 +650,7 @@
 				C4DE659924E2354F0021B1A5 /* UITabBarControllerExt.swift in Sources */,
 				6AF60E1E2313B9C000F5CBA2 /* UIViewControllerExt.swift in Sources */,
 				C4B99CF624E0DE3E00F39370 /* DetailViewController.swift in Sources */,
+				C46E7CB025021EA30039D6A5 /* OptionalExt.swift in Sources */,
 				6AF60D082313B31200F5CBA2 /* App.swift in Sources */,
 				6AF60D802313B56B00F5CBA2 /* Session.swift in Sources */,
 				6AF60DC62313B56B00F5CBA2 /* ResponseSerializer.swift in Sources */,

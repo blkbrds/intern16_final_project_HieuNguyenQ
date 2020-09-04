@@ -9,23 +9,26 @@
 import UIKit
 import Alamofire
 
-class SimilarCollectionViewCell: UICollectionViewCell {
+final class SimilarCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet weak var imageView: UIImageView!
+    // MARK: - IBOulet
+    @IBOutlet private weak var imageView: UIImageView!
 
+    // MARK: - Properties
     var viewModel: SimilarCellViewModel = SimilarCellViewModel() {
         didSet {
             updateUI()
         }
     }
 
+    // MARK: - Function
     private func updateUI() {
         imageView.backgroundColor = #colorLiteral(red: 0.2589701414, green: 0.2645449936, blue: 0.2916174233, alpha: 1).withAlphaComponent(0.3)
         let itemCollector = viewModel.collectorImage
         if itemCollector?.imageThumbnail != nil {
-            self.imageView.image = itemCollector?.imageThumbnail
+            imageView.image = itemCollector?.imageThumbnail
         } else {
-            self.imageView.image = nil
+            imageView.image = nil
             if let imageUrl = itemCollector?.imageUrl, let imageID = itemCollector?.imageID {
                 let imageUrlForThumbnail = imageUrl.replacingOccurrences(of: imageID, with: String(imageID + "m"))
                 Alamofire.request(imageUrlForThumbnail).responseData { (response) in
