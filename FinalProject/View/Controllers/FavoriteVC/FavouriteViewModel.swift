@@ -35,7 +35,7 @@ final class FavouriteViewModel {
             }
             completion(.success(true))
         } catch {
-            HUD.showError(withStatus: "Something was wrong")
+            HUD.showError(withStatus: App.String.Error.errorSomeThingWrong)
         }
     }
 
@@ -59,7 +59,7 @@ final class FavouriteViewModel {
                 self.delegate?.viewModel(self)
             })
         } catch {
-            HUD.showError(withStatus: "Something was wrong")
+            HUD.showError(withStatus: App.String.Error.errorSomeThingWrong)
         }
     }
 }

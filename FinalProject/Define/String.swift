@@ -18,4 +18,18 @@ extension App {
 }
 
 extension App.String {
+    struct Tittle {
+        static var appName: String { return "theCollectors".localized() }
+    }
+
+    struct Alert {
+        static var saving: String { return "Saving picture ... ".localized() }
+        static var saveSuccessfully: String { return "Save successfully".localized() }
+        static var uploading: String { return "Uploading picture ... ".localized() }
+        static var uploadSuccessfully: String { return "Upload successfully".localized() }
+    }
+
+    struct Error {
+        static var errorSomeThingWrong: String { return "Something was wrong".localized() }
+    }
 }

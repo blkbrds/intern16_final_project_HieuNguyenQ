@@ -120,20 +120,18 @@ final class DetailCollectionViewCell: UICollectionViewCell {
     }
 
     @IBAction private func saveButtonTouchUpInside(_ sender: Any) {
-        HUD.show(withStatus: "Saving picture ... ")
+        HUD.show(withStatus: App.String.Alert.saving)
         guard let image = imageView.image else { return }
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
 
     @objc private func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        HUD.dismiss()
+        HUD.setMinimumDismissTimeInterval(2)
         if let error = error {
-            HUD.dismiss()
-            HUD.setMinimumDismissTimeInterval(2)
             HUD.showError(withStatus: error.localizedDescription)
         } else {
-            HUD.dismiss()
-            HUD.setMinimumDismissTimeInterval(2)
-            HUD.showSuccess(withStatus: "Save successfully")
+            HUD.showSuccess(withStatus: App.String.Alert.saveSuccessfully)
         }
     }
 }

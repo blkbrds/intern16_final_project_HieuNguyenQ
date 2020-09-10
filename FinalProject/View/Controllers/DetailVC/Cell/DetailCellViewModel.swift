@@ -71,7 +71,7 @@ final class DetailCellViewModel {
                 self.delegate?.viewModel(self)
             })
         } catch {
-            HUD.showError(withStatus: "Something was wrong")
+            HUD.showError(withStatus: App.String.Error.errorSomeThingWrong)
         }
     }
 
@@ -86,7 +86,7 @@ final class DetailCellViewModel {
                 return false
             }
         } catch {
-            HUD.showError(withStatus: "Something was wrong")
+            HUD.showError(withStatus: App.String.Error.errorSomeThingWrong)
             return false
         }
     }
@@ -116,7 +116,7 @@ final class DetailCellViewModel {
                 return false
             }
         } catch {
-            HUD.showError(withStatus: "Something was wrong")
+            HUD.showError(withStatus: App.String.Error.errorSomeThingWrong)
             return false
         }
     }

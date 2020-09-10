@@ -39,7 +39,7 @@ final class HomeViewController: BaseViewController {
 
     // MARK: - Function
     override func setupNavigationBar() {
-        navigationItem.title = "theCollectors"
+        navigationItem.title = App.String.Tittle.appName
     }
 
     private func setupCollectionView() {

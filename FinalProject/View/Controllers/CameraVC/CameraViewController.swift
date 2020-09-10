@@ -135,7 +135,7 @@ final class CameraViewController: BaseViewController {
     }
 
     @IBAction func uploadButtonTouchUpInside(_ sender: Any) {
-        HUD.show(withStatus: "Uploading...")
+        HUD.show(withStatus: App.String.Alert.uploading)
         HUD.setDefaultStyle(.dark)
         uploadButton.isEnabled = false
         backButton.isEnabled = false
@@ -146,7 +146,7 @@ final class CameraViewController: BaseViewController {
             case .failure(let error):
                 HUD.showError(withStatus: error.localizedDescription)
             case .success(let result):
-                HUD.showSuccess(withStatus: "Upload is Successfully!!!")
+                HUD.showSuccess(withStatus: App.String.Alert.uploadSuccessfully)
                 HUD.setMinimumDismissTimeInterval(2)
                 this.viewModel.collectorImage = result
                 let detailViewController = DetailViewController()
