@@ -50,31 +50,38 @@ extension ApiManager {
         return request
     }
 
+    struct UploadImageParam {
+        var base64: String
+        func toJSON() -> JSArray {
+            let parameters: JSArray = [
+            [
+                "key": "image",
+                "value": base64,
+                "type": "text"
+            ],
+            [
+                "key": "album",
+                "value": "T7DWwmQ",
+                "type": "text"
+            ],
+            [
+                "key": "description",
+                "value": "T7DWwmQ",
+                "type": "text"
+            ]]
+            return parameters
+        }
+    }
+
     func request(with urlString: String, headers: [String: String], dataImage: Data, completion: @escaping (Completion<Any>)) {
         guard let url = URL(string: urlString) else {
             let error = Api.Error.invalidURL
             completion(.failure(error))
             return
         }
-        let base64Image = dataImage.base64EncodedString(options: .lineLength64Characters)
 
-        let parameters = [
-        [
-            "key": "image",
-            "value": "\(base64Image)",
-            "type": "text"
-        ],
-        [
-            "key": "album",
-            "value": "T7DWwmQ",
-            "type": "text"
-        ],
-        [
-            "key": "description",
-            "value": "T7DWwmQ",
-            "type": "text"
-        ]
-            ] as [JSObject]
+        let base64Image: String = dataImage.base64EncodedString(options: .lineLength64Characters)
+        let parameters = UploadImageParam(base64: base64Image).toJSON()
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -101,12 +108,11 @@ extension ApiManager {
         let session = URLSession(configuration: config)
         let tast = session.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
-                guard let data = data else {
+                guard let dataJSON = data?.toJSON() else {
                     completion(.failure(Api.Error.network))
                     return
                 }
-                let resultData = data.toJSON()
-                completion(.success(resultData as Any))
+                completion(.success(dataJSON))
             }
         }
 

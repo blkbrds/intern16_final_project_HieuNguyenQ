@@ -35,7 +35,7 @@ final class FavouriteViewModel {
             }
             completion(.success(true))
         } catch {
-            print("Something was wrong")
+            HUD.showError(withStatus: "Something was wrong")
         }
     }
 
@@ -59,7 +59,7 @@ final class FavouriteViewModel {
                 self.delegate?.viewModel(self)
             })
         } catch {
-            print("Something was wrong")
+            HUD.showError(withStatus: "Something was wrong")
         }
     }
 }

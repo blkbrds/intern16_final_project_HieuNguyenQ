@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CameraViewModel {
+final class CameraViewModel {
 
     // MARK: - Properties
     var collectorImage = CollectorImage()

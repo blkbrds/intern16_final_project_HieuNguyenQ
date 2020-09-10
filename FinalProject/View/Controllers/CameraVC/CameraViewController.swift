@@ -59,7 +59,7 @@ final class CameraViewController: BaseViewController {
     private func configureCameraController() {
         cameraController.prepare { (error) in
             if let error = error {
-                print(error)
+                HUD.showError(withStatus: error.localizedDescription)
             }
 
             try? self.cameraController.displayPreview(onView: self.previewCamera)
@@ -97,7 +97,7 @@ final class CameraViewController: BaseViewController {
                 self.imageView.contentMode = .scaleAspectFill
                 self.cameraController.captureSession?.stopRunning()
             } else {
-                print(error ?? "")
+                HUD.showError(withStatus: error?.localizedDescription)
             }
         }
         flashButton.isHidden = true
@@ -121,7 +121,7 @@ final class CameraViewController: BaseViewController {
         do {
             try cameraController.switchCameras()
         } catch {
-            print(error)
+            HUD.showError(withStatus: error.localizedDescription)
         }
 
         switch cameraController.currentCameraPosition {
@@ -140,15 +140,15 @@ final class CameraViewController: BaseViewController {
         uploadButton.isEnabled = false
         backButton.isEnabled = false
         guard let dataImage = dataImage else { return }
-
-        viewModel.uploadImage(dataImage: dataImage) { [weak self] result in
+        Api.Camera.uploadImage(dataImage: dataImage) { [weak self] result in
             guard let this = self else { return }
             switch result {
             case .failure(let error):
                 HUD.showError(withStatus: error.localizedDescription)
-            case .success:
+            case .success(let result):
                 HUD.showSuccess(withStatus: "Upload is Successfully!!!")
                 HUD.setMinimumDismissTimeInterval(2)
+                this.viewModel.collectorImage = result
                 let detailViewController = DetailViewController()
                 detailViewController.viewModel = this.viewModel.getDetailViewModel()
                 this.navigationController?.hero.isEnabled = true

@@ -29,7 +29,14 @@ final class HomeCollectionViewCell: UICollectionViewCell {
         if let imageUrl = itemCollector?.imageUrl {
             imageView.sd_imageTransition = .fade
             let imageUrl = URL(string: imageUrl)
-            imageView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.highPriority, context: [.imageThumbnailPixelSize: CGSize(width: 320, height: 320)])
+            imageView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.highPriority, context: [.imageThumbnailPixelSize: Config.thumbnailSize])
         }
+    }
+}
+
+// MARK: - Config
+extension HomeCollectionViewCell {
+    struct Config {
+        static var thumbnailSize = CGSize(width: 320, height: 320)
     }
 }

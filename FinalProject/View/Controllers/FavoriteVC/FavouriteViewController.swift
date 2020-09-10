@@ -67,7 +67,7 @@ final class FavouriteViewController: BaseViewController {
             if result.error == nil {
                 self.updateUI()
             } else {
-                print(result)
+                HUD.showError(withStatus: result.error?.localizedDescription)
             }
         }
     }
