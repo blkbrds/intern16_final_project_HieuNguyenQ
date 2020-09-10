@@ -20,10 +20,8 @@ final class HomeViewController: BaseViewController {
     let viewModel = HomeViewModel()
     let collectionViewLayout = CollectionViewLayout()
     let limit: Int = 20
-    var numberOfColumn: Int = 3
     var currentPage: Int = 0
-    var imageButtonChange = #imageLiteral(resourceName: "twoColumn")
-    var changeColumnButton = UIBarButtonItem()
+    var stopLoading = false
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -41,25 +39,7 @@ final class HomeViewController: BaseViewController {
 
     // MARK: - Function
     override func setupNavigationBar() {
-        navigationItem.title = "theCollectors"
-        changeColumnButton = UIBarButtonItem(image: imageButtonChange, style: .plain, target: self, action: #selector(changeNumber))
-        changeColumnButton.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        navigationItem.rightBarButtonItem = changeColumnButton
-    }
-
-    @objc func changeNumber() {
-        if numberOfColumn == 3 {
-            numberOfColumn = 2
-            changeColumnButton.image = #imageLiteral(resourceName: "threeColumn")
-        } else {
-            numberOfColumn = 3
-            changeColumnButton.image = #imageLiteral(resourceName: "twoColumn")
-        }
-        collectionViewLayout.numberOfColumn = numberOfColumn
-        if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
-            layout.clearCache()
-        }
-        updateUI()
+        navigationItem.title = App.String.Tittle.appName
     }
 
     private func setupCollectionView() {
@@ -67,22 +47,12 @@ final class HomeViewController: BaseViewController {
         homeCollectionView.register(homeCollectionViewCell, forCellWithReuseIdentifier: "HomeCollectionViewCell")
         homeCollectionView.delegate = self
         homeCollectionView.dataSource = self
-        homeCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        let constrains = [
-            homeCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant:
-                     8),
-            homeCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            homeCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            homeCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
-        ]
-        NSLayoutConstraint.activate(constrains)
         homeCollectionView.backgroundColor = .clear
         homeCollectionView.hero.modifiers = [.cascade]
     }
 
     private func setupCollectionViewLayout() {
         homeCollectionView.collectionViewLayout = collectionViewLayout
-        collectionViewLayout.numberOfColumn = numberOfColumn
         collectionViewLayout.delegate = self
     }
 
@@ -94,15 +64,22 @@ final class HomeViewController: BaseViewController {
 
     private func getDataForCollectionView(atPage page: Int, withLimit perPage: Int) {
         HUD.show()
+        HUD.setDefaultStyle(.dark)
         viewModel.getData(atPage: page, withLimit: perPage) { [weak self] result in
-            HUD.dismiss()
             guard let this = self else { return }
             switch result {
             case .success:
                 this.currentPage += 1
                 this.updateUI()
+                HUD.dismiss()
             case .failure(let error):
-                this.alert(msg: error.localizedDescription, handler: nil)
+                this.updateUI()
+                HUD.dismiss()
+                HUD.showError(withStatus: error.localizedDescription)
+                HUD.setMinimumDismissTimeInterval(1)
+                if error as NSObject == Api.Error.emptyData {
+                    self?.stopLoading = true
+                }
             }
         }
     }
@@ -118,24 +95,23 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItem(atIndexPath: indexPath)
-        cell.hero.id = "\(viewModel.collectorImages[indexPath.row].imageID)"
+        cell.hero.isEnabled = true
         cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if currentPage == 1 ? indexPath.row == viewModel.collectorImages.count - 2 : indexPath.row == viewModel.collectorImages.count - 10 {
-            // reducing load continuously
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
-                    layout.clearCache()
-                }
-                self.getDataForCollectionView(atPage: self.currentPage, withLimit: self.limit)
+        if indexPath.row == viewModel.collectorImages.count - 2 && !stopLoading {
+            if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
+                layout.clearCache()
             }
+            self.getDataForCollectionView(atPage: self.currentPage, withLimit: self.limit)
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = homeCollectionView.cellForItem(at: indexPath)
+        cell?.hero.id = "\(viewModel.collectorImages[indexPath.row].imageID)"
         let detailViewController = DetailViewController()
         detailViewController.viewModel = viewModel.getDetailViewModel(forIndexPath: indexPath)
         navigationController?.hero.isEnabled = true

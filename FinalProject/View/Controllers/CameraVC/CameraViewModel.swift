@@ -11,11 +11,23 @@ import UIKit
 final class CameraViewModel {
 
     // MARK: - Properties
-    var collectorImages: [CollectorImage] = []
+    var collectorImage = CollectorImage()
 
     func getDetailViewModel() -> DetailViewModel {
         let detailVM = DetailViewModel()
-        detailVM.collectorImages = collectorImages
+        detailVM.collectorImages.append(collectorImage)
         return detailVM
+    }
+
+    func uploadImage(dataImage: Data, completion: @escaping APICompletion) {
+        Api.Camera.uploadImage(dataImage: dataImage) { (result) in
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let data):
+                self.collectorImage = data
+                completion(.success)
+            }
+        }
     }
 }

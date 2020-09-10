@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -29,16 +28,42 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UzL-wd-z1g">
+                    <rect key="frame" x="16" y="60" width="40" height="40"/>
+                    <color key="backgroundColor" red="0.16768351200000001" green="0.16771373149999999" blue="0.16767689590000001" alpha="0.46344080110000002" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="As2-t6-pWq"/>
+                        <constraint firstAttribute="height" constant="40" id="Mtb-q7-Q1c"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <size key="titleShadowOffset" width="2" height="2"/>
+                    <state key="normal" image="chevron.left" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="18" scale="large" weight="semibold"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="20"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="backButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="dm7-Qy-XSS"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="pzz-Jh-tmC" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="D52-Zu-EeO"/>
                 <constraint firstItem="pzz-Jh-tmC" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Q7s-uP-F6V"/>
+                <constraint firstItem="UzL-wd-z1g" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="16" id="TbE-NY-5xj"/>
+                <constraint firstItem="UzL-wd-z1g" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="hNf-RY-ZoX"/>
                 <constraint firstItem="pzz-Jh-tmC" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="kuQ-cO-GoU"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="pzz-Jh-tmC" secondAttribute="bottom" id="ray-be-lRh"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="237.68115942028987" y="-12.053571428571429"/>
+            <point key="canvasLocation" x="407" y="56"/>
         </view>
     </objects>
+    <resources>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
+    </resources>
 </document>

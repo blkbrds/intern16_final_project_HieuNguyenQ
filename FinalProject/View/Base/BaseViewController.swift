@@ -10,15 +10,6 @@ import UIKit
 
 class BaseViewController: UIViewController {
 
-    // MARK: - Properties
-    let backgroundImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "backgroundImage")
-        imageView.contentMode = .scaleAspectFill
-        imageView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        return imageView
-    }()
-
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +19,7 @@ class BaseViewController: UIViewController {
 
     // MARK: - Function
     func setupUI() {
-        view.insertSubview(backgroundImage, at: 0)
+        view.backgroundColor = .black
     }
 
     func setupNavigationBar() { }

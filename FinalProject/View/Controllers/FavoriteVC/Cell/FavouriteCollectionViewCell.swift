@@ -1,21 +1,21 @@
 //
-//  HomeCollectionViewCell.swift
-//  theCollectors
+//  FavouriteCollectionViewCell.swift
+//  FinalProject
 //
-//  Created by hieungq on 8/1/20.
-//  Copyright © 2020 hieungq. All rights reserved.
+//  Created by hieungq on 8/30/20.
+//  Copyright © 2020 Asiantech. All rights reserved.
 //
 
 import UIKit
 import SDWebImage
 
-final class HomeCollectionViewCell: UICollectionViewCell {
+final class FavouriteCollectionViewCell: UICollectionViewCell {
 
     // MARK: - IBOulet
     @IBOutlet private(set) weak var imageView: UIImageView!
 
     // MARK: - Properties
-    var viewModel: HomeCellViewModel = HomeCellViewModel() {
+    var viewModel: FavouriteCellViewModel = FavouriteCellViewModel() {
         didSet {
             updateView()
         }
@@ -29,14 +29,7 @@ final class HomeCollectionViewCell: UICollectionViewCell {
         if let imageUrl = itemCollector?.imageUrl {
             imageView.sd_imageTransition = .fade
             let imageUrl = URL(string: imageUrl)
-            imageView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.highPriority, context: [.imageThumbnailPixelSize: Config.thumbnailSize])
+            imageView.sd_setImage(with: imageUrl, placeholderImage: nil, options: SDWebImageOptions.highPriority, context: [.imageThumbnailPixelSize: CGSize(width: 320, height: 320)])
         }
-    }
-}
-
-// MARK: - Config
-extension HomeCollectionViewCell {
-    struct Config {
-        static var thumbnailSize = CGSize(width: 320, height: 320)
     }
 }

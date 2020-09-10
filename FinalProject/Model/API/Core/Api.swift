@@ -35,7 +35,7 @@ extension Api.Path {
     }
 
     struct Camera {
-        var upload: String { return baseURL / "upload" }
+        var upload: String { return baseURL / "image" }
     }
 }
 

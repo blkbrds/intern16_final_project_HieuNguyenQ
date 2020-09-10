@@ -7,16 +7,31 @@
 //
 import UIKit
 import Hero
+import RealmSwift
+
+protocol DetailCellViewModelDelegate: class {
+    func viewModel(_ viewModel: DetailCellViewModel)
+}
 
 final class DetailCellViewModel {
 
+    // MARK: - Properties
     private(set) var collectorImage: CollectorImage?
-    private(set) var selectedIndex: IndexPath?
+    private(set) var selectedIndexPath: IndexPath?
     private(set) var collectorImageSimilars: [CollectorImage] = []
+    private var notificationToken: NotificationToken?
+    weak var delegate: DetailCellViewModelDelegate?
+    var listImageLiked: [CollectorImage] = []
+    enum Action {
+        case isLike
+        case reaction
+    }
 
-    init(collectorImage: CollectorImage? = nil, selectedIndex: IndexPath? = nil) {
+    // MARK: - Function
+
+    init(collectorImage: CollectorImage? = nil, selectedIndexPath: IndexPath? = nil) {
         self.collectorImage = collectorImage
-        self.selectedIndex = selectedIndex
+        self.selectedIndexPath = selectedIndexPath
     }
 
     func getDataSimilar(completion: @escaping APICompletion) {
@@ -45,7 +60,64 @@ final class DetailCellViewModel {
     func getDetailViewModel(forIndexPath indexPath: IndexPath) -> DetailViewModel {
         let detailVM = DetailViewModel()
         detailVM.collectorImages = collectorImageSimilars
-        detailVM.selectedIndex = indexPath
+        detailVM.selectedIndexPath = indexPath
         return detailVM
+    }
+
+    func setupObserve() {
+        do {
+            let realm = try Realm()
+            notificationToken = realm.objects(CollectorImage.self).observe({ (_) in
+                self.delegate?.viewModel(self)
+            })
+        } catch {
+            HUD.showError(withStatus: App.String.Error.errorSomeThingWrong)
+        }
+    }
+
+    func isLike() -> Bool {
+        guard let imageID = collectorImage?.imageID else { return false }
+        do {
+            let realm = try Realm()
+            let image = realm.objects(CollectorImage.self).filter("imageID = '\(imageID)'")
+            if image.count != 0 {
+                return true
+            } else {
+                return false
+            }
+        } catch {
+            HUD.showError(withStatus: App.String.Error.errorSomeThingWrong)
+            return false
+        }
+    }
+
+    func reaction() -> Bool {
+        guard let imageID = collectorImage?.imageID else { return false }
+        do {
+            if !isLike() {
+                let realm = try Realm()
+                let image = CollectorImage()
+                image.imageID = "\(collectorImage?.imageID ?? "")"
+                image.imageUrl = "\(collectorImage?.imageUrl ?? "")"
+                image.heigthImageForRealm = Double(collectorImage?.heigthImage ?? 0)
+                image.widthImageForRealm = Double(collectorImage?.widthImage ?? 0)
+                image.dateAppend = Date()
+                image.albumID = "\(collectorImage?.albumID ?? "")"
+                try realm.write {
+                    realm.add(image)
+                }
+                return true
+            } else {
+                let realm = try Realm()
+                let image = realm.objects(CollectorImage.self).filter("imageID = '\(imageID)'")
+                try realm.write {
+                    realm.delete(image)
+                }
+                return false
+            }
+        } catch {
+            HUD.showError(withStatus: App.String.Error.errorSomeThingWrong)
+            return false
+        }
     }
 }

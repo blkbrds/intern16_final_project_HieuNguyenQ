@@ -17,8 +17,13 @@ extension Api.Home {
             switch result {
             case .success(let data):
                 if let data = data as? JSObject, let imageDatas = data["data"] as? JSArray {
-                    let array: [CollectorImage] = Mapper<CollectorImage>().mapArray(JSONArray: imageDatas)
-                    completion(.success(array))
+                    var array: [CollectorImage] = Mapper<CollectorImage>().mapArray(JSONArray: imageDatas)
+                    if array.count > 0 {
+                        array = array.shuffled()
+                        completion(.success(array))
+                    } else {
+                        completion( .failure(Api.Error.emptyData))
+                    }
                 } else {
                     completion( .failure(Api.Error.emptyData))
                 }
@@ -58,7 +63,7 @@ extension Api.Camera {
             switch result {
             case .success(let data):
                 if let data = data as? JSObject, let data2 = data["data"] as? JSObject {
-                    if let image: CollectorImage = Mapper<CollectorImage>().map(JSON: data2){
+                    if let image: CollectorImage = Mapper<CollectorImage>().map(JSON: data2) {
                         image.image = UIImage(data: dataImage)
                         completion(.success(image))
                     }

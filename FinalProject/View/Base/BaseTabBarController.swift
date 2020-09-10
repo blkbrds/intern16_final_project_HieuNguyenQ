@@ -23,33 +23,27 @@ class BaseTabBarController: UITabBarController {
     private func setupTabBar() {
         let homeViewController = HomeViewController()
         let homeNavigationController = BaseNavigationController(rootViewController: homeViewController)
-        if #available(iOS 13.0, *) {
-            homeNavigationController.tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "flame"), tag: 0)
-        } else {
-            // Fallback on earlier versions
-        }
+        homeNavigationController.tabBarItem = UITabBarItem(title: "",
+                                                           image: UIImage(systemName: "flame", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)),
+                                                           selectedImage: UIImage(systemName: "flame.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)))
 
         let cameraViewController = CameraViewController()
         let cameraNavigationController = BaseNavigationController(rootViewController: cameraViewController)
         cameraNavigationController.tabBarItem = UITabBarItem(title: "", image: nil, tag: 1)
-        let favoriteViewController = FavoriteViewController()
+        let favoriteViewController = FavouriteViewController()
         let favoriteNavigationController = BaseNavigationController(rootViewController: favoriteViewController)
-        if #available(iOS 13.0, *) {
-            favoriteNavigationController.tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "heart"), tag: 2)
-        } else {
-            // Fallback on earlier versions
-        }
-
+        favoriteViewController.tabBarItem = UITabBarItem(title: "",
+                                                         image: UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)),
+                                                         selectedImage: UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)))
         let viewControllers = [homeNavigationController, cameraNavigationController, favoriteNavigationController]
         self.viewControllers = viewControllers
         self.delegate = self
 
         tabBar.tintColor = #colorLiteral(red: 0.4125089049, green: 0.8123833537, blue: 0.9942517877, alpha: 1)
         tabBar.unselectedItemTintColor =  #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        tabBar.backgroundColor = #colorLiteral(red: 0.1577239037, green: 0.1681370437, blue: 0.1926085055, alpha: 1)
+        tabBar.backgroundColor = #colorLiteral(red: 0.07139258832, green: 0.07140976936, blue: 0.07138884813, alpha: 1)
         tabBar.backgroundImage = UIImage()
         tabBar.layer.cornerRadius = 15
-        tabBar.alpha = 0.95
 
         tabBar.layer.shadowColor = #colorLiteral(red: 0.6052098165, green: 0.6112019929, blue: 0.6112019929, alpha: 1)
         tabBar.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
@@ -66,21 +60,18 @@ class BaseTabBarController: UITabBarController {
         tabBarItemCenter.frame.origin = CGPoint(x: tabBarItemCenterFrameX, y: tabBarItemCenterFrameY)
         tabBarItemCenter.frame.size = CGSize(width: tabBarItemCenterWidth, height: tabBarItemCenterHeight)
 
-        tabBarItemCenter.backgroundColor = #colorLiteral(red: 0.1577239037, green: 0.1681370437, blue: 0.1926085055, alpha: 1)
+        tabBarItemCenter.isUserInteractionEnabled = true
+        tabBarItemCenter.backgroundColor = #colorLiteral(red: 0.07139258832, green: 0.07140976936, blue: 0.07138884813, alpha: 1)
         tabBarItemCenter.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         tabBarItemCenter.layer.shadowColor = #colorLiteral(red: 0.6052098165, green: 0.6112019929, blue: 0.6112019929, alpha: 1)
         tabBarItemCenter.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         tabBarItemCenter.layer.shadowRadius = 5
         tabBarItemCenter.layer.shadowOpacity = 1
         tabBarItemCenter.layer.cornerRadius = tabBarItemCenterHeight / 2
-        if #available(iOS 13.0, *) {
-            tabBarItemCenter.setImage(UIImage(systemName: "camera"), for: .normal)
-        } else {
-            // Fallback on earlier versions
-        }
+        tabBarItemCenter.setImage(UIImage(systemName: "camera", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)), for: .normal)
         tabBarItemCenter.addTarget(self, action: #selector(menuButtonAction(sender:)), for: .touchUpInside)
+        centerButton = tabBarItemCenter
         tabBar.addSubview(tabBarItemCenter)
-        tabBar.bringSubviewToFront(tabBarItemCenter)
     }
 
     @objc private func menuButtonAction(sender: UIButton) {

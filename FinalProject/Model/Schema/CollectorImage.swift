@@ -9,17 +9,26 @@
 import Foundation
 import UIKit
 import ObjectMapper
+import RealmSwift
 
-final class CollectorImage: Mappable {
-    var imageID: String = ""
-    var imageUrl: String = ""
-    var image: UIImage?
-    var imageThumbnail: UIImage?
+final class CollectorImage: Object, Mappable {
+    @objc dynamic var imageID: String = ""
+    @objc dynamic var imageUrl: String = ""
+    @objc dynamic var widthImageForRealm: Double = 0
+    @objc dynamic var heigthImageForRealm: Double = 0
+    @objc dynamic var dateAppend: Date = Date()
+    @objc dynamic var albumID: String = ""
     var widthImage: CGFloat = 0
     var heigthImage: CGFloat = 0
-    var albumID: String = ""
+    var image: UIImage?
 
-    init?(map: Map) { }
+    required convenience init?(map: Map) {
+        self.init()
+    }
+
+    override class func primaryKey() -> String {
+        return "imageID"
+    }
 
     func mapping(map: Map) {
         imageID <- map["id"]

@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import SwiftUtils
 
 final class CameraViewController: BaseViewController {
     // MARK: - IBOutlet
+
+    @IBOutlet private weak var backButton: UIButton!
     @IBOutlet private weak var uploadButton: UIButton!
     @IBOutlet private weak var shotButton: UIButton!
     @IBOutlet private weak var flashButton: UIButton!
@@ -30,9 +33,17 @@ final class CameraViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        tabBarController?.changeTabBar(hidden: true)
+        backButton.isEnabled = true
+        tabBarController?.tabBar.isHidden = true
         if let captureSession = cameraController.captureSession {
             captureSession.startRunning()
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        if let captureSession = cameraController.captureSession {
+            captureSession.stopRunning()
         }
     }
 
@@ -48,7 +59,7 @@ final class CameraViewController: BaseViewController {
     private func configureCameraController() {
         cameraController.prepare { (error) in
             if let error = error {
-                print(error)
+                HUD.showError(withStatus: error.localizedDescription)
             }
 
             try? self.cameraController.displayPreview(onView: self.previewCamera)
@@ -59,11 +70,11 @@ final class CameraViewController: BaseViewController {
         if imageView.isHidden == false {
             imageView.isHidden = true
             uploadButton.isHidden = true
+            backButton.isEnabled = true
 
             flashButton.isHidden = false
             shotButton.isHidden = false
             switchCameraButton.isHidden = false
-
             cameraController.captureSession?.startRunning()
         } else {
             cameraController.captureSession?.stopRunning()
@@ -110,7 +121,7 @@ final class CameraViewController: BaseViewController {
         do {
             try cameraController.switchCameras()
         } catch {
-            print(error)
+            HUD.showError(withStatus: error.localizedDescription)
         }
 
         switch cameraController.currentCameraPosition {
@@ -124,24 +135,30 @@ final class CameraViewController: BaseViewController {
     }
 
     @IBAction func uploadButtonTouchUpInside(_ sender: Any) {
+        HUD.show(withStatus: App.String.Alert.uploading)
+        HUD.setDefaultStyle(.dark)
         uploadButton.isEnabled = false
+        backButton.isEnabled = false
         guard let dataImage = dataImage else { return }
-        Api.Camera.uploadImage(dataImage: dataImage) { result in
+        Api.Camera.uploadImage(dataImage: dataImage) { [weak self] result in
+            guard let this = self else { return }
             switch result {
             case .failure(let error):
                 HUD.showError(withStatus: error.localizedDescription)
             case .success(let result):
-                self.viewModel.collectorImages.append(result)
+                HUD.showSuccess(withStatus: App.String.Alert.uploadSuccessfully)
+                HUD.setMinimumDismissTimeInterval(2)
+                this.viewModel.collectorImage = result
                 let detailViewController = DetailViewController()
-                detailViewController.viewModel = self.viewModel.getDetailViewModel()
-                self.navigationController?.hero.isEnabled = true
-                self.navigationController?.heroNavigationAnimationType = .none
-                self.navigationController?.pushViewController(detailViewController, animated: true)
-                self.imageView.isHidden = true
-                self.uploadButton.isHidden = true
-                self.flashButton.isHidden = false
-                self.shotButton.isHidden = false
-                self.switchCameraButton.isHidden = false
+                detailViewController.viewModel = this.viewModel.getDetailViewModel()
+                this.navigationController?.hero.isEnabled = true
+                this.navigationController?.heroNavigationAnimationType = .none
+                this.navigationController?.pushViewController(detailViewController, animated: true)
+                this.imageView.isHidden = true
+                this.uploadButton.isHidden = true
+                this.flashButton.isHidden = false
+                this.shotButton.isHidden = false
+                this.switchCameraButton.isHidden = false
             }
         }
     }

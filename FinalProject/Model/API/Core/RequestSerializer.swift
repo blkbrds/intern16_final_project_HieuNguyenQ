@@ -41,10 +41,14 @@ extension ApiManager {
                                       encoding: encoding,
                                       headers: header
                         ).responseJSON { response in
-                            completion?(response.result)
+                            DispatchQueue.main.async {
+                                completion?(response.result)
+                            }
                     }
                 } else {
-                    completion?(response.result)
+                    DispatchQueue.main.async {
+                        completion?(response.result)
+                    }
                 }
         }
         return request
@@ -79,6 +83,7 @@ extension ApiManager {
             completion(.failure(error))
             return
         }
+
         let base64Image: String = dataImage.base64EncodedString(options: .lineLength64Characters)
         let parameters = UploadImageParam(base64: base64Image).toJSON()
 
@@ -105,7 +110,7 @@ extension ApiManager {
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         let session = URLSession(configuration: config)
-        let tast = session.dataTask(with: request) { (data, response, error) in
+        let tast = session.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
                 guard let dataJSON = data?.toJSON() else {
                     completion(.failure(Api.Error.network))
@@ -116,5 +121,26 @@ extension ApiManager {
         }
 
         tast.resume()
+    }
+
+    func request(urlString: String, completion: @escaping (Completion<Any>)) {
+        guard let url = URL(string: urlString) else {
+            return
+        }
+
+        let config = URLSessionConfiguration.ephemeral
+        config.waitsForConnectivity = true
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: url) { (data, _, _) in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(.failure(Api.Error.network))
+                    return
+                }
+                let resultData = data.toJSON()
+                completion(.success(resultData as Any))
+            }
+        }
+        dataTask.resume()
     }
 }

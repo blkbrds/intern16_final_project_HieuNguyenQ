@@ -10,6 +10,8 @@ import UIKit
 import Hero
 import Alamofire
 import SDWebImage
+import RealmSwift
+import SwiftUtils
 
 protocol CollectionViewCellDelegate: class {
     func cell(_ cell: DetailCollectionViewCell, needPerformAction action: DetailCollectionViewCell.Action)
@@ -22,6 +24,7 @@ final class DetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var imageWidthConstraint: NSLayoutConstraint!
 
     // MARK: - IBOutlet
+    @IBOutlet private weak var likeButton: UIButton!
     @IBOutlet private weak var detailImageView: UIView!
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var backButton: UIButton!
@@ -39,6 +42,7 @@ final class DetailCollectionViewCell: UICollectionViewCell {
     enum Action {
         case pushToDetail(detailVC: DetailViewController)
     }
+
     var actionBlock = { }
     weak var delegate: CollectionViewCellDelegate?
 
@@ -48,10 +52,10 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         detailImageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         if let imageHeight = viewModel.collectorImage?.heigthImage, let imageWidth = viewModel.collectorImage?.widthImage {
-            if imageHeight * UIScreen.main.bounds.width / imageWidth <= self.frame.height {
+            if imageHeight * UIScreen.main.bounds.width / imageWidth <= frame.height {
                 imageHeightConstraint.constant = imageHeight * UIScreen.main.bounds.width / imageWidth
             } else {
-                imageHeightConstraint.constant = self.frame.height
+                imageHeightConstraint.constant = frame.height
                 imageView.contentMode = .scaleAspectFit
                 imageView.backgroundColor = .black
             }
@@ -59,9 +63,20 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         }
 
         if let imageUrl = viewModel.collectorImage?.imageUrl {
-            imageView.sd_imageTransition = .fade
             let imageUrl = URL(string: imageUrl)
+            imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            imageView.sd_imageIndicator = SDWebImageProgressIndicator.`default`
             imageView.sd_setImage(with: imageUrl, placeholderImage: nil)
+            imageView.sd_imageTransition = .fade
+        }
+
+        viewModel.delegate = self
+        viewModel.setupObserve()
+
+        if viewModel.isLike() {
+            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
     }
 
@@ -73,10 +88,6 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         similarCollectionView.register(CollectionViewHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerView")
         similarCollectionView.backgroundColor = .clear
         similarCollectionView.reloadData()
-    }
-
-    @objc private func refreshWeatherData(_ sender: Any) {
-        actionBlock()
     }
 
     private func getData() {
@@ -93,8 +104,14 @@ final class DetailCollectionViewCell: UICollectionViewCell {
     }
 
     private func updateUI() {
-        DispatchQueue.main.async {
-            self.similarCollectionView.reloadData()
+        similarCollectionView.reloadData()
+    }
+
+    @IBAction func likeButtonTouchUpInside(_ sender: Any) {
+        if viewModel.reaction() {
+            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
     }
 
@@ -102,17 +119,20 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         actionBlock()
     }
 
-    @IBAction private func likeButtonTouchUpInside(_ sender: Any) {
-
-    }
-
     @IBAction private func saveButtonTouchUpInside(_ sender: Any) {
+        HUD.show(withStatus: App.String.Alert.saving)
         guard let image = imageView.image else { return }
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
 
     @objc private func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-        //delegate?.showAleart(error)
+        HUD.dismiss()
+        HUD.setMinimumDismissTimeInterval(2)
+        if let error = error {
+            HUD.showError(withStatus: error.localizedDescription)
+        } else {
+            HUD.showSuccess(withStatus: App.String.Alert.saveSuccessfully)
+        }
     }
 }
 
@@ -127,7 +147,7 @@ extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
             return UICollectionViewCell()
         }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
-        cell.hero.id = "\(viewModel.collectorImage?.imageID)"
+        cell.hero.isEnabled = true
         cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }
@@ -141,6 +161,10 @@ extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = similarCollectionView.cellForItem(at: indexPath)
+        if let imageID = viewModel.collectorImage?.imageID {
+            cell?.hero.id = imageID
+        }
         let detailViewController = DetailViewController()
         detailViewController.viewModel = viewModel.getDetailViewModel(forIndexPath: indexPath)
         delegate?.cell(self, needPerformAction: .pushToDetail(detailVC: detailViewController))
@@ -162,6 +186,16 @@ extension DetailCollectionViewCell: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: imageWidthConstraint.constant, height: imageHeightConstraint.constant + 76)
+    }
+}
+
+extension DetailCollectionViewCell: DetailCellViewModelDelegate {
+    func viewModel(_ viewModel: DetailCellViewModel) {
+        if viewModel.isLike() {
+            self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            } else {
+            self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
     }
 }
 
