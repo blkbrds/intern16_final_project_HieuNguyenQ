@@ -167,7 +167,7 @@ extension DetailCollectionViewCell: UICollectionViewDelegateFlowLayout {
 
 extension DetailCollectionViewCell {
     struct Config {
-        static let sizeForItem = CGSize(width: 414 / 2 - 16, height: 200)
+        static let sizeForItem = CGSize(width: UIScreen.main.bounds.width / 2 - 16, height: 200)
         static let insets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
 }

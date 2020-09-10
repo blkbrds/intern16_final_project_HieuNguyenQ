@@ -86,7 +86,7 @@ final class CameraViewController: BaseViewController {
                 self.imageView.contentMode = .scaleAspectFill
                 self.cameraController.captureSession?.stopRunning()
             } else {
-                print(error ?? "")
+                HUD.showError(withStatus: error?.localizedDescription)
             }
         }
         flashButton.isHidden = true
@@ -126,12 +126,11 @@ final class CameraViewController: BaseViewController {
     @IBAction func uploadButtonTouchUpInside(_ sender: Any) {
         uploadButton.isEnabled = false
         guard let dataImage = dataImage else { return }
-        Api.Camera.uploadImage(dataImage: dataImage) { (result) in
+        Api.Camera.uploadImage(dataImage: dataImage) { result in
             switch result {
             case .failure(let error):
-                print(error.errorsString)
+                HUD.showError(withStatus: error.localizedDescription)
             case .success(let result):
-                print(result)
                 self.viewModel.collectorImages.append(result)
                 let detailViewController = DetailViewController()
                 detailViewController.viewModel = self.viewModel.getDetailViewModel()
