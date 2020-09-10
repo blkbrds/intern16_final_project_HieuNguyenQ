@@ -26,6 +26,11 @@ final class DetailViewController: BaseViewController {
         setupCollectionView()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        tabBarController?.changeTabBar(hidden: false)
+    }
+
     // MARK: - Function
     override func setupNavigationBar() {
         navigationController?.isNavigationBarHidden = true
@@ -39,10 +44,10 @@ final class DetailViewController: BaseViewController {
         detailCollectionView.register(nib, forCellWithReuseIdentifier: "DetailCollectionViewCell")
         detailCollectionView.delegate = self
         detailCollectionView.dataSource = self
+        getDataForCollectionView()
         detailCollectionView.layoutIfNeeded()
         guard let selectedIndex = viewModel.selectedIndex else { return }
-        detailCollectionView.scrollToItem(at: selectedIndex, at: .centeredHorizontally, animated: false)
-        getDataForCollectionView()
+        detailCollectionView.scrollToItem(at: selectedIndex, at: .left, animated: false)
     }
 
     private func updateUI() {
@@ -80,7 +85,8 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "DetailCollectionViewCell", for: indexPath) as? DetailCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
-        cell.hero.id = "\(indexPath.row)"
+        cell.hero.id = "\(viewModel.collectorImages[indexPath.row].imageID)"
+        cell.hero.modifiers = [.fade, .scale(0.5)]
         cell.delegate = self
         cell.actionBlock = {
             self.navigationController?.popViewController(animated: true)

@@ -19,6 +19,8 @@ final class CameraViewController: BaseViewController {
 
     // MARK: - Properties
     let cameraController = CameraController()
+    var dataImage: Data?
+    var viewModel = CameraViewModel()
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -57,6 +59,7 @@ final class CameraViewController: BaseViewController {
         if imageView.isHidden == false {
             imageView.isHidden = true
             uploadButton.isHidden = true
+
             flashButton.isHidden = false
             shotButton.isHidden = false
             switchCameraButton.isHidden = false
@@ -77,18 +80,20 @@ final class CameraViewController: BaseViewController {
     @IBAction private func shotButtonTouchUpInside(_ sender: Any) {
         cameraController.captureImage { (image, error) in
             if let image = image {
+                self.dataImage = image.jpegData(compressionQuality: 0.3)
                 self.imageView.image = image
                 self.imageView.isHidden = false
                 self.imageView.contentMode = .scaleAspectFill
                 self.cameraController.captureSession?.stopRunning()
             } else {
-                print(error)
+                HUD.showError(withStatus: error?.localizedDescription)
             }
         }
         flashButton.isHidden = true
         shotButton.isHidden = true
         switchCameraButton.isHidden = true
         uploadButton.isHidden = false
+        uploadButton.isEnabled = true
     }
 
     @IBAction private func flashButtonTouchUpInside(_ sender: Any) {
@@ -115,6 +120,29 @@ final class CameraViewController: BaseViewController {
             switchCameraButton.setImage(#imageLiteral(resourceName: "Front Camera Icon"), for: .normal)
         case .none:
             return
+        }
+    }
+
+    @IBAction func uploadButtonTouchUpInside(_ sender: Any) {
+        uploadButton.isEnabled = false
+        guard let dataImage = dataImage else { return }
+        Api.Camera.uploadImage(dataImage: dataImage) { result in
+            switch result {
+            case .failure(let error):
+                HUD.showError(withStatus: error.localizedDescription)
+            case .success(let result):
+                self.viewModel.collectorImages.append(result)
+                let detailViewController = DetailViewController()
+                detailViewController.viewModel = self.viewModel.getDetailViewModel()
+                self.navigationController?.hero.isEnabled = true
+                self.navigationController?.heroNavigationAnimationType = .none
+                self.navigationController?.pushViewController(detailViewController, animated: true)
+                self.imageView.isHidden = true
+                self.uploadButton.isHidden = true
+                self.flashButton.isHidden = false
+                self.shotButton.isHidden = false
+                self.switchCameraButton.isHidden = false
+            }
         }
     }
 }

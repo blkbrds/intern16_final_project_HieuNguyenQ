@@ -8,8 +8,8 @@
 
 import UIKit
 import Hero
+import SDWebImage
 import SwiftUtils
-
 
 final class HomeViewController: BaseViewController {
 
@@ -118,7 +118,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItem(atIndexPath: indexPath)
-        cell.hero.id = "\(indexPath.row)"
+        cell.hero.id = "\(viewModel.collectorImages[indexPath.row].imageID)"
         cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }

@@ -9,6 +9,7 @@
 import UIKit
 import Hero
 import Alamofire
+import SDWebImage
 
 protocol CollectionViewCellDelegate: class {
     func cell(_ cell: DetailCollectionViewCell, needPerformAction action: DetailCollectionViewCell.Action)
@@ -47,22 +48,20 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         detailImageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         if let imageHeight = viewModel.collectorImage?.heigthImage, let imageWidth = viewModel.collectorImage?.widthImage {
-            imageHeightConstraint.constant = imageHeight * UIScreen.main.bounds.width / imageWidth
+            if imageHeight * UIScreen.main.bounds.width / imageWidth <= self.frame.height {
+                imageHeightConstraint.constant = imageHeight * UIScreen.main.bounds.width / imageWidth
+            } else {
+                imageHeightConstraint.constant = self.frame.height
+                imageView.contentMode = .scaleAspectFit
+                imageView.backgroundColor = .black
+            }
             imageWidthConstraint.constant = UIScreen.main.bounds.width
         }
-        if viewModel.collectorImage?.image != nil {
-            imageView.image = viewModel.collectorImage?.image
-        } else {
-            if let imageUrl = viewModel.collectorImage?.imageUrl {
-              Alamofire.request(imageUrl).responseData { response in
-                    if let data = response.result.value {
-                        self.viewModel.collectorImage?.image = UIImage(data: data)
-                        self.imageView.image = UIImage(data: data)
-                    } else {
-                        self.viewModel.collectorImage?.image = nil
-                    }
-                }
-            }
+
+        if let imageUrl = viewModel.collectorImage?.imageUrl {
+            imageView.sd_imageTransition = .fade
+            let imageUrl = URL(string: imageUrl)
+            imageView.sd_setImage(with: imageUrl, placeholderImage: nil)
         }
     }
 
@@ -74,6 +73,10 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         similarCollectionView.register(CollectionViewHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerView")
         similarCollectionView.backgroundColor = .clear
         similarCollectionView.reloadData()
+    }
+
+    @objc private func refreshWeatherData(_ sender: Any) {
+        actionBlock()
     }
 
     private func getData() {
@@ -124,7 +127,7 @@ extension DetailCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
             return UICollectionViewCell()
         }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
-        cell.hero.id = "\(indexPath.row)"
+        cell.hero.id = "\(viewModel.collectorImage?.imageID)"
         cell.hero.modifiers = [.fade, .scale(0.5)]
         return cell
     }
@@ -164,7 +167,7 @@ extension DetailCollectionViewCell: UICollectionViewDelegateFlowLayout {
 
 extension DetailCollectionViewCell {
     struct Config {
-        static let sizeForItem = CGSize(width: 414 / 2 - 16, height: 200)
+        static let sizeForItem = CGSize(width: UIScreen.main.bounds.width / 2 - 16, height: 200)
         static let insets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
 }

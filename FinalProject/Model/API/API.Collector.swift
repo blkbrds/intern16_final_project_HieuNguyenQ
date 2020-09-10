@@ -50,3 +50,24 @@ extension Api.Detail {
         }
     }
 }
+
+extension Api.Camera {
+    static func uploadImage(dataImage: Data, completion: @escaping Completion<CollectorImage>) {
+        let urlString = Api.Path.Camera().upload
+        api.request(with: urlString, headers: Api.Path.header, dataImage: dataImage) { (result) in
+            switch result {
+            case .success(let data):
+                if let data = data as? JSObject, let data2 = data["data"] as? JSObject {
+                    if let image: CollectorImage = Mapper<CollectorImage>().map(JSON: data2){
+                        image.image = UIImage(data: dataImage)
+                        completion(.success(image))
+                    }
+                } else {
+                    completion( .failure(Api.Error.emptyData))
+                }
+            case .failure(let error):
+                completion( .failure(error))
+            }
+        }
+    }
+}

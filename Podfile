@@ -12,6 +12,7 @@ target 'FinalProject' do
 
   # Network
   pod 'Alamofire', '4.8.2' # Elegant HTTP Networking in Swift.
+  pod 'SDWebImage', '~> 5.0'
 
   # Utils
   pod 'SwifterSwift', '~> 5.0'
