@@ -40,22 +40,25 @@ final class DetailViewController: BaseViewController {
     }
 
     private func setupCollectionView() {
-        collectionViewCellHeight = UIScreen.main.bounds.height - ((tabBarController?.tabBar.frame.height).unwrapped) - UIApplication.shared.statusBarFrame.height
+        let statusBarHeight = (UIApplication.shared.keyWindow?.windowScene?.statusBarManager?.statusBarFrame.height).unwrapped
+        collectionViewCellHeight = UIScreen.main.bounds.height - ((tabBarController?.tabBar.frame.height).unwrapped) - statusBarHeight
         collectionViewCellWidth = UIScreen.main.bounds.width
         let nib = UINib(nibName: "DetailCollectionViewCell", bundle: Bundle.main)
         detailCollectionView.register(nib, forCellWithReuseIdentifier: "DetailCollectionViewCell")
         detailCollectionView.delegate = self
         detailCollectionView.dataSource = self
         getDataForCollectionView()
-        self.detailCollectionView.layoutIfNeeded()
-        guard let selectedIndex = self.viewModel.selectedIndex else { return }
-        self.detailCollectionView.scrollToItem(at: selectedIndex, at: .left, animated: false)
     }
 
     private func updateUI() {
-        DispatchQueue.main.async {
+        UIView.animate(withDuration: 0, animations: {
             self.detailCollectionView.reloadData()
-        }
+            self.detailCollectionView.layoutIfNeeded()
+        }, completion: { [weak self] _ in
+            guard let this = self else { return }
+            guard let selectedIndexPath = this.viewModel.selectedIndexPath else { return }
+            this.detailCollectionView.scrollToItem(at: selectedIndexPath, at: .left, animated: false)
+        })
     }
 
     private func getDataForCollectionView() {
@@ -91,12 +94,16 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "DetailCollectionViewCell", for: indexPath) as? DetailCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel.cellForItemAt(indexPath: indexPath)
-        cell.hero.isEnabled = true
-        if indexPath == viewModel.selectedIndex {
-            cell.hero.id = "\(viewModel.collectorImages[indexPath.row].imageID)"
+        DispatchQueue.main.async { [weak self] in
+            guard let this = self else { return }
+            cell.hero.isEnabled = true
+            if indexPath == this.viewModel.selectedIndexPath {
+                cell.hero.id = "\(this.viewModel.collectorImages[indexPath.row].imageID)"
+            }
+            cell.hero.modifiers = [.fade, .scale(0.5)]
+            cell.delegate = this
         }
-        cell.hero.modifiers = [.fade, .scale(0.5)]
-        cell.delegate = self
+        detailCollectionView.layoutIfNeeded()
         return cell
     }
 

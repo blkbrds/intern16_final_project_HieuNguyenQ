@@ -35,7 +35,7 @@ final class HomeViewModel {
     func getDetailViewModel(forIndexPath indexPath: IndexPath) -> DetailViewModel {
         let detailVM = DetailViewModel()
         detailVM.collectorImages = collectorImages
-        detailVM.selectedIndex = indexPath
+        detailVM.selectedIndexPath = indexPath
         return detailVM
     }
 

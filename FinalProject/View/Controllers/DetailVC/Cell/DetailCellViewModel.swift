@@ -17,7 +17,7 @@ final class DetailCellViewModel {
 
     // MARK: - Properties
     private(set) var collectorImage: CollectorImage?
-    private(set) var selectedIndex: IndexPath?
+    private(set) var selectedIndexPath: IndexPath?
     private(set) var collectorImageSimilars: [CollectorImage] = []
     private var notificationToken: NotificationToken?
     weak var delegate: DetailCellViewModelDelegate?
@@ -29,9 +29,9 @@ final class DetailCellViewModel {
 
     // MARK: - Function
 
-    init(collectorImage: CollectorImage? = nil, selectedIndex: IndexPath? = nil) {
+    init(collectorImage: CollectorImage? = nil, selectedIndexPath: IndexPath? = nil) {
         self.collectorImage = collectorImage
-        self.selectedIndex = selectedIndex
+        self.selectedIndexPath = selectedIndexPath
     }
 
     func getDataSimilar(completion: @escaping APICompletion) {
@@ -60,7 +60,7 @@ final class DetailCellViewModel {
     func getDetailViewModel(forIndexPath indexPath: IndexPath) -> DetailViewModel {
         let detailVM = DetailViewModel()
         detailVM.collectorImages = collectorImageSimilars
-        detailVM.selectedIndex = indexPath
+        detailVM.selectedIndexPath = indexPath
         return detailVM
     }
 

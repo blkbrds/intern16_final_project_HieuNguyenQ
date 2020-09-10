@@ -41,10 +41,14 @@ extension ApiManager {
                                       encoding: encoding,
                                       headers: header
                         ).responseJSON { response in
-                            completion?(response.result)
+                            DispatchQueue.main.async {
+                                completion?(response.result)
+                            }
                     }
                 } else {
-                    completion?(response.result)
+                    DispatchQueue.main.async {
+                        completion?(response.result)
+                    }
                 }
         }
         return request

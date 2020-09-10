@@ -52,10 +52,10 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         detailImageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         if let imageHeight = viewModel.collectorImage?.heigthImage, let imageWidth = viewModel.collectorImage?.widthImage {
-            if imageHeight * UIScreen.main.bounds.width / imageWidth <= self.frame.height {
+            if imageHeight * UIScreen.main.bounds.width / imageWidth <= frame.height {
                 imageHeightConstraint.constant = imageHeight * UIScreen.main.bounds.width / imageWidth
             } else {
-                imageHeightConstraint.constant = self.frame.height
+                imageHeightConstraint.constant = frame.height
                 imageView.contentMode = .scaleAspectFit
                 imageView.backgroundColor = .black
             }
@@ -74,9 +74,9 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         viewModel.setupObserve()
 
         if viewModel.isLike() {
-            self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
-            self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
     }
 
@@ -104,16 +104,14 @@ final class DetailCollectionViewCell: UICollectionViewCell {
     }
 
     private func updateUI() {
-        DispatchQueue.main.async {
-            self.similarCollectionView.reloadData()
-        }
+        similarCollectionView.reloadData()
     }
 
     @IBAction func likeButtonTouchUpInside(_ sender: Any) {
         if viewModel.reaction() {
-            self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
-            self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
     }
 

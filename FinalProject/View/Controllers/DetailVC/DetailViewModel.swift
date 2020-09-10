@@ -12,13 +12,13 @@ import Alamofire
 final class DetailViewModel {
     // MARK: - Properties
     var collectorImages: [CollectorImage] = []
-    var selectedIndex: IndexPath?
+    var selectedIndexPath: IndexPath?
 
     // MARK: - Functoin
     func cellForItemAt(indexPath: IndexPath) -> DetailCellViewModel {
         guard indexPath.row < collectorImages.count else { return DetailCellViewModel() }
         let collectorImage = collectorImages[indexPath.row]
-        return DetailCellViewModel(collectorImage: collectorImage, selectedIndex: indexPath)
+        return DetailCellViewModel(collectorImage: collectorImage, selectedIndexPath: indexPath)
     }
 
     func getData(page: Int, limit: Int, completion: @escaping APICompletion) {
