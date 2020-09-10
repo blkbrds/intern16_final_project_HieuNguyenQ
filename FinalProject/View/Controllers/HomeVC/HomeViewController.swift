@@ -20,10 +20,7 @@ final class HomeViewController: BaseViewController {
     let viewModel = HomeViewModel()
     let collectionViewLayout = CollectionViewLayout()
     let limit: Int = 20
-    var numberOfColumn: Int = 2
     var currentPage: Int = 0
-    var imageButtonChange = #imageLiteral(resourceName: "threeColumn")
-    var changeColumnButton = UIBarButtonItem()
     var stopLoading = false
 
     // MARK: - Life Cycle
@@ -43,24 +40,6 @@ final class HomeViewController: BaseViewController {
     // MARK: - Function
     override func setupNavigationBar() {
         navigationItem.title = "theCollectors"
-        changeColumnButton = UIBarButtonItem(image: imageButtonChange, style: .plain, target: self, action: #selector(changeNumber))
-        changeColumnButton.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        //navigationItem.rightBarButtonItem = changeColumnButton
-    }
-
-    @objc func changeNumber() {
-        if numberOfColumn == 3 {
-            numberOfColumn = 2
-            changeColumnButton.image = #imageLiteral(resourceName: "threeColumn")
-        } else {
-            numberOfColumn = 3
-            changeColumnButton.image = #imageLiteral(resourceName: "twoColumn")
-        }
-        collectionViewLayout.numberOfColumn = numberOfColumn
-        if let layout = self.homeCollectionView.collectionViewLayout as? CollectionViewLayout {
-            layout.clearCache()
-        }
-        updateUI()
     }
 
     private func setupCollectionView() {
@@ -74,7 +53,6 @@ final class HomeViewController: BaseViewController {
 
     private func setupCollectionViewLayout() {
         homeCollectionView.collectionViewLayout = collectionViewLayout
-        collectionViewLayout.numberOfColumn = numberOfColumn
         collectionViewLayout.delegate = self
     }
 

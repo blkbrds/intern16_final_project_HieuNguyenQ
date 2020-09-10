@@ -40,6 +40,13 @@ final class CameraViewController: BaseViewController {
         }
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        if let captureSession = cameraController.captureSession {
+            captureSession.stopRunning()
+        }
+    }
+
     // MARK: - Function
     override func setupNavigationBar() {
         navigationController?.isNavigationBarHidden = true

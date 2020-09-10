@@ -54,7 +54,7 @@ final class DetailViewController: BaseViewController {
 
     private func updateUI() {
         DispatchQueue.main.async {
-            self.detailCollectionView.reloadData()            
+            self.detailCollectionView.reloadData()
         }
     }
 

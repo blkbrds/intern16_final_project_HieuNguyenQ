@@ -49,6 +49,7 @@ final class FavouriteViewController: BaseViewController {
 
     private func setupCollectionViewLayout() {
         favouriteCollectionView.collectionViewLayout = collectionViewLayout
+        collectionViewLayout.numberOfColumn = 3
         collectionViewLayout.delegate = self
     }
 

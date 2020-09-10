@@ -18,6 +18,7 @@ extension NSError {
         set {
             objc_setAssociatedObject(self, &ErrorFieldKey.errors, newValue, .OBJC_ASSOCIATION_RETAIN)
         }
+
         get {
             guard let errors = objc_getAssociatedObject(self, &ErrorFieldKey.errors) as? [String] else { return [] }
             return errors

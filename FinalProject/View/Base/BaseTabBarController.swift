@@ -23,14 +23,18 @@ class BaseTabBarController: UITabBarController {
     private func setupTabBar() {
         let homeViewController = HomeViewController()
         let homeNavigationController = BaseNavigationController(rootViewController: homeViewController)
-        homeNavigationController.tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "flame", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)), selectedImage: UIImage(systemName: "flame.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)))
+        homeNavigationController.tabBarItem = UITabBarItem(title: "",
+                                                           image: UIImage(systemName: "flame", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)),
+                                                           selectedImage: UIImage(systemName: "flame.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)))
 
         let cameraViewController = CameraViewController()
         let cameraNavigationController = BaseNavigationController(rootViewController: cameraViewController)
         cameraNavigationController.tabBarItem = UITabBarItem(title: "", image: nil, tag: 1)
         let favoriteViewController = FavouriteViewController()
         let favoriteNavigationController = BaseNavigationController(rootViewController: favoriteViewController)
-        favoriteViewController.tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)), selectedImage: UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)))
+        favoriteViewController.tabBarItem = UITabBarItem(title: "",
+                                                         image: UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)),
+                                                         selectedImage: UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)))
         let viewControllers = [homeNavigationController, cameraNavigationController, favoriteNavigationController]
         self.viewControllers = viewControllers
         self.delegate = self

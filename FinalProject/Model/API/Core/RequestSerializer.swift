@@ -73,7 +73,8 @@ extension ApiManager {
             "key": "description",
             "value": "T7DWwmQ",
             "type": "text"
-            ]] as [JSObject]
+        ]
+            ] as [JSObject]
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
